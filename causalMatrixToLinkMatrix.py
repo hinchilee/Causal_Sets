@@ -19,10 +19,11 @@ f = np.vectorize(fslow)
 def findC2(CausalMatrix):
     #Intermediate step for finding Link Matrix
     #Matrix that counts the number of 3-chains between elements i j
+    #Optimised to consider only top half of matrix
     
     C2: np.ndarray = np.zeros(CausalMatrix.shape)
     for i in range(len(CausalMatrix)):
-        for j in range(len(CausalMatrix)):
+        for j in range(i,len(CausalMatrix)):
             count = 0 
             for k in range(len(CausalMatrix)): 
                 count += CausalMatrix[i, k]*CausalMatrix[k, j]
@@ -36,5 +37,6 @@ def findLinkMatrix(CausalMatrix):
     LinkMatrix: np.array = CausalMatrix - f(findC2(CausalMatrix))
     return LinkMatrix
 
+print(C)
 L = findLinkMatrix(C)
 print(L)
