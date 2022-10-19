@@ -11,17 +11,17 @@ class CausalSet(object):
     
     def __init__(self, **kwargs): 
         
-        self.Set: set (CausalEvent) = set() 
+        self.List: list (CausalEvent) = list() 
         #Sprinkling and sorting by time coordinate 
-        sprinkledcoords = Sprinkling_Minkowski(dimension = 2, number_of_points = 5, bounds = np.array([[0,1],[0,1]]))
+        sprinkledcoords = Sprinkling_Minkowski(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
         for i, coords in enumerate(sprinkledcoords): 
-            self.Set.add(CausalEvent(label = i, coordinates = coords))
+            self.List.append(CausalEvent(label = i, coordinates = coords))
     
         #Create causal matrix using spacetime intervals
-        self.CausalMatrix: np.array = np.zeros((len(self.Set), len(self.Set)))
-        for CausalEvent1 in self.Set:
-            for CausalEvent2 in self.Set:
+        self.CausalMatrix: np.array = np.zeros((len(self.List), len(self.List)))
+        for CausalEvent1 in self.List:
+            for CausalEvent2 in self.List:
                 self.CausalMatrix[CausalEvent1.label, CausalEvent2.label] = 1 if (spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 and CausalEvent1.label < CausalEvent2.label) else 0
         
         self.LinkMatrix: np.array = self.find_linkmatrix()
@@ -141,7 +141,7 @@ class CausalSet(object):
         
 if __name__ == "__main__":
     testcausalset = CausalSet() 
-    print(testcausalset.Set)
+    print(testcausalset.List)
     print(testcausalset.CausalMatrix)
     print(testcausalset.LinkMatrix)
         
