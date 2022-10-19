@@ -3,20 +3,49 @@ import numpy as np
 from scipy.optimize import fsolve
 from scipy.special import gamma 
 from itertools import combinations 
+from causalsetfunctions import f, findC2, spacetime_interval
 from causalEvent import CausalEvent
+from Sprinkling import Sprinkling_Minkowski 
 
 class CausalSet(object): 
     
     def __init__(self, **kwargs): 
-        #Sprinkling to be done 
-        #Labelling elements 
-        #Creation of Causal Sets
         
-        self.Set: set(CausalEvent) = kwargs.get("Set")
-        self.CausalMatrix: np.array = kwargs.get("CausalMatrix")
-        self.LinkMatrix: np.array = kwargs.get("LinkMatrix") 
+        self.Set: set (CausalEvent) = set() 
+        #Sprinkling and sorting by time coordinate 
+        sprinkledcoords = Sprinkling_Minkowski(dimension = 2, number_of_points = 5, bounds = np.array([[0,1],[0,1]]))
+        sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
+        for i, coords in enumerate(sprinkledcoords): 
+            self.Set.add(CausalEvent(label = i, coordinates = coords))
+    
+        #Create causal matrix using spacetime intervals
+        self.CausalMatrix: np.array = np.zeros((len(self.Set), len(self.Set)))
+        for CausalEvent1 in self.Set:
+            for CausalEvent2 in self.Set:
+                self.CausalMatrix[CausalEvent1.label, CausalEvent2.label] = 1 if (spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 and CausalEvent1.label < CausalEvent2.label) else 0
+        
+        self.LinkMatrix: np.array = self.find_linkmatrix()
         self.Interval: set(CausalEvent) = set() 
         
+    #VISUALIATION 
+    
+    def visualisation(self): 
+        if self.LinkMatrix == None: 
+            self.find_linkmatrix()
+        #Visualise(self.linkMatrix)
+    
+    #CALCULATING LINK MATRIX
+    
+    def find_linkmatrix(self):
+        #L_ij = 1 if e_i <* e_j; 0 otherwise, where <* is a link
+        #L = C - f(C2)
+        
+        LinkMatrix: np.array = self.CausalMatrix - f(findC2(self.CausalMatrix))
+        
+        return LinkMatrix
+    
+    #CALCULATING MYRHEIM_MEYER DIMENSION 
+    
     def find_interval(self, CausalEvent1, CausalEvent2):
         '''Calculates interval given two causal events and updates it to self.Interval'''
         
@@ -60,7 +89,9 @@ class CausalSet(object):
         print(f'The Myhreim_Meyer_dimension is {Myhreim_Meyer_dimension}.')
         
         return Myhreim_Meyer_dimension
-        
+    
+    #CHECKING ELEMENTAL RELATIONS 
+    
     def to_the_past(self, CausalEvent1, CausalEvent2): 
         '''Checks whether ele1 < ele2'''
     
@@ -108,5 +139,9 @@ class CausalSet(object):
             state = 'is spacelike to'
         print(f'Causal Event {l1} {state} Causal Event {l2}.')
         
-            
+if __name__ == "__main__":
+    testcausalset = CausalSet() 
+    print(testcausalset.Set)
+    print(testcausalset.CausalMatrix)
+    print(testcausalset.LinkMatrix)
         
