@@ -161,7 +161,7 @@ if __name__ == "__main__":
     #print(c.ElementList)
     print('Casual Matrix: \n', c.CausalMatrix)
     print('Link Matrix: \n', c.LinkMatrix)
-    c.visualisation()
+    #c.visualisation()
     toc = time.time() 
     print(f'Time elapsed is {toc - tic}')
         

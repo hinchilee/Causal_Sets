@@ -1,7 +1,7 @@
 
 import numpy as np 
 
-#Causal Set Methods
+# Causal Set Methods
 
 def fslow(ele): 
     # f(x) = 0 if x = 0 ; 1 otherwise
