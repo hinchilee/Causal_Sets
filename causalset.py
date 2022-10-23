@@ -38,12 +38,15 @@ class CausalSet(object):
     def visualisation(self): 
     
         coordinates = np.array([x.coordinates for x in self.ElementList])
-        plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
+        # plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
+        U = (coordinates[:, 0] + coordinates[:, 1])/2
+        V = (coordinates[:, 0] - coordinates[:, 1])/2
+        plt.scatter(U, V, s=100)
 
         for i in range(len(self.LinkMatrix)):
             for j in range(len(self.LinkMatrix[i])):
                 if self.LinkMatrix[i][j] == 1:
-                    plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
+                    plt.plot([U[i], U[j]], [V[i], V[j]], color = 'green')
         plt.xlabel('Space', fontsize = 40)
         plt.ylabel('Time', fontsize = 40)
         plt.xticks(fontsize = 30)
@@ -161,7 +164,7 @@ if __name__ == "__main__":
     #print(c.ElementList)
     print('Casual Matrix: \n', c.CausalMatrix)
     print('Link Matrix: \n', c.LinkMatrix)
-    #c.visualisation()
+    c.visualisation()
     toc = time.time() 
     print(f'Time elapsed is {toc - tic}')
         
