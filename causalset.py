@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Oct 24 12:09:46 2022
+
+@author: leehi
+"""
+
 
 import numpy as np 
 import time 
@@ -18,6 +25,10 @@ class CausalSet(object):
         self.ElementList: list (CausalEvent) = list() 
         #Sprinkling and sorting by time coordinate 
         sprinkledcoords = Sprinkling_Minkowski(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
+        t = (sprinkledcoords[:, 1] + sprinkledcoords[:, 0])/np.sqrt(2)
+        x = (sprinkledcoords[:, 1] - sprinkledcoords[:, 0])/np.sqrt(2)
+        sprinkledcoords[:, 0] = t
+        sprinkledcoords[:, 1] = x
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
         for i, coords in enumerate(sprinkledcoords): 
             self.ElementList.append(CausalEvent(label = i, coordinates = coords))
@@ -38,15 +49,16 @@ class CausalSet(object):
     def visualisation(self): 
     
         coordinates = np.array([x.coordinates for x in self.ElementList])
-        # plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
-        U = (coordinates[:, 0] + coordinates[:, 1])/2
-        V = (coordinates[:, 0] - coordinates[:, 1])/2
-        plt.scatter(U, V, s=100)
+        plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
+        # U = (coordinates[:, 0] + coordinates[:, 1])/2
+        # V = (coordinates[:, 0] - coordinates[:, 1])/2
+        # plt.scatter(U, V, s=100)
 
         for i in range(len(self.LinkMatrix)):
             for j in range(len(self.LinkMatrix[i])):
                 if self.LinkMatrix[i][j] == 1:
-                    plt.plot([U[i], U[j]], [V[i], V[j]], color = 'green')
+                    # plt.plot([U[i], U[j]], [V[i], V[j]], color = 'green')
+                    plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
         plt.xlabel('Space', fontsize = 40)
         plt.ylabel('Time', fontsize = 40)
         plt.xticks(fontsize = 30)
@@ -161,9 +173,9 @@ class CausalSet(object):
 if __name__ == "__main__":
     tic = time.time()
     c = CausalSet(number_of_points = 100) 
-    #print(c.ElementList)
-    print('Casual Matrix: \n', c.CausalMatrix)
-    print('Link Matrix: \n', c.LinkMatrix)
+    # print(c.ElementList)
+    # print('Casual Matrix: \n', c.CausalMatrix)
+    # print('Link Matrix: \n', c.LinkMatrix)
     c.visualisation()
     toc = time.time() 
     print(f'Time elapsed is {toc - tic}')
