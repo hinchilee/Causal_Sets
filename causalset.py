@@ -14,7 +14,7 @@ from scipy.special import gamma
 from itertools import combinations 
 from causalsetfunctions import f, findC2, spacetime_interval
 from causalEvent import CausalEvent
-from Sprinkling import Sprinkling_Minkowski 
+from Sprinkling import Sprinkling_Uniform
 
 np.random.seed(10)
 
@@ -24,12 +24,16 @@ class CausalSet(object):
         
         self.ElementList: list (CausalEvent) = list() 
         #Sprinkling and sorting by time coordinate 
-        sprinkledcoords = Sprinkling_Minkowski(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
+        sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
+        #Manually add two top and bottom points
+        sprinkledcoords = np.concatenate((sprinkledcoords, np.array([0,0]).reshape(1,2)))
+        sprinkledcoords = np.concatenate((sprinkledcoords, np.array([1,1]).reshape(1,2)))
         t = (sprinkledcoords[:, 1] + sprinkledcoords[:, 0])/np.sqrt(2)
         x = (sprinkledcoords[:, 1] - sprinkledcoords[:, 0])/np.sqrt(2)
         sprinkledcoords[:, 0] = t
         sprinkledcoords[:, 1] = x
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
+        
         for i, coords in enumerate(sprinkledcoords): 
             self.ElementList.append(CausalEvent(label = i, coordinates = coords))
     
@@ -94,7 +98,8 @@ class CausalSet(object):
         '''finds ordering fraction of self.interval, r = 2R/ n(n-1)'''
         
         #get element labels 
-        intervalLabels = [CausalEvent.label for CausalEvent in self.interval]
+        #intervalLabels = [CausalEvent.label for CausalEvent in self.interval]
+        intervalLabels = [CausalEvent.label for CausalEvent in self.ElementList]
         #generate a pairwise list
         pairs = list(combinations(intervalLabels, 2))
         RelationsCount = 0 
@@ -102,7 +107,8 @@ class CausalSet(object):
             RelationsCount += self.CausalMatrix[pair[0], pair[1]]
             RelationsCount += self.CausalMatrix[pair[1], pair[0]]
         
-        n = len(self.interval)
+        #n = len(self.interval)
+        n = len(self.ElementList)
         r = 2*RelationsCount/ (n*(n-1))
         return r 
     
@@ -112,11 +118,11 @@ class CausalSet(object):
         if r < 0 or r > 1: 
             raise ValueError('Make sure ordering fraction, r is between 0 and 1!')
             
-        return 1.5*gamma(d/2)*gamma(d)/ gamma(3*d/2) - r
+        return 1.5*gamma(d/2 + 1)*gamma(d + 1)/ gamma(3*d/2 + 1) - r
     
     def find_Myhreim_Meyer_dimension(self): 
         
-        Myhreim_Meyer_dimension = fsolve(self.Myhreim_Meyer_dimension, x0 = 4, args = (self.findOrderingFraction))
+        Myhreim_Meyer_dimension = fsolve(self.Myhreim_Meyer_dimension, x0 = 4, args = (self.findOrderingFraction()))
         print(f'The Myhreim_Meyer_dimension is {Myhreim_Meyer_dimension}.')
         
         return Myhreim_Meyer_dimension
@@ -172,10 +178,11 @@ class CausalSet(object):
         
 if __name__ == "__main__":
     tic = time.time()
-    c = CausalSet(number_of_points = 100) 
+    c = CausalSet(number_of_points = 1000) 
     # print(c.ElementList)
     # print('Casual Matrix: \n', c.CausalMatrix)
     # print('Link Matrix: \n', c.LinkMatrix)
+    c.find_Myhreim_Meyer_dimension()
     c.visualisation()
     toc = time.time() 
     print(f'Time elapsed is {toc - tic}')
