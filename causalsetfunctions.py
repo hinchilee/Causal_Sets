@@ -1,7 +1,7 @@
 
 import numpy as np 
 
-# Causal Set Methods
+#Causal Set Methods
 
 def fslow(ele): 
     # f(x) = 0 if x = 0 ; 1 otherwise
@@ -33,7 +33,6 @@ def spacetime_interval(stcoord1, stcoord2):
     spacetime_interval = -diff[0] #time interval 
     for spacedimension in range(1, len(diff)): 
         spacetime_interval += diff[spacedimension]
-    
     return spacetime_interval
 
 if __name__ == "__main__":

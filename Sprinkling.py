@@ -1,12 +1,12 @@
 
 import numpy as np
 
-def Sprinkling_Minkowski(dimension = 2, number_of_points = 10, bounds = np.array([[0,1],[0,1]])): 
+def Sprinkling_Uniform(dimension = 2, number_of_points = 10, bounds = np.array([[0,1],[0,1]])): 
     #Generate a list of n points of (t, x1, x2, ..., x_d) randomly in the bounds
     #bounds is a nparray of (low, high) bounds, first ele is time, the remaining is space
     
     if len(bounds) != dimension: 
-        raise ValueError('The dimension of bounds does nto match the bounds of the sprinkling dimension!')
+        raise ValueError('The dimension of bounds does not match the bounds of the sprinkling dimension!')
     
     sprinkledCoords:np.array = np.random.rand(number_of_points,dimension)
     
@@ -22,5 +22,5 @@ def Sprinkling_Minkowski(dimension = 2, number_of_points = 10, bounds = np.array
     return sprinkledCoords
 
 if __name__ == "__main__":
-    s = Sprinkling_Minkowski()
+    s = Sprinkling_Uniforms()
     print(s)

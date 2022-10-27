@@ -5,7 +5,8 @@ Created on Mon Oct 24 12:09:46 2022
 @author: leehi
 """
 
-
+import cProfile, pstats, io
+from pstats import SortKey
 import numpy as np 
 import time 
 import matplotlib.pyplot as plt
@@ -39,11 +40,12 @@ class CausalSet(object):
     
         #Create causal matrix using spacetime intervals
         self.CausalMatrix: np.array = np.zeros((len(self.ElementList), len(self.ElementList)))
-        for CausalEvent1 in self.ElementList:
-            for CausalEvent2 in self.ElementList:
-                self.CausalMatrix[CausalEvent1.label, CausalEvent2.label] = 1 if (spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 and CausalEvent1.label < CausalEvent2.label) else 0
+        for i, CausalEvent1 in enumerate(self.ElementList):
+            for j, CausalEvent2 in enumerate(self.ElementList[i:]):
+                #if CausalEvent1.label < CausalEvent2.label: 
+                self.CausalMatrix[i, j+i] = 1 if spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 else 0
         
-        self.LinkMatrix: np.array = self.find_linkmatrix()
+        self.LinkMatrix = None
         self.Interval: set(CausalEvent) = set() 
         
         #TODO Add future and past of causal events
@@ -51,6 +53,9 @@ class CausalSet(object):
     #VISUALIATION 
     
     def visualisation(self): 
+        
+        if self.LinkMatrix == None: 
+            self.LinkMatrix: np.array = self.find_linkmatrix()
     
         coordinates = np.array([x.coordinates for x in self.ElementList])
         plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
@@ -97,19 +102,27 @@ class CausalSet(object):
     def findOrderingFraction(self):
         '''finds ordering fraction of self.interval, r = 2R/ n(n-1)'''
         
-        #get element labels 
-        #intervalLabels = [CausalEvent.label for CausalEvent in self.interval]
-        intervalLabels = [CausalEvent.label for CausalEvent in self.ElementList]
-        #generate a pairwise list
-        pairs = list(combinations(intervalLabels, 2))
-        RelationsCount = 0 
-        for pair in pairs: 
-            RelationsCount += self.CausalMatrix[pair[0], pair[1]]
-            RelationsCount += self.CausalMatrix[pair[1], pair[0]]
+# =============================================================================
+#         #get element labels 
+#         #intervalLabels = [CausalEvent.label for CausalEvent in self.interval]
+#         intervalLabels = [CausalEvent.label for CausalEvent in self.ElementList]
+#         #generate a pairwise list
+#         pairs = list(combinations(intervalLabels, 2))
+#         RelationsCount = 0 
+#         for pair in pairs: 
+#             RelationsCount += self.CausalMatrix[pair[0], pair[1]]
+#             RelationsCount += self.CausalMatrix[pair[1], pair[0]]
+#         
+#         #n = len(self.interval)
+#         
+#         
+# =============================================================================
         
-        #n = len(self.interval)
+    
+        
         n = len(self.ElementList)
-        r = 2*RelationsCount/ (n*(n-1))
+        #r = 2*RelationsCount/ (n*(n-1))
+        r = 2*np.sum(self.CausalMatrix)/ (n*(n-1))
         return r 
     
     def Myhreim_Meyer_dimension(self, d, r): 
@@ -177,13 +190,27 @@ class CausalSet(object):
         print(f'Causal Event {l1} {state} Causal Event {l2}.')
         
 if __name__ == "__main__":
-    tic = time.time()
-    c = CausalSet(number_of_points = 1000) 
-    # print(c.ElementList)
-    # print('Casual Matrix: \n', c.CausalMatrix)
-    # print('Link Matrix: \n', c.LinkMatrix)
-    c.find_Myhreim_Meyer_dimension()
-    c.visualisation()
-    toc = time.time() 
-    print(f'Time elapsed is {toc - tic}')
+    
+    def main():     
+        tic = time.time()
+        c = CausalSet(number_of_points = 10000, dimension = 2) 
+        # print(c.ElementList)
+        # print('Casual Matrix: \n', c.CausalMatrix)
+        # print('Link Matrix: \n', c.LinkMatrix)
+        c.find_Myhreim_Meyer_dimension()
+        #c.visualisation()
+        toc = time.time() 
+    
+        print(f'Time elapsed is {toc - tic}')
+    
+    cProfile.run("main()", "output.dat")
+    
+    with open("output_time.txt", 'w') as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("time").print_stats() 
         
+    with open("output_calls.txt", "w") as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("calls").print_stats()
+        
+    
