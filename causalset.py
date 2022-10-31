@@ -136,7 +136,7 @@ class CausalSet(object):
     def find_Myhreim_Meyer_dimension(self): 
         
         Myhreim_Meyer_dimension = fsolve(self.Myhreim_Meyer_dimension, x0 = 4, args = (self.findOrderingFraction()))
-        print(f'The Myhreim_Meyer_dimension is {Myhreim_Meyer_dimension}.')
+        # print(f'The Myhreim_Meyer_dimension is {Myhreim_Meyer_dimension}.')
         
         return Myhreim_Meyer_dimension
     
