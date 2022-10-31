@@ -39,17 +39,42 @@ class CausalSet(object):
             self.ElementList.append(CausalEvent(label = i, coordinates = coords))
     
         #Create causal matrix using spacetime intervals
-        self.CausalMatrix: np.array = np.zeros((len(self.ElementList), len(self.ElementList)))
-        for i, CausalEvent1 in enumerate(self.ElementList):
-            for j, CausalEvent2 in enumerate(self.ElementList[i:]):
-                #if CausalEvent1.label < CausalEvent2.label: 
-                self.CausalMatrix[i, j+i] = 1 if spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 else 0
         
+# =============================================================================
+#         tic3 = time.time()
+#         self.CausalMatrix: np.array = np.zeros((len(self.ElementList), len(self.ElementList)),dtype = int)
+#         for i, CausalEvent1 in enumerate(self.ElementList):
+#             for j, CausalEvent2 in enumerate(self.ElementList[i:]):
+#                 #if CausalEvent1.label < CausalEvent2.label: 
+#                 self.CausalMatrix[i, j+i] = 1 if spacetime_interval(CausalEvent1.coordinates, CausalEvent2.coordinates) < 0 else 0
+#         toc3 = time.time()
+#         print(f'time taken to generate causal matrix by pairwise is {toc3 - tic3}')
+#     
+# =============================================================================
         self.LinkMatrix = None
-        self.Interval: set(CausalEvent) = set() 
+        self.Interval: set(CausalEvent) = set()
+        tic2 = time.time() 
+        self.CausalMatrix = self.generate_CausalMatrix_fast()
+        toc2 = time.time() 
+        print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
+  
+    def generate_CausalMatrix_fast(self): 
+        # Induce causal relations by transitivity
         
-        #TODO Add future and past of causal events
-        
+        A = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
+        for j in range(len(self.ElementList)): 
+            for i in reversed(range(j)): 
+                if A[i,j] == 0:
+                    if spacetime_interval(self.ElementList[j].coordinates, self.ElementList[i].coordinates) < 0: 
+                        A[i,j] = 1 
+                        #Then inherit i's past 
+                        A[:,j] = np.bitwise_or(A[:,j], A[:,i])
+                    else: 
+                        pass 
+                else: 
+                    pass
+        return A 
+    
     #VISUALIATION 
     
     def visualisation(self): 
@@ -197,7 +222,9 @@ if __name__ == "__main__":
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # print('Link Matrix: \n', c.LinkMatrix)
-        c.find_Myhreim_Meyer_dimension()
+        
+        #c.find_Myhreim_Meyer_dimension()
+        
         #c.visualisation()
         toc = time.time() 
     
