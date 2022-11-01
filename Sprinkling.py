@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def Sprinkling_Uniform(dimension = 2, number_of_points = 10, bounds = np.array([[0,1],[0,1]])): 
     #Generate a list of n points of (t, x1, x2, ..., x_d) randomly in the bounds
     #bounds is a nparray of (low, high) bounds, first ele is time, the remaining is space
@@ -21,6 +22,47 @@ def Sprinkling_Uniform(dimension = 2, number_of_points = 10, bounds = np.array([
     
     return sprinkledCoords
 
+def Sprinkling_Bicone(dimension = 2, number_of_points = 10): 
+    
+    Time = list() 
+    Space = list() 
+    T = 1 
+    R_0 = 1
+    for i in range(number_of_points): 
+        x = np.random.uniform(0,1)
+        sign = np.random.uniform (0,1)
+        t = T*(1-x**(1/dimension))
+        if sign > 0.5: 
+            Time.append(t)
+        else: 
+            Time.append(-t)
+        R_t = R_0* x ** (1/dimension)
+        v_unnormalised = np.random.normal(0.5, 1, size = dimension - 1)
+        
+        def normalise(v): 
+            norm = np.linalg.norm(v)
+            if norm == 0: 
+                return v 
+            return v/norm
+        
+        v = normalise(v_unnormalised)
+        k = np.random.uniform(0,1)
+        v_f = v*R_t*k**(1/(dimension - 1))
+        Space.append(v_f)
+        
+    Time = np.array(Time)
+    Space = np.array(Space)
+    Coords = np.concatenate((Time.reshape(number_of_points, 1), Space), axis = 1)
+
+    #Manually add top and bottom points  
+    top_point = np.concatenate(([1],np.zeros(shape = (dimension-1, ), dtype = int)))
+    bottom_point = np.concatenate(([-1],np.zeros(shape = (dimension-1, ), dtype = int)))
+    Coords = np.concatenate((Coords, top_point.reshape(1,dimension)), axis = 0)
+    Coords = np.concatenate((Coords, bottom_point.reshape(1,dimension)), axis = 0)
+    
+    return Coords
+
 if __name__ == "__main__":
-    s = Sprinkling_Uniforms()
-    print(s)
+    np.random.seed(10)
+    a= Sprinkling_Bicone()
+    print(a)

@@ -25,7 +25,7 @@ def findC2(CausalMatrix):
                 count += CausalMatrix[i, k]*CausalMatrix[k, j]
             C2[i,j] = count  
     return C2 
-    
+
 def spacetime_interval(stcoord1, stcoord2): 
     #Returns the spacetime interval given two spacetime coordinates
     

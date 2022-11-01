@@ -15,7 +15,7 @@ from scipy.special import gamma
 from itertools import combinations 
 from causalsetfunctions import f, findC2, spacetime_interval
 from causalEvent import CausalEvent
-from Sprinkling import Sprinkling_Uniform
+from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
 
 np.random.seed(10)
 
@@ -25,14 +25,22 @@ class CausalSet(object):
         
         self.ElementList: list (CausalEvent) = list() 
         #Sprinkling and sorting by time coordinate 
-        sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
-        #Manually add two top and bottom points
-        sprinkledcoords = np.concatenate((sprinkledcoords, np.array([0,0]).reshape(1,2)))
-        sprinkledcoords = np.concatenate((sprinkledcoords, np.array([1,1]).reshape(1,2)))
-        t = (sprinkledcoords[:, 1] + sprinkledcoords[:, 0])/np.sqrt(2)
-        x = (sprinkledcoords[:, 1] - sprinkledcoords[:, 0])/np.sqrt(2)
-        sprinkledcoords[:, 0] = t
-        sprinkledcoords[:, 1] = x
+        
+# =============================================================================
+#         #2d uniform distribution
+#         sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[0,1] for i in range(kwargs.get('dimension', 2))])))
+#         #Manually add two top and bottom points
+#         sprinkledcoords = np.concatenate((sprinkledcoords, np.array([0,0]).reshape(1,2)))
+#         sprinkledcoords = np.concatenate((sprinkledcoords, np.array([1,1]).reshape(1,2)))
+#         t = (sprinkledcoords[:, 1] + sprinkledcoords[:, 0])/np.sqrt(2)
+#         x = (sprinkledcoords[:, 1] - sprinkledcoords[:, 0])/np.sqrt(2)
+#         sprinkledcoords[:, 0] = t
+#         sprinkledcoords[:, 1] = x
+# =============================================================================
+        
+        sprinkledcoords = Sprinkling_Bicone(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5))
+        
+        #sort by time
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
         
         for i, coords in enumerate(sprinkledcoords): 
@@ -218,12 +226,12 @@ if __name__ == "__main__":
     
     def main():     
         tic = time.time()
-        c = CausalSet(number_of_points = 10000, dimension = 2) 
+        c = CausalSet(number_of_points = 5000, dimension = 4) 
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # print('Link Matrix: \n', c.LinkMatrix)
         
-        #c.find_Myhreim_Meyer_dimension()
+        print(c.find_Myhreim_Meyer_dimension())
         
         #c.visualisation()
         toc = time.time() 
