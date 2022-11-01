@@ -35,5 +35,22 @@ def spacetime_interval(stcoord1, stcoord2):
         spacetime_interval += diff[spacedimension]
     return spacetime_interval
 
+def generate_CausalMatrix(ElementList): 
+    # Induce causal relations by transitivity
+    
+    A = np.zeros((len(ElementList), len(ElementList)), dtype = int)
+    for j in range(len(ElementList)): 
+        for i in reversed(range(j)): 
+            if A[i,j] == 0:
+                if spacetime_interval(ElementList[j], ElementList[i]) < 0: 
+                    A[i,j] = 1 
+                    #Then inherit i's past 
+                    A[:,j] = np.bitwise_or(A[:,j], A[:,i])
+                else: 
+                    pass 
+            else: 
+                pass
+    return A 
+
 if __name__ == "__main__":
     print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))

@@ -13,9 +13,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 from scipy.special import gamma 
 from itertools import combinations 
-from causalsetfunctions import f, findC2, spacetime_interval
+from causalsetfunctions import f, findC2, spacetime_interval, generate_CausalMatrix
 from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
+import multiprocessing as mp
 
 np.random.seed(10)
 
@@ -24,6 +25,7 @@ class CausalSet(object):
     def __init__(self, **kwargs): 
         
         self.ElementList: list (CausalEvent) = list() 
+    
         #Sprinkling and sorting by time coordinate 
         
 # =============================================================================
@@ -62,11 +64,19 @@ class CausalSet(object):
         self.LinkMatrix = None
         self.Interval: set(CausalEvent) = set()
         tic2 = time.time() 
-        self.CausalMatrix = self.generate_CausalMatrix_fast()
+        
+        #Intialise Parallel Processing
+        ElementList = [[ele.coordinates for ele in self.ElementList]]
+        pool = mp.Pool(mp.cpu_count() - 4) #leave 4 cores unused to avoid overloading
+        self.CausalMatrix = pool.map(generate_CausalMatrix, ElementList) 
+        pool.close() 
+        
+        #self.CausalMatrix = self.generate_CausalMatrix()
+    
         toc2 = time.time() 
         print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
   
-    def generate_CausalMatrix_fast(self): 
+    def generate_CausalMatrix(self): 
         # Induce causal relations by transitivity
         
         A = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
@@ -226,7 +236,7 @@ if __name__ == "__main__":
     
     def main():     
         tic = time.time()
-        c = CausalSet(number_of_points = 5000, dimension = 4) 
+        c = CausalSet(number_of_points = 10000, dimension = 2) 
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # print('Link Matrix: \n', c.LinkMatrix)
@@ -237,6 +247,7 @@ if __name__ == "__main__":
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')
+        
     
     cProfile.run("main()", "output.dat")
     
@@ -248,4 +259,3 @@ if __name__ == "__main__":
         p = pstats.Stats("output.dat", stream = f)
         p.sort_stats("calls").print_stats()
         
-    
