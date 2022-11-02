@@ -24,6 +24,7 @@ class CausalSet(object):
     
     def __init__(self, **kwargs): 
         
+        self.dimension = kwargs.get('dimension', 2)
         self.ElementList: list (CausalEvent) = list() 
     
         #Sprinkling and sorting by time coordinate 
@@ -40,7 +41,7 @@ class CausalSet(object):
 #         sprinkledcoords[:, 1] = x
 # =============================================================================
         
-        sprinkledcoords = Sprinkling_Bicone(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5))
+        sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
         
         #sort by time
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
@@ -68,11 +69,10 @@ class CausalSet(object):
         #Intialise Parallel Processing
         ElementList = [[ele.coordinates for ele in self.ElementList]]
         pool = mp.Pool(mp.cpu_count() - 4) #leave 4 cores unused to avoid overloading
-        self.CausalMatrix = pool.map(generate_CausalMatrix, ElementList) 
+        self.CausalMatrix = pool.map(generate_CausalMatrix, ElementList)[0]
         pool.close() 
         
-        #self.CausalMatrix = self.generate_CausalMatrix()
-    
+        # self.CausalMatrix = self.generate_CausalMatrix()
         toc2 = time.time() 
         print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
   
@@ -95,26 +95,29 @@ class CausalSet(object):
     
     #VISUALIATION 
     
-    def visualisation(self): 
-        
-        if self.LinkMatrix == None: 
-            self.LinkMatrix: np.array = self.find_linkmatrix()
-    
+    def visualisation(self):
         coordinates = np.array([x.coordinates for x in self.ElementList])
-        plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
-        # U = (coordinates[:, 0] + coordinates[:, 1])/2
-        # V = (coordinates[:, 0] - coordinates[:, 1])/2
-        # plt.scatter(U, V, s=100)
 
-        for i in range(len(self.LinkMatrix)):
-            for j in range(len(self.LinkMatrix[i])):
-                if self.LinkMatrix[i][j] == 1:
-                    # plt.plot([U[i], U[j]], [V[i], V[j]], color = 'green')
-                    plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
-        plt.xlabel('Space', fontsize = 40)
-        plt.ylabel('Time', fontsize = 40)
-        plt.xticks(fontsize = 30)
-        plt.yticks(fontsize = 30)
+        if self.dimension == 2:
+            if self.LinkMatrix == None: 
+                self.LinkMatrix: np.array = self.find_linkmatrix()
+
+            plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
+            for i in range(len(self.LinkMatrix)):
+                for j in range(len(self.LinkMatrix[i])):
+                    if self.LinkMatrix[i][j] == 1:
+                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
+            plt.xlabel('Space')
+            plt.ylabel('Time')
+        
+        if self.dimension == 3:
+            ax = plt.axes(projection='3d')
+            ax.scatter3D(coordinates[:, 1], coordinates[:, 0], coordinates[:, 2])
+            print(self.LinkMatrix)
+            ax.set_xlabel('x')
+            ax.set_ylabel('t')
+            ax.set_zlabel('y')
+
         plt.show()
             
     #CALCULATING LINK MATRIX
@@ -236,26 +239,27 @@ if __name__ == "__main__":
     
     def main():     
         tic = time.time()
-        c = CausalSet(number_of_points = 10000, dimension = 2) 
+        c = CausalSet(number_of_points = 1000, dimension = 3) 
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # print('Link Matrix: \n', c.LinkMatrix)
         
         print(c.find_Myhreim_Meyer_dimension())
         
-        #c.visualisation()
+        c.visualisation()
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')
         
+    main()
+
+    # cProfile.run("main()", "output.dat")
     
-    cProfile.run("main()", "output.dat")
-    
-    with open("output_time.txt", 'w') as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("time").print_stats() 
+    # with open("output_time.txt", 'w') as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("time").print_stats() 
         
-    with open("output_calls.txt", "w") as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("calls").print_stats()
+    # with open("output_calls.txt", "w") as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("calls").print_stats()
         
