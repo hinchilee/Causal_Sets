@@ -37,7 +37,7 @@ def Sprinkling_Bicone(dimension = 2, number_of_points = 10):
         else: 
             Time.append(-t)
         R_t = R_0* x ** (1/dimension)
-        v_unnormalised = np.random.normal(0.5, 1, size = dimension - 1)
+        v_unnormalised = np.random.normal(0, 1, size = dimension - 1)
         
         def normalise(v): 
             norm = np.linalg.norm(v)
