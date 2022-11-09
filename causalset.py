@@ -41,8 +41,9 @@ class CausalSet(object):
 #         sprinkledcoords[:, 1] = x
 # =============================================================================
         
-        sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
-        
+        # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
+        sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[-1,1] for i in range(kwargs.get('dimension', 2))])))
+
         #sort by time
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
         
@@ -74,7 +75,7 @@ class CausalSet(object):
         
         # self.CausalMatrix = self.generate_CausalMatrix()
         toc2 = time.time() 
-        print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
+        # print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
   
     def generate_CausalMatrix(self): 
         # Induce causal relations by transitivity
@@ -109,6 +110,7 @@ class CausalSet(object):
                         plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
             plt.xlabel('Space')
             plt.ylabel('Time')
+            plt.axis('square')
         
         if self.dimension == 3:
             ax = plt.axes(projection='3d')
@@ -239,12 +241,12 @@ if __name__ == "__main__":
     
     def main():     
         tic = time.time()
-        c = CausalSet(number_of_points = 1000, dimension = 3) 
+        c = CausalSet(number_of_points = 5, dimension = 2) 
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
-        # print('Link Matrix: \n', c.LinkMatrix)
+        print('Link Matrix: \n', c.LinkMatrix)
         
-        print(c.find_Myhreim_Meyer_dimension())
+        # print(c.find_Myhreim_Meyer_dimension())
         
         c.visualisation()
         toc = time.time() 

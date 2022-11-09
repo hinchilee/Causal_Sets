@@ -27,12 +27,16 @@ def findC2(CausalMatrix):
     return C2 
 
 def spacetime_interval(stcoord1, stcoord2): 
+    wraparound_dimension = 1
+
     #Returns the spacetime interval given two spacetime coordinates
-    
     diff = (stcoord1 - stcoord2)**2
     spacetime_interval = -diff[0] #time interval 
     for spacedimension in range(1, len(diff)): 
-        spacetime_interval += diff[spacedimension]
+        if spacedimension == wraparound_dimension:
+            spacetime_interval += min(diff[spacedimension], (2 - np.sqrt(diff[spacedimension]))**2)
+        else:
+            spacetime_interval += diff[spacedimension]
     return spacetime_interval
 
 def generate_CausalMatrix(ElementList): 
