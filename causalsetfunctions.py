@@ -27,7 +27,7 @@ def findC2(CausalMatrix):
     return C2 
 
 def spacetime_interval(stcoord1, stcoord2): 
-    wraparound_dimension = 1
+    wraparound_dimension = 2
 
     #Returns the spacetime interval given two spacetime coordinates
     diff = (stcoord1 - stcoord2)**2

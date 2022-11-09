@@ -100,8 +100,7 @@ class CausalSet(object):
         coordinates = np.array([x.coordinates for x in self.ElementList])
 
         if self.dimension == 2:
-            if self.LinkMatrix == None: 
-                self.LinkMatrix: np.array = self.find_linkmatrix()
+            self.find_linkmatrix()
 
             plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
             for i in range(len(self.LinkMatrix)):
@@ -127,10 +126,11 @@ class CausalSet(object):
     def find_linkmatrix(self):
         #L_ij = 1 if e_i <* e_j; 0 otherwise, where <* is a link
         #L = C - f(C2)
+        if self.LinkMatrix is None: 
+            LinkMatrix: np.array = self.CausalMatrix - f(findC2(self.CausalMatrix))
+            self.LinkMatrix = LinkMatrix
         
-        LinkMatrix: np.array = self.CausalMatrix - f(findC2(self.CausalMatrix))
-        
-        return LinkMatrix
+        return self.LinkMatrix
     
     #CALCULATING MYRHEIM_MEYER DIMENSION 
     
@@ -236,19 +236,38 @@ class CausalSet(object):
         else: 
             state = 'is spacelike to'
         print(f'Causal Event {l1} {state} Causal Event {l2}.')
+
+    def find_molecules(self):
+        self.find_linkmatrix()
+        maximals = []
+        minimals = []
+        two_chains = []
+        for i in range(len(self.LinkMatrix)):
+            if 1 not in self.LinkMatrix[i]:
+                maximals.append(i)
+            if 1 not in self.LinkMatrix[:, i]:
+                minimals.append(i)
+        
+        for maximal in maximals:
+            for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(minimals):
+                two_chains.append((minimal_link, maximal))
+
+        print(two_chains)
         
 if __name__ == "__main__":
     
     def main():     
         tic = time.time()
-        c = CausalSet(number_of_points = 5, dimension = 2) 
+        c = CausalSet(number_of_points = 1000, dimension = 3) 
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
-        print('Link Matrix: \n', c.LinkMatrix)
+        # c.find_linkmatrix()
+        # print('Link Matrix: \n', c.LinkMatrix)
         
         # print(c.find_Myhreim_Meyer_dimension())
         
-        c.visualisation()
+        c.find_molecules()
+        # c.visualisation()
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')
