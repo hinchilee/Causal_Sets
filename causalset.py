@@ -18,8 +18,6 @@ from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
 import multiprocessing as mp
 
-np.random.seed(10)
-
 class CausalSet(object): 
     
     def __init__(self, **kwargs): 
@@ -67,13 +65,14 @@ class CausalSet(object):
         self.Interval: set(CausalEvent) = set()
         tic2 = time.time() 
         
-        #Intialise Parallel Processing
         ElementList = [[ele.coordinates for ele in self.ElementList]]
-        pool = mp.Pool(mp.cpu_count() - 4) #leave 4 cores unused to avoid overloading
-        self.CausalMatrix = pool.map(generate_CausalMatrix, ElementList)[0]
-        pool.close() 
+
+        # Intialise Parallel Processing
+        # pool = mp.Pool(mp.cpu_count() - 4) # leave 4 cores unused to avoid overloading
+        # self.CausalMatrix = pool.map(generate_CausalMatrix, ElementList)[0]
+        # pool.close() 
         
-        # self.CausalMatrix = self.generate_CausalMatrix()
+        self.CausalMatrix = self.generate_CausalMatrix()
         toc2 = time.time() 
         # print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
   
@@ -240,25 +239,33 @@ class CausalSet(object):
     def find_molecules(self):
         self.find_linkmatrix()
         maximals = []
-        minimals = []
+        maximal_but_ones = []
         two_chains = []
         for i in range(len(self.LinkMatrix)):
-            if 1 not in self.LinkMatrix[i]:
+            links = sum(self.LinkMatrix[i])
+            if links == 0:
                 maximals.append(i)
-            if 1 not in self.LinkMatrix[:, i]:
-                minimals.append(i)
+            elif links == 1:
+                maximal_but_ones.append(i)
         
         for maximal in maximals:
-            for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(minimals):
+            for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                 two_chains.append((minimal_link, maximal))
 
-        print(two_chains)
+        count = 0
+        for chain in two_chains:
+            if self.ElementList[chain[0]].coordinates[0] < self.ElementList[chain[0]].coordinates[1] and self.ElementList[chain[1]].coordinates[0] > self.ElementList[chain[1]].coordinates[1]:
+                count += 1
+
+        return count
         
 if __name__ == "__main__":
     
     def main():     
+        np.random.seed(10)
+
         tic = time.time()
-        c = CausalSet(number_of_points = 1000, dimension = 3) 
+        c = CausalSet(number_of_points = 1000, dimension = 4)
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # c.find_linkmatrix()
