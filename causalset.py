@@ -10,6 +10,7 @@ from pstats import SortKey
 import numpy as np 
 import time 
 import matplotlib.pyplot as plt
+from scipy.stats import poisson 
 from scipy.optimize import fsolve
 from scipy.special import gamma 
 from itertools import combinations 
@@ -40,7 +41,7 @@ class CausalSet(object):
 # =============================================================================
         
         # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
-        sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = kwargs.get('number_of_points', 5), bounds = kwargs.get('bounds', np.array([[-1,1] for i in range(kwargs.get('dimension', 2))])))
+        sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2), number_of_points = poisson.rvs(kwargs.get('sprinkling_density', 5)), bounds = kwargs.get('bounds', np.array([[-1,1] for i in range(kwargs.get('dimension', 2))])))
 
         #sort by time
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
@@ -75,7 +76,7 @@ class CausalSet(object):
         self.CausalMatrix = self.generate_CausalMatrix()
         toc2 = time.time() 
         # print(f'time taken to generate causal matrix by transitivity is {toc2 - tic2}')
-  
+        
     def generate_CausalMatrix(self): 
         # Induce causal relations by transitivity
         
@@ -265,14 +266,14 @@ if __name__ == "__main__":
         np.random.seed(10)
 
         tic = time.time()
-        c = CausalSet(number_of_points = 1000, dimension = 4)
+        c = CausalSet(sprinkling_density = 1000, dimension = 4)
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
         # c.find_linkmatrix()
         # print('Link Matrix: \n', c.LinkMatrix)
         
         # print(c.find_Myhreim_Meyer_dimension())
-        
+        print('Number of Points:', len(c.ElementList))
         c.find_molecules()
         # c.visualisation()
         toc = time.time() 
@@ -281,13 +282,13 @@ if __name__ == "__main__":
         
     main()
 
-    # cProfile.run("main()", "output.dat")
+    cProfile.run("main()", "output.dat")
     
-    # with open("output_time.txt", 'w') as f: 
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("time").print_stats() 
+    with open("output_time.txt", 'w') as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("time").print_stats() 
         
-    # with open("output_calls.txt", "w") as f: 
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("calls").print_stats()
+    with open("output_calls.txt", "w") as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("calls").print_stats()
         
