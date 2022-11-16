@@ -9,17 +9,17 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    N_array = [100, 500, 1000, 5000]
+    rho_array = [100, 500, 1000, 5000]#, 10000, 20000]
     d = {}
 
-    for N in N_array:
+    for rho in rho_array:
         pool = mp.Pool(mp.cpu_count() - 4)
         # dimensions = [count_chains(N) for _ in range(5)]
-        dimensions = pool.map(count_chains, [N] * 10)
+        dimensions = pool.map(count_chains, [rho] * 20)
         pool.close() 
-        d[N] = dimensions
+        d[rho] = dimensions
 
-        print(N)
+        print(rho)
         toc = time.time()
         print(f'Time elapsed is {toc - tic}')
     
