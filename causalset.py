@@ -266,6 +266,7 @@ if __name__ == "__main__":
         np.random.seed(10)
 
         tic = time.time()
+
         c = CausalSet(sprinkling_density = 1000, dimension = 4)
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
@@ -280,7 +281,7 @@ if __name__ == "__main__":
     
         print(f'Time elapsed is {toc - tic}')
         
-    main()
+    #main()
 
     cProfile.run("main()", "output.dat")
     

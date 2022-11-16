@@ -20,9 +20,7 @@ def findC2(CausalMatrix):
     C2: np.ndarray = np.zeros(CausalMatrix.shape)
     for i in range(len(CausalMatrix)):
         for j in range(i,len(CausalMatrix)):
-            count = 0 
-            for k in range(len(CausalMatrix)): 
-                count += CausalMatrix[i, k]*CausalMatrix[k, j]
+            count = np.sum(CausalMatrix[i, :] * CausalMatrix[:, j])
             C2[i,j] = count  
     return C2 
 
@@ -57,4 +55,11 @@ def generate_CausalMatrix(ElementList):
     return A 
 
 if __name__ == "__main__":
-    print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))
+    c = np.array([[0,0,0,1,1],
+                  [0,0,0,1,1],
+                  [0,0,0,1,1],
+                  [0,0,0,0,1],
+                  [0,0,0,0,0]])
+    LinkMatrix = c - f(findC2(c))
+    print(LinkMatrix)
+    #print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))
