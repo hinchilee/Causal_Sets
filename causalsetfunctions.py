@@ -2,17 +2,9 @@
 import numpy as np 
 
 #Causal Set Methods
-
-def fslow(ele): 
-    # f(x) = 0 if x = 0 ; 1 otherwise
-    if ele == 0: 
-        return 0
-    else: 
-        return 1
-
-f = np.vectorize(fslow)
     
-def findC2(CausalMatrix):
+def fC2(CausalMatrix):
+    # f(x) = 0 if x = 0 ; 1 otherwise
     #Intermediate step for finding Link Matrix
     #Matrix that counts the number of 3-chains between elements i j
     #Optimised to consider only top half of matrix
@@ -21,7 +13,7 @@ def findC2(CausalMatrix):
     for i in range(len(CausalMatrix)):
         for j in range(i,len(CausalMatrix)):
             count = np.sum(CausalMatrix[i, :] * CausalMatrix[:, j])
-            C2[i,j] = count  
+            C2[i,j] = 1 if count >= 1 else 0  
     return C2 
 
 def spacetime_interval(stcoord1, stcoord2): 
@@ -60,6 +52,6 @@ if __name__ == "__main__":
                   [0,0,0,1,1],
                   [0,0,0,0,1],
                   [0,0,0,0,0]])
-    LinkMatrix = c - f(findC2(c))
+    LinkMatrix = c - fC2(c)
     print(LinkMatrix)
     #print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))

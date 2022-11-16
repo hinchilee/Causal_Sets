@@ -14,7 +14,7 @@ from scipy.stats import poisson
 from scipy.optimize import fsolve
 from scipy.special import gamma 
 from itertools import combinations 
-from causalsetfunctions import f, findC2, spacetime_interval, generate_CausalMatrix
+from causalsetfunctions import fC2, spacetime_interval, generate_CausalMatrix
 from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
 import multiprocessing as mp
@@ -127,10 +127,9 @@ class CausalSet(object):
         #L_ij = 1 if e_i <* e_j; 0 otherwise, where <* is a link
         #L = C - f(C2)
         if self.LinkMatrix is None: 
-            LinkMatrix: np.array = self.CausalMatrix - f(findC2(self.CausalMatrix))
+            LinkMatrix: np.array = self.CausalMatrix - fC2(self.CausalMatrix)
             self.LinkMatrix = LinkMatrix
         
-        return self.LinkMatrix
     
     #CALCULATING MYRHEIM_MEYER DIMENSION 
     
@@ -238,7 +237,8 @@ class CausalSet(object):
         print(f'Causal Event {l1} {state} Causal Event {l2}.')
 
     def find_molecules(self):
-        self.find_linkmatrix()
+        if self.LinkMatrix is None: 
+            self.find_linkmatrix()
         maximals = []
         maximal_but_ones = []
         two_chains = []
@@ -270,8 +270,8 @@ if __name__ == "__main__":
         c = CausalSet(sprinkling_density = 1000, dimension = 4)
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
-        # c.find_linkmatrix()
-        # print('Link Matrix: \n', c.LinkMatrix)
+        c.find_linkmatrix()
+        print('Link Matrix: \n', c.LinkMatrix)
         
         # print(c.find_Myhreim_Meyer_dimension())
         print('Number of Points:', len(c.ElementList))
