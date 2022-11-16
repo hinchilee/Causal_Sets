@@ -4,7 +4,7 @@ import pandas as pd
 import multiprocessing as mp
 
 def count_chains(N):
-    return CausalSet(number_of_points=N, dimension=4).find_molecules()
+    return CausalSet(sprinkling_density=N, dimension=4).find_molecules()
 
 def main():
     tic = time.time()
@@ -13,9 +13,9 @@ def main():
     d = {}
 
     for rho in rho_array:
-        pool = mp.Pool(mp.cpu_count() - 4)
+        pool = mp.Pool(mp.cpu_count() - 8)
         # dimensions = [count_chains(N) for _ in range(5)]
-        dimensions = pool.map(count_chains, [rho] * 20)
+        dimensions = pool.map(count_chains, [rho] * 50)
         pool.close() 
         d[rho] = dimensions
 
