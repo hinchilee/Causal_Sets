@@ -1,135 +1,141 @@
-Wed Nov 16 19:15:39 2022    output.dat
+Fri Nov 18 19:45:24 2022    output.dat
 
-         6109232 function calls (6109184 primitive calls) in 8.049 seconds
+         490458 function calls (490457 primitive calls) in 1.219 seconds
 
    Ordered by: internal time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    2.198    2.198    5.161    5.161 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:6(fC2)
-   450408    1.968    0.000    2.077    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:19(spacetime_interval)
-   527882    1.068    0.000    1.068    0.000 {method 'reduce' of 'numpy.ufunc' objects}
-        1    0.681    0.681    2.758    2.758 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:80(generate_CausalMatrix)
-   527882    0.546    0.000    1.839    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:73(_wrapreduction)
-   527878    0.527    0.000    2.427    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2092(sum)
-   527878    0.251    0.000    2.963    0.000 <__array_function__ internals>:2(sum)
-   528054    0.230    0.000    2.657    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
-   527882    0.186    0.000    0.186    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:74(<dictcomp>)
-     1027    0.120    0.000    0.120    0.000 {built-in method builtins.sum}
-   450408    0.078    0.000    0.078    0.000 {built-in method builtins.min}
-   527897    0.061    0.000    0.061    0.000 {built-in method builtins.isinstance}
-   527878    0.055    0.000    0.055    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2087(_sum_dispatcher)
-   527883    0.039    0.000    0.039    0.000 {method 'items' of 'dict' objects}
-   451764    0.031    0.000    0.031    0.000 {built-in method builtins.len}
-        1    0.004    0.004    0.124    0.124 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:239(find_molecules)
-        1    0.003    0.003    5.164    5.164 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:126(find_linkmatrix)
-        1    0.001    0.001    8.049    8.049 <string>:1(<module>)
-        1    0.001    0.001    2.759    2.759 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:24(__init__)
-     1027    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalEvent.py:6(__init__)
-      168    0.000    0.000    0.000    0.000 {method 'intersection' of 'set' objects}
-     1291    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
-      168    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(where)
-     43/1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:738(recurser)
+   243587    0.664    0.000    0.688    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:20(spacetime_interval)
+        1    0.527    0.527    1.215    1.215 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:43(generate_CausalMatrix)
+   243613    0.023    0.000    0.023    0.000 {built-in method builtins.len}
+        1    0.001    0.001    1.218    1.218 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:22(__init__)
+        5    0.001    0.000    0.001    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.001    0.001    1.219    1.219 <string>:1(<module>)
+      967    0.000    0.000    0.001    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalEvent.py:6(__init__)
+       13    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:106(Myhreim_Meyer_dimension)
+      968    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+      976    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
        11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\zmq\sugar\socket.py:432(send)
-     1034    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
-       36    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:967(__call__)
-       72    0.000    0.000    0.000    0.000 {built-in method numpy.core._multiarray_umath.dragon4_positional}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:69(<listcomp>)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\Sprinkling.py:5(Sprinkling_Uniform)
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
         1    0.000    0.000    0.000    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\Sprinkling.py:5(Sprinkling_Uniform)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:883(fillFormat)
-        1    0.000    0.000    8.048    8.048 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:265(main)
-        1    0.000    0.000    0.000    0.000 {method 'rand' of 'numpy.random.mtrand.RandomState' objects}
-        2    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
-       42    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:715(_extendLine)
+        1    0.000    0.000    1.219    1.219 {built-in method builtins.exec}
        11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:197(schedule)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\optimize\minpack.py:168(_root_hybr)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:935(rvs)
+        1    0.000    0.000    0.000    0.000 {built-in method scipy.optimize._minpack._hybrd}
+        1    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:967(__call__)
+        1    0.000    0.000    1.219    1.219 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:148(main)
+        5    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:73(_wrapreduction)
+        1    0.000    0.000    0.000    0.000 {method 'rand' of 'numpy.random.mtrand.RandomState' objects}
         1    0.000    0.000    0.000    0.000 {method 'poisson' of 'numpy.random.mtrand.RandomState' objects}
-       37    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:933(<genexpr>)
-        1    0.000    0.000    8.049    8.049 {built-in method builtins.exec}
-      168    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:312(where)
-        3    0.000    0.000    0.001    0.000 {built-in method builtins.print}
-       37    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:938(<genexpr>)
-      7/1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:338(_leading_trailing)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:597(_argcheck)
+      2/1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:738(recurser)
+        7    0.000    0.000    0.000    0.000 {built-in method numpy.array}
+        9    0.000    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.print}
        11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1071(is_alive)
-        1    0.000    0.000    0.000    0.000 {method 'seed' of 'numpy.random.mtrand.RandomState' objects}
-        8    0.000    0.000    0.000    0.000 {built-in method builtins.max}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:532(array2string)
-       11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:494(_array2string)
-        5    0.000    0.000    0.000    0.000 {built-in method numpy.array}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:425(_get_format_function)
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:477(wrapper)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:69(_make_options_dict)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:597(_argcheck)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:185(_broadcast_shape)
-       36    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:494(_array2string)
+        1    0.000    0.000    0.000    0.000 {method 'seed' of 'numpy.random.mtrand.RandomState' objects}
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:39(seterr)
-       37    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:942(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:532(array2string)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:790(_argcheck_rvs)
-       37    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:943(<genexpr>)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\optimize\minpack.py:48(fsolve)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\optimize\minpack.py:24(_check_func)
+        2    0.000    0.000    0.000    0.000 {built-in method numpy.core._multiarray_umath.dragon4_positional}
+       11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:206(broadcast_arrays)
-       11    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
-       11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:933(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:425(_get_format_function)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:856(__init__)
-        2    0.000    0.000    0.000    0.000 {method 'all' of 'numpy.generic' objects}
+       11    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
+        1    0.000    0.000    0.001    0.001 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:99(findOrderingFraction)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:69(_make_options_dict)
+        1    0.000    0.000    0.001    0.001 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:114(find_Myhreim_Meyer_dimension)
+       15    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
+        1    0.000    0.000    0.001    0.001 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2092(sum)
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:139(geterr)
-        1    0.000    0.000    0.000    0.000 {built-in method builtins.locals}
-        2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(all)
+       11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
+        2    0.000    0.000    0.000    0.000 {method 'all' of 'numpy.generic' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numerictypes.py:293(issubclass_)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:372(_get_formatdict)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:1489(_array_str_implementation)
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:2943(rvs)
-        3    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(concatenate)
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2324(all)
+        5    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:74(<dictcomp>)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:938(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.locals}
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\shape_base.py:25(atleast_1d)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:1489(_array_str_implementation)
+        1    0.000    0.000    0.000    0.000 {method 'flatten' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.001    0.001 <__array_function__ internals>:2(sum)
+        2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(all)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:600(_rvs)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numerictypes.py:365(issubdtype)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2551(amax)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:381(<lambda>)
        10    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\index_tricks.py:731(__getitem__)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
-        2    0.000    0.000    0.000    0.000 {built-in method builtins.all}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:600(_rvs)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.max}
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:47(_all)
-        4    0.000    0.000    0.000    0.000 {built-in method time.time}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\getlimits.py:365(__new__)
        11    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:513(is_set)
-        2    0.000    0.000    0.000    0.000 {built-in method numpy.seterrobj}
-        1    0.000    0.000    0.000    0.000 <string>:5(_parse_args_rvs)
+        7    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\abc.py:96(__instancecheck__)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2551(amax)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:729(_formatArray)
+        1    0.000    0.000    0.000    0.000 <string>:5(_parse_args_rvs)
+        2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(shape)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:715(_extendLine)
+        2    0.000    0.000    0.000    0.000 {built-in method numpy.seterrobj}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.all}
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(atleast_1d)
        11    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(amax)
-        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:266(<genexpr>)
-        7    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:441(__enter__)
+        2    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
         1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:820(<listcomp>)
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(amax)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2676(amin)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:437(__init__)
-        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_asarray.py:16(asarray)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:441(__enter__)
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:266(<genexpr>)
+        6    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        6    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:820(<listcomp>)
+        2    0.000    0.000    0.000    0.000 {built-in method time.time}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_asarray.py:16(asarray)
         1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(amin)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_ufunc_config.py:446(__exit__)
-        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:804(squeeze_left)
-        5    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
-        1    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
-        4    0.000    0.000    0.000    0.000 {built-in method numpy.geterrobj}
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:74(<dictcomp>)
-        1    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
-        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:44(<listcomp>)
-        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:145(concatenate)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
-        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
-        4    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
-        1    0.000    0.000    0.000    0.000 {method 'discard' of 'set' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:849(<listcomp>)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2320(_all_dispatcher)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:804(squeeze_left)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:1903(shape)
+        4    0.000    0.000    0.000    0.000 {built-in method numpy.geterrobj}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_asarray.py:88(asanyarray)
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:942(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:31(<listcomp>)
+        1    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:943(<genexpr>)
         1    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2546(_amax_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'discard' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:1899(_shape_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2087(_sum_dispatcher)
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2320(_all_dispatcher)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\arrayprint.py:847(_none_or_positive_arg)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:849(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\optimize\optimize.py:139(_check_unknown_options)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\shape_base.py:21(_atleast_1d_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2546(_amax_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
         1    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2671(_amin_dispatcher)
 

@@ -62,7 +62,11 @@ def Sprinkling_Bicone(dimension = 2, number_of_points = 10):
     
     return Coords
 
+
 if __name__ == "__main__":
-    np.random.seed(10)
-    a= Sprinkling_Bicone()
+    np.random.seed(11)
+    a= Sprinkling_Uniform(dimension = 3, 
+                          bounds = np.array([[-10,10],
+                                             [-10,10], 
+                                             [-10,10]]))
     print(a)
