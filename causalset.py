@@ -150,7 +150,6 @@ class CausalSet(object):
             self.find_linkmatrix()
         maximals = []
         maximal_but_ones = []
-        one_molecules = []
         for i in range(len(self.LinkMatrix)):
             links = sum(self.LinkMatrix[i])
             if links == 0:
@@ -158,14 +157,19 @@ class CausalSet(object):
             elif links == 1:
                 maximal_but_ones.append(i)
         
-        count = 0
+        H_array = []
         for maximal in maximals:
+            count = 0
             for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
-                one_molecules.append((minimal_link, maximal))
                 if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1] and self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]: 
                     count += 1 
+
+            while len(H_array) < count + 1:
+                H_array.append(0)
+            H_array[count] += 1
+
         
-        return count
+        return H_array
     
 if __name__ == "__main__":
        
