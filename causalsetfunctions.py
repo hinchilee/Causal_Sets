@@ -34,7 +34,6 @@ def spacetime_interval(stcoord1, stcoord2, periodicBC = False, wrapAroundLength 
     return spacetime_interval
 
 def find_entropy(H_array): 
-    
     # W = number of combinations 
     # S = Entropy 
     
