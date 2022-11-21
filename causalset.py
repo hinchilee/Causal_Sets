@@ -43,7 +43,7 @@ class CausalSet(object):
             # x, y, z = [-T-2, T+2]; wrap around y
             
             self.T = kwargs.get('T')
-            spaceBounds = np.array([-self.T-2, self.T+2])
+            spaceBounds = np.array([-self.T-1, self.T+1])
             timeBounds = np.array([self.T-1, self.T+1])
             self.SpacetimeVolume = ((2*(self.T+2))**(self.dimension - 1))*2
             AveragePoints = self.SpacetimeVolume*(kwargs.get('sprinkling_density'))
@@ -146,6 +146,9 @@ class CausalSet(object):
     # CALCULATING MOLECULES 
     
     def find_molecules(self):
+        
+        # ADD Sigma_T = self.T 
+        
         if self.LinkMatrix is None: 
             self.find_linkmatrix()
         maximals = []
@@ -178,10 +181,10 @@ if __name__ == "__main__":
     tic = time.time()
 
     c = CausalSet(sprinkling_density = 100, 
-                  dimension = 4, 
+                  dimension = 4/, 
                   periodicBC = True,
                   DynamicBH = True,
-                  T = 5)
+                  T = 1)
     #c.visualisation()
     # print(c.ElementList)
     # print('Casual Matrix: \n', c.CausalMatrix)
