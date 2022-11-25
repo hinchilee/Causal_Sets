@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import poisson 
 from scipy.optimize import fsolve
 from scipy.special import gamma 
-from causalsetfunctions import fC2, spacetime_interval
+from causalsetfunctions import fC2, spacetime_interval, inside_horizon
 from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
 
@@ -24,11 +24,12 @@ class CausalSet(object):
         self.dimension = kwargs.get('dimension', 2)
         self.ElementList: list (CausalEvent) = list() 
         self.periodicBC = kwargs.get('periodicBC', False)
+        self.dynamic = kwargs.get('DynamicBH')
     
         #Sprinkling and sorting by time coordinate 
         
         # FOR RINDLER HORIZON  
-        if kwargs.get('DynamicBH') == False: 
+        if not self.dynamic:
             # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
             # Normalised Sprinkling Volume to 1!!! Important to find out <N> then Poisson, not get N from Poisson then scale to area 
             
@@ -158,30 +159,44 @@ class CausalSet(object):
                 maximal_but_ones.append(i)
         
         H_array = []
-        for maximal in maximals:
-            count = 0
-            for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
-                if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1] and self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]: 
-                    count += 1 
 
-            while len(H_array) < count + 1:
-                H_array.append(0)
-            H_array[count] += 1
+        if not self.dynamic:
+            for maximal in maximals:
+                if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
+                    count = 0
+                    for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
+                        if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]: 
+                            count += 1 
 
+                    while len(H_array) < count + 1:
+                        H_array.append(0)
+                    H_array[count] += 1
+        else:
+            for maximal in maximals:
+                if inside_horizon(self.ElementList[maximal].coordinates):
+                    count = 0
+                    for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
+                        if not inside_horizon(self.ElementList[minimal_link].coordinates): 
+                            count += 1 
+
+                    while len(H_array) < count + 1:
+                        H_array.append(0)
+                    H_array[count] += 1
         
         return H_array
     
 if __name__ == "__main__":
        
-    np.random.seed(10)
+    np.random.seed(0)
 
     tic = time.time()
 
-    c = CausalSet(sprinkling_density = 100, 
+    c = CausalSet(sprinkling_density = 0.1, 
                   dimension = 4, 
                   periodicBC = True,
                   DynamicBH = True,
                   T = 5)
+
     #c.visualisation()
     # print(c.ElementList)
     # print('Casual Matrix: \n', c.CausalMatrix)

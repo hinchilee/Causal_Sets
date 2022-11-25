@@ -50,7 +50,16 @@ def find_entropy(H_array):
     S = np.log(W)
     
     return W, S
-    
+
+def inside_horizon(x):
+    s = -(x[0] ** 2)
+    for x_i in x[1:]:
+        s += x_i ** 2
+
+    if s < 0:
+        return True
+    elif s > 0:
+        return False
 
 if __name__ == "__main__":
     H_arr = np.array([2,1])
