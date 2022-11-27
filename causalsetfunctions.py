@@ -3,19 +3,6 @@ import numpy as np
 from math import comb
 
 #Causal Set Methods
-    
-def fC2(CausalMatrix):
-    # f(x) = 0 if x = 0 ; 1 otherwise
-    #Intermediate step for finding Link Matrix
-    #Matrix that counts the number of 3-chains between elements i j
-    #Optimised to consider only top half of matrix
-    
-    C2: np.ndarray = np.zeros(CausalMatrix.shape)
-    for i in range(len(CausalMatrix)):
-        for j in range(i,len(CausalMatrix)):
-            count = np.sum(CausalMatrix[i, :] * CausalMatrix[:, j])
-            C2[i,j] = 1 if count >= 1 else 0  
-    return C2 
 
 def spacetime_interval(stcoord1, stcoord2, periodicBC = False, wrapAroundLength = 2): 
     wraparound_dimension = 2

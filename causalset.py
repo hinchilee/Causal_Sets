@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import poisson 
 from scipy.optimize import fsolve
 from scipy.special import gamma 
-from causalsetfunctions import fC2, spacetime_interval, inside_horizon
+from causalsetfunctions import spacetime_interval, inside_horizon
 from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
 
@@ -116,7 +116,7 @@ class CausalSet(object):
         #L_ij = 1 if e_i <* e_j; 0 otherwise, where <* is a link
         #L = C - f(C2)
         if self.LinkMatrix is None: 
-            LinkMatrix: np.array = self.CausalMatrix - fC2(self.CausalMatrix)
+            LinkMatrix: np.array = self.CausalMatrix - np.matmul(self.CausalMatrix, self.CausalMatrix).clip(0, 1)
             self.LinkMatrix = LinkMatrix
         
     
@@ -186,65 +186,41 @@ class CausalSet(object):
         return H_array
     
 if __name__ == "__main__":
-       
-    np.random.seed(0)
+      
 
-    tic = time.time()
+    def main():     
+        np.random.seed(0)
 
-    c = CausalSet(sprinkling_density = 0.1, 
-                  dimension = 4, 
-                  periodicBC = True,
-                  DynamicBH = True,
-                  T = 5)
-
-    #c.visualisation()
-    # print(c.ElementList)
-    # print('Casual Matrix: \n', c.CausalMatrix)
-    #c.find_linkmatrix()
-    #print('Link Matrix: \n', c.LinkMatrix)
-    #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-    print('Number of Points:', len(c.ElementList))
-    print(f'Spacetime Volume is {c.SpacetimeVolume}')
-    #c.find_molecules()
-    # c.visualisation()
-    toc = time.time() 
-
-    print(f'Time elapsed is {toc - tic}')
-        
+        tic = time.time()
     
+        c = CausalSet(sprinkling_density = 0.2, 
+                      dimension = 4, 
+                      periodicBC = True,
+                      DynamicBH = True,
+                      T = 5)
+    
+        #c.visualisation()
+        # print(c.ElementList)
+        # print('Casual Matrix: \n', c.CausalMatrix)
+        #c.find_linkmatrix()
+        #print('Link Matrix: \n', c.LinkMatrix)
+        #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
+        print('Number of Points:', len(c.ElementList))
+        print(f'Spacetime Volume is {c.SpacetimeVolume}')
+        c.find_molecules()
+        # c.visualisation()
+        toc = time.time() 
+    
+        print(f'Time elapsed is {toc - tic}')
+    
+
+    cProfile.run("main()", "output.dat")
+    
+    with open("output_time.txt", 'w') as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("time").print_stats() 
         
-# =============================================================================
-#     def main():     
-#         np.random.seed(10)
-# 
-#         tic = time.time()
-# 
-#         c = CausalSet(sprinkling_density = 1000, 
-#                       dimension = 3, 
-#                       periodicBC = False)
-#         # print(c.ElementList)
-#         # print('Casual Matrix: \n', c.CausalMatrix)
-#         #c.find_linkmatrix()
-#         #print('Link Matrix: \n', c.LinkMatrix)
-#         
-#         print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-#         print('Number of Points:', len(c.ElementList))
-#         #c.find_molecules()
-#         # c.visualisation()
-#         toc = time.time() 
-#     
-#         print(f'Time elapsed is {toc - tic}')
-#         
-#     #main()
-# 
-#     cProfile.run("main()", "output.dat")
-#     
-#     with open("output_time.txt", 'w') as f: 
-#         p = pstats.Stats("output.dat", stream = f)
-#         p.sort_stats("time").print_stats() 
-#         
-#     with open("output_calls.txt", "w") as f: 
-#         p = pstats.Stats("output.dat", stream = f)
-#         p.sort_stats("calls").print_stats()
-# =============================================================================
+    with open("output_calls.txt", "w") as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("calls").print_stats()
         
