@@ -1,6 +1,6 @@
 
 import numpy as np 
-from math import comb
+from math import gamma
 
 #Causal Set Methods
 
@@ -20,23 +20,11 @@ def spacetime_interval(stcoord1, stcoord2, periodicBC = False, wrapAroundLength 
             spacetime_interval += diff[spacedimension]
     return spacetime_interval
 
-def find_entropy(H_array): 
-    # W = number of combinations 
-    # S = Entropy 
+def find_entropy(H_array):
+    N = np.sum(H_array)
+    p_array = H_array / N
     
-    N = np.sum(H_array)  
-    M = len(H_array)
-    W = 1
-    n = N 
-    for i in range(M):
-        # nCr = comb (n, r) 
-        r = H_array[i] 
-        W *= comb(n, r)
-        n -= H_array[i] 
-
-    S = np.log(W)
-    
-    return W, S
+    return N * np.sum([p_i * np.log(1 / p_i) for p_i in p_array if p_i != 0])
 
 def inside_horizon(x):
     s = -(x[0] ** 2)

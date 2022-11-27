@@ -9,7 +9,7 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    rho_array = [100, 500, 1000, 5000]#, 10000, 20000]
+    rho_array = [100, 500, 1000, 5000]
     d = {}
 
     for rho in rho_array:
