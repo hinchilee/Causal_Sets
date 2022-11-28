@@ -82,7 +82,7 @@ class CausalSet(object):
         for j in range(len(self.ElementList)): 
             for i in reversed(range(j)): 
                 if A[i,j] == 0:
-                    if spacetime_interval(self.ElementList[j].coordinates, self.ElementList[i].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
+                    if spacetime_interval(self.ElementList[i].coordinates, self.ElementList[j].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
                         A[i,j] = 1 
                         #Then inherit i's past 
                         A[:,j] = np.bitwise_or(A[:,j], A[:,i])
@@ -142,7 +142,24 @@ class CausalSet(object):
             #             else:
             #                 LinkMatrix[i][j] = 0
             #         else: 
-            #             LinkMatrix[i][j] = 0                  
+            #             LinkMatrix[i][j] = 0       
+            
+            # LinkMatrix = np.zeros(self.CausalMatrix.shape, dtype = int)
+            # n = len(self.ElementList)
+            
+            # for i in range(n): 
+            #     for j in range(i+1, n): 
+            #         # 1. Check Cij = 1 
+            #         if self.CausalMatrix[i][j] == 1: 
+            #             # 2. Check C^2_ij = 0 
+            #             for k in range(n):
+            #                   if self.CausalMatrix[i][k]*self.CausalMatrix[k][j] == 0: 
+            #                       pass 
+            #                   else:
+            #                       break
+            #                   LinkMatrix[i][j] = 1
+            #         else: 
+            #             LinkMatrix[i][j] = 0        
             
             self.LinkMatrix = LinkMatrix
         
@@ -220,21 +237,21 @@ if __name__ == "__main__":
 
         tic = time.time()
     
-        c = CausalSet(sprinkling_density = 200,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                      dimension = 2, 
+        c = CausalSet(sprinkling_density = 1000,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+                      dimension = 4, 
                       BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
                       T = 5)                        # T is only needed when BHtype = 'Dynamic'
     
         #c.visualisation()
         # print(c.ElementList)
         # print('Casual Matrix: \n', c.CausalMatrix)
-        #c.find_linkmatrix()
+        # c.find_linkmatrix()
         #print('Link Matrix: \n', c.LinkMatrix)
         #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
         print('Number of Points:', len(c.ElementList))
         print(f'Spacetime Volume is {c.SpacetimeVolume}')
-        #print(c.find_molecules())
-        c.visualisation()
+        print(c.find_molecules())
+        #c.visualisation()
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')

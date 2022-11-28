@@ -8,14 +8,15 @@ from scipy.special import hyp2f1
 def spacetime_interval(stcoord1, stcoord2, BHtype , wrapAroundLength = 2): 
 
     #Returns the spacetime interval given two spacetime coordinates
-    diff = (stcoord1 - stcoord2)**2
+    diff = (stcoord2 - stcoord1)*(stcoord2 - stcoord1)
     spacetime_interval = -diff[0] #time interval 
     
     if BHtype == 'Rindler': 
         #Hardcoded to wrap around y, z
         for spacedimension in range(1, len(diff)): 
             if spacedimension == 2 or spacedimension == 3:
-                spacetime_interval += min(diff[spacedimension], (wrapAroundLength - np.sqrt(diff[spacedimension]))**2)
+                a =  (wrapAroundLength - stcoord2[spacedimension] + stcoord1[spacedimension])
+                spacetime_interval += min(diff[spacedimension], a*a)
             else:
                 spacetime_interval += diff[spacedimension]
     
@@ -23,7 +24,8 @@ def spacetime_interval(stcoord1, stcoord2, BHtype , wrapAroundLength = 2):
         #Hardcoded to wrap around y 
         for spacedimension in range(1, len(diff)): 
             if spacedimension == 2:
-                spacetime_interval += min(diff[spacedimension], (wrapAroundLength - np.sqrt(diff[spacedimension]))**2)
+                a =  (wrapAroundLength - stcoord2[spacedimension] + stcoord1[spacedimension])
+                spacetime_interval += min(diff[spacedimension], a*a)
             else:
                 spacetime_interval += diff[spacedimension]
     
@@ -64,7 +66,7 @@ def theoretical_a4_flat(n):
 
 def B(z, a, b):
     # Eqn 3.13 in Barton et al 2019
-    return (z**a)*hyp2f1(a, 1-b, a+1, z)/a - (0**a)*hyp2f1(a, 1-b, a+1, 0)/a
+    return (z**a)*hyp2f1(a, 1-b, a+1, z)/a
 
 def frustum_curved_surfaceaarea(h1, h2):
     # Returns curved surface area of frustum, used to calculate A_BH for dynamic black holes 
