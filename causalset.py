@@ -22,14 +22,13 @@ class CausalSet(object):
     def __init__(self, **kwargs): 
         
         self.dimension = kwargs.get('dimension', 2)
+        self.BHtype = kwargs.get('BHtype')
         self.ElementList: list (CausalEvent) = list() 
-        self.periodicBC = kwargs.get('periodicBC', False)
-        self.dynamic = kwargs.get('DynamicBH')
-    
+        
         #Sprinkling and sorting by time coordinate 
         
         # FOR RINDLER HORIZON  
-        if not self.dynamic:
+        if self.BHtype == 'Rindler':
             # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
             # Normalised Sprinkling Volume to 1!!! Important to find out <N> then Poisson, not get N from Poisson then scale to area 
             
@@ -38,12 +37,15 @@ class CausalSet(object):
             self.wrapAroundLength = 1
 
         # FOR DYNAMIC BLACKHOLE HORIZON
-        else:
+        elif self.BHtype == 'Dynamic':
             # Sprinkle uniformly into a slab to calculate entropy for Sigma_t = T 
             # into bounds of t: [T-1, T+1]; 
             # x, y, z = [-T-2, T+2]; wrap around y
             
-            self.T = kwargs.get('T')
+            try: 
+                self.T = kwargs.get('T')
+            except: 
+                raise ValueError('Please enter a value for T when sprinkling into a Dynamic BH!')
             spaceBounds = np.array([-self.T-2, self.T+2])
             timeBounds = np.array([self.T-1, self.T+1])
             self.SpacetimeVolume = ((2*(self.T+2))**(self.dimension - 1))*2
@@ -53,7 +55,16 @@ class CausalSet(object):
                                                 number_of_points = poisson.rvs(AveragePoints),
                                                 bounds = boundsArray) 
             self.wrapAroundLength = 2*(self.T+2)
-                        
+        
+        elif self.BHtype == 'Empty':
+            
+            self.SpacetimeVolume = 1
+            sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2),number_of_points = poisson.rvs(kwargs.get('sprinkling_density')), bounds = kwargs.get('bounds', np.array([[-0.5,0.5] for i in range(kwargs.get('dimension', 2))])))
+            self.wrapAroundLength = 1
+            
+        else: 
+            raise ValueError('Blackhole type should be Rindler, Dynamic or Empty!')
+        
         #sort by time
         sprinkledcoords = sprinkledcoords[sprinkledcoords[:, 0].argsort()]
         
@@ -71,7 +82,7 @@ class CausalSet(object):
         for j in range(len(self.ElementList)): 
             for i in reversed(range(j)): 
                 if A[i,j] == 0:
-                    if spacetime_interval(self.ElementList[j].coordinates, self.ElementList[i].coordinates, self.periodicBC, self.wrapAroundLength) < 0: 
+                    if spacetime_interval(self.ElementList[j].coordinates, self.ElementList[i].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
                         A[i,j] = 1 
                         #Then inherit i's past 
                         A[:,j] = np.bitwise_or(A[:,j], A[:,i])
@@ -80,7 +91,6 @@ class CausalSet(object):
                 else: 
                     pass
         return A 
-    
     
     #VISUALIATION 
     
@@ -160,7 +170,7 @@ class CausalSet(object):
         
         H_array = []
 
-        if not self.dynamic:
+        if self.BHtype == 'Rindler':
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
@@ -171,7 +181,7 @@ class CausalSet(object):
                     while len(H_array) < count + 1:
                         H_array.append(0)
                     H_array[count] += 1
-        else:
+        elif self.BHtype == 'Dynamic':
             for maximal in maximals:
                 if inside_horizon(self.ElementList[maximal].coordinates):
                     count = 0
@@ -193,10 +203,9 @@ if __name__ == "__main__":
 
         tic = time.time()
     
-        c = CausalSet(sprinkling_density = 0.2, 
+        c = CausalSet(sprinkling_density = 0.2,   # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
                       dimension = 4, 
-                      periodicBC = True,
-                      DynamicBH = True,
+                      BHtype = 'Dynamic', # 'Rindler', 'Dynamic', 'Empty' 
                       T = 5)
     
         #c.visualisation()
@@ -207,7 +216,7 @@ if __name__ == "__main__":
         #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
         print('Number of Points:', len(c.ElementList))
         print(f'Spacetime Volume is {c.SpacetimeVolume}')
-        c.find_molecules()
+        print(c.find_molecules())
         # c.visualisation()
         toc = time.time() 
     

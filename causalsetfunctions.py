@@ -4,20 +4,32 @@ from math import gamma
 
 #Causal Set Methods
 
-def spacetime_interval(stcoord1, stcoord2, periodicBC = False, wrapAroundLength = 2): 
-    wraparound_dimension = 2
+def spacetime_interval(stcoord1, stcoord2, BHtype , wrapAroundLength = 2): 
 
     #Returns the spacetime interval given two spacetime coordinates
     diff = (stcoord1 - stcoord2)**2
     spacetime_interval = -diff[0] #time interval 
-    for spacedimension in range(1, len(diff)): 
-        if periodicBC == True: 
-            if spacedimension == wraparound_dimension:
+    
+    if BHtype == 'Rindler': 
+        #Hardcoded to wrap around y, z
+        for spacedimension in range(1, len(diff)): 
+            if spacedimension == 2 or spacedimension == 3:
                 spacetime_interval += min(diff[spacedimension], (wrapAroundLength - np.sqrt(diff[spacedimension]))**2)
             else:
                 spacetime_interval += diff[spacedimension]
-        else: 
+    
+    elif BHtype == 'Dynamic':
+        #Hardcoded to wrap around y 
+        for spacedimension in range(1, len(diff)): 
+            if spacedimension == 2:
+                spacetime_interval += min(diff[spacedimension], (wrapAroundLength - np.sqrt(diff[spacedimension]))**2)
+            else:
+                spacetime_interval += diff[spacedimension]
+    
+    elif BHtype == 'Empty': 
+        for spacedimension in range(1, len(diff)): 
             spacetime_interval += diff[spacedimension]
+    
     return spacetime_interval
 
 def find_entropy(H_array):
@@ -35,6 +47,15 @@ def inside_horizon(x):
         return True
     elif s > 0:
         return False
+    
+def convert_Harray_1molecule(H_array): 
+	ans = 0 
+	for i, count in enumerate(H_array): 
+		ans += i*count
+	return ans
+
+def find_entropy_1molecule(oneMoleculeCount): 
+    return np.log(oneMoleculeCount)
 
 if __name__ == "__main__":
     H_arr = np.array([2,1])

@@ -4,12 +4,12 @@ import pandas as pd
 import multiprocessing as mp
 
 def count_chains(N):
-    return CausalSet(sprinkling_density=N, dimension=4, DynamicBH=False).find_molecules()
+    return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Rindler').find_molecules()
 
 def main():
     tic = time.time()
 
-    rho_array = [100, 500, 1000, 5000]
+    rho_array = [100, 300, 1000, 3000]
     d = {}
 
     for rho in rho_array:
@@ -41,7 +41,7 @@ def main():
     df = pd.DataFrame(d)
     df.index += 1
     print(df)
-    df.to_csv('H_i.csv')
+    df.to_csv('H_iRindler.csv')
 
 if __name__ == "__main__":
     main()
