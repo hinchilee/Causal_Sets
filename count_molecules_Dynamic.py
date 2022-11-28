@@ -4,8 +4,8 @@ import time
 import pandas as pd
 import multiprocessing as mp
 
-def count_chains(N):
-    return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Dynamic', T = 1).find_molecules()
+def count_chains(N, t = 1):
+    return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Dynamic', T = t).find_molecules()
 
 def main():
     tic = time.time()

@@ -98,16 +98,16 @@ class CausalSet(object):
         coordinates = np.array([x.coordinates for x in self.ElementList])
 
         if self.dimension == 2:
-            if self.LinkMatrix == None:
+            if self.LinkMatrix is None:
                 self.find_linkmatrix()
-
-            plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100, colour = 'blue')
+            plt.figure(figsize= (12,8))
+            plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 70, c = 'black')
             for i in range(len(self.LinkMatrix)):
                 for j in range(len(self.LinkMatrix[i])):
                     if self.LinkMatrix[i][j] == 1:
-                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'blue')
-            plt.xlabel('Space')
-            plt.ylabel('Time')
+                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'royalblue',linewidth = 0.8)
+            plt.xlabel('Space', fontsize = 20 )
+            plt.ylabel('Time', fontsize = 20 )
             plt.axis('square')
         
         if self.dimension == 3:
@@ -220,8 +220,8 @@ if __name__ == "__main__":
 
         tic = time.time()
     
-        c = CausalSet(sprinkling_density = 10000,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                      dimension = 4, 
+        c = CausalSet(sprinkling_density = 200,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+                      dimension = 2, 
                       BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
                       T = 5)                        # T is only needed when BHtype = 'Dynamic'
     
@@ -234,7 +234,7 @@ if __name__ == "__main__":
         print('Number of Points:', len(c.ElementList))
         print(f'Spacetime Volume is {c.SpacetimeVolume}')
         #print(c.find_molecules())
-        #c.visualisation()
+        c.visualisation()
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')

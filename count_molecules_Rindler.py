@@ -9,12 +9,12 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    rho_array = [100, 300, 1000, 3000]
+    rho_array = [100, 300, 1000, 3000] 
     d = {}
 
     for rho in rho_array:
         # Number of realisations
-        n = 50
+        n = 5
 
         pool = mp.Pool(mp.cpu_count() - 8)
         H_counts = pool.map(count_chains, [rho] * n)
@@ -33,6 +33,7 @@ def main():
         toc = time.time()
         print(f'Time elapsed is {toc - tic}')
     
+    
     max_H_i = max([len(d[rho]) for rho in rho_array])
     for rho in rho_array:
         while len(d[rho]) < max_H_i:
@@ -41,7 +42,7 @@ def main():
     df = pd.DataFrame(d)
     df.index += 1
     print(df)
-    df.to_csv('H_iRindler.csv')
+    df.to_csv('H_iRindler.csv')#, mode = 'a')
 
 if __name__ == "__main__":
     main()

@@ -72,7 +72,7 @@ def frustum_curved_surfaceaarea(h1, h2):
     return np.pi*(h2*(h2+np.sqrt(2*h2**2))- h1*(h1+np.sqrt(2*h1**2)))
     
 def two_torus_surfacearea(R, r):
-    return 1
+    return 4*np.pi**2*r*R
 
 if __name__ == "__main__":
     # H_arr = np.array([2,1])
