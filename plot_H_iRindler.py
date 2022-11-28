@@ -8,7 +8,7 @@ from scipy.optimize import curve_fit
 def linear(x, m, c): 
     return m*x + c 
 
-rho_array = [100, 300, 1000, 3000]
+rho_array = [100, 500, 1000, 5000]
 
 df = pd.read_csv('H_iRindler.csv', index_col=0)
 

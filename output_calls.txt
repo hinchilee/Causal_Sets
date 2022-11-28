@@ -1,44 +1,35 @@
-Mon Nov 28 00:33:43 2022    output.dat
+Mon Nov 28 14:21:16 2022    output.dat
 
-         1827109 function calls (1827101 primitive calls) in 22.835 seconds
+         1644343 function calls in 7.767 seconds
 
    Ordered by: call count
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-   606806    0.131    0.000    0.131    0.000 {built-in method builtins.len}
-   606632    8.195    0.000    8.705    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:7(spacetime_interval)
-   606632    0.379    0.000    0.379    0.000 {built-in method builtins.min}
-     2018    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
-     1107    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
-     1102    0.001    0.000    0.001    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalEvent.py:6(__init__)
-     1102    0.253    0.000    0.253    0.000 {built-in method builtins.sum}
-      790    0.008    0.000    0.008    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:41(inside_horizon)
-      169    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
-      162    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:312(where)
-      162    0.000    0.000    0.001    0.000 <__array_function__ internals>:2(where)
-      162    0.001    0.000    0.001    0.000 {method 'intersection' of 'set' objects}
-       14    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:513(is_set)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1071(is_alive)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\zmq\sugar\socket.py:432(send)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:197(schedule)
-       12    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
-       12    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
-       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
-       10    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
-        8    0.000    0.000    0.000    0.000 {built-in method numpy.array}
-      5/1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\abc.py:100(__subclasscheck__)
-      5/1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_subclasscheck}
+   820554    0.252    0.000    0.252    0.000 {built-in method builtins.min}
+   410284    0.052    0.000    0.052    0.000 {built-in method builtins.len}
+   410277    4.467    0.000    4.771    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalsetfunctions.py:8(spacetime_interval)
+     1011    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+     1004    0.001    0.000    0.001    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalEvent.py:6(__init__)
+     1004    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+       12    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:513(is_set)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1071(is_alive)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\zmq\sugar\socket.py:432(send)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:197(schedule)
+        9    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
+        9    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
+        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
+        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
+        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
+        8    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
+        6    0.000    0.000    0.000    0.000 {built-in method numpy.array}
+        5    0.000    0.000    0.000    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
         4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:266(<genexpr>)
-        4    0.000    0.000    0.000    0.000 {built-in method builtins.print}
         3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:804(squeeze_left)
-        3    0.000    0.000    0.000    0.000 {method 'reshape' of 'numpy.ndarray' objects}
         3    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
-        3    0.000    0.000    0.000    0.000 {built-in method builtins.all}
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.print}
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_asarray.py:16(asarray)
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:74(<dictcomp>)
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:73(_wrapreduction)
@@ -51,13 +42,21 @@ Mon Nov 28 00:33:43 2022    output.dat
         2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:73(_clip_dep_is_byte_swapped)
         2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(all)
         2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(ndim)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\shape_base.py:1241(<genexpr>)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\shape_base.py:1251(<genexpr>)
-        2    0.000    0.000    0.000    0.000 {method 'all' of 'numpy.generic' objects}
-        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
         2    0.000    0.000    0.000    0.000 {built-in method time.time}
         2    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.all}
         2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 {method 'all' of 'numpy.generic' objects}
+        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\abc.py:96(__instancecheck__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
+        1    0.002    0.002    0.002    0.002 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:78(_clip_dep_invoke_with_casting)
+        1    0.000    0.000    0.002    0.002 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:97(_clip)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:185(_broadcast_shape)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:206(broadcast_arrays)
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:820(<listcomp>)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:849(<listcomp>)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:790(_argcheck_rvs)
@@ -67,33 +66,18 @@ Mon Nov 28 00:33:43 2022    output.dat
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:600(_rvs)
         1    0.000    0.000    0.000    0.000 <string>:5(_parse_args_rvs)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\Sprinkling.py:5(Sprinkling_Uniform)
-        1    0.001    0.001   22.835   22.835 <string>:1(<module>)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\abc.py:96(__instancecheck__)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:145(concatenate)
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(concatenate)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
-        1    0.002    0.002    0.002    0.002 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:78(_clip_dep_invoke_with_casting)
-        1    0.000    0.000    0.002    0.002 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:97(_clip)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:185(_broadcast_shape)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:206(broadcast_arrays)
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\shape_base.py:1165(_tile_dispatcher)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\shape_base.py:1169(tile)
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(tile)
-        1    0.003    0.003   10.948   10.948 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:22(__init__)
-        1    2.238    2.238   10.944   10.944 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:78(generate_CausalMatrix)
-        1   11.608   11.608   11.611   11.611 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:125(find_linkmatrix)
-        1    0.011    0.011   11.885   11.885 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:159(find_molecules)
-        1    0.000    0.000   22.833   22.833 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:201(main)
+        1    0.001    0.001    7.767    7.767 <string>:1(<module>)
+        1    0.000    0.000    7.766    7.766 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:218(main)
+        1    1.774    1.774    1.776    1.776 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:125(find_linkmatrix)
+        1    1.214    1.214    5.986    5.986 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:78(generate_CausalMatrix)
+        1    0.002    0.002    5.989    5.989 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:22(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:36(<listcomp>)
+        1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
+        1    0.000    0.000    7.767    7.767 {built-in method builtins.exec}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
         1    0.000    0.000    0.000    0.000 {method 'argsort' of 'numpy.ndarray' objects}
         1    0.000    0.000    0.002    0.002 {method 'clip' of 'numpy.ndarray' objects}
-        1    0.000    0.000    0.000    0.000 {method 'repeat' of 'numpy.ndarray' objects}
         1    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
-        1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
-        1    0.000    0.000   22.835   22.835 {built-in method builtins.exec}
-        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
         1    0.000    0.000    0.000    0.000 {method 'seed' of 'numpy.random.mtrand.RandomState' objects}
         1    0.000    0.000    0.000    0.000 {method 'rand' of 'numpy.random.mtrand.RandomState' objects}
         1    0.000    0.000    0.000    0.000 {method 'poisson' of 'numpy.random.mtrand.RandomState' objects}

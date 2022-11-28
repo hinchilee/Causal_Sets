@@ -101,11 +101,11 @@ class CausalSet(object):
             if self.LinkMatrix == None:
                 self.find_linkmatrix()
 
-            plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100)
+            plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 100, colour = 'blue')
             for i in range(len(self.LinkMatrix)):
                 for j in range(len(self.LinkMatrix[i])):
                     if self.LinkMatrix[i][j] == 1:
-                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'green')
+                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'blue')
             plt.xlabel('Space')
             plt.ylabel('Time')
             plt.axis('square')
@@ -127,6 +127,23 @@ class CausalSet(object):
         #L = C - f(C2)
         if self.LinkMatrix is None: 
             LinkMatrix: np.array = self.CausalMatrix - np.matmul(self.CausalMatrix, self.CausalMatrix).clip(0, 1)
+            
+            # LinkMatrix = np.zeros(self.CausalMatrix.shape, dtype = int)
+            # n = len(self.ElementList)
+            
+            # for i in range(n): 
+            #     for j in range(i+1, n): 
+            #         # 1. Check Cij = 1 
+            #         if self.CausalMatrix[i][j] == 1: 
+            #             # 2. Check C^2_ij = 0 
+            #             if np.sum(self.CausalMatrix[i,:]*self.CausalMatrix[:, j]) == 0: 
+            #                 LinkMatrix[i][j] = 1
+                    
+            #             else:
+            #                 LinkMatrix[i][j] = 0
+            #         else: 
+            #             LinkMatrix[i][j] = 0                  
+            
             self.LinkMatrix = LinkMatrix
         
     
@@ -203,10 +220,10 @@ if __name__ == "__main__":
 
         tic = time.time()
     
-        c = CausalSet(sprinkling_density = 0.2,   # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+        c = CausalSet(sprinkling_density = 10000,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
                       dimension = 4, 
-                      BHtype = 'Dynamic', # 'Rindler', 'Dynamic', 'Empty' 
-                      T = 5)
+                      BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
+                      T = 5)                        # T is only needed when BHtype = 'Dynamic'
     
         #c.visualisation()
         # print(c.ElementList)
@@ -216,8 +233,8 @@ if __name__ == "__main__":
         #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
         print('Number of Points:', len(c.ElementList))
         print(f'Spacetime Volume is {c.SpacetimeVolume}')
-        print(c.find_molecules())
-        # c.visualisation()
+        #print(c.find_molecules())
+        #c.visualisation()
         toc = time.time() 
     
         print(f'Time elapsed is {toc - tic}')
