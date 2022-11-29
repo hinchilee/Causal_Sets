@@ -238,10 +238,10 @@ class CausalSet(object):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]: 
                             count += 1 
 
-                    while len(H_array) < count + 1:
+                    while len(H_array) < count:
                         H_array.append(0)
                     if count > 0: 
-                        H_array[count-1] += 1
+                        H_array[count - 1] += 1
                     
         elif self.BHtype == 'Dynamic':
             for maximal in maximals:
@@ -251,10 +251,10 @@ class CausalSet(object):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates): 
                             count += 1 
 
-                    while len(H_array) < count + 1:
+                    while len(H_array) < count:
                         H_array.append(0)
                     if count > 0: 
-                        H_array[count-1] += 1
+                        H_array[count - 1] += 1
         
         return H_array
     
