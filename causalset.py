@@ -195,13 +195,28 @@ class CausalSet(object):
             self.find_linkmatrix()
         maximals = []
         maximal_but_ones = []
-        for i in range(len(self.LinkMatrix)):
-            links = sum(self.LinkMatrix[i])
-            if links == 0:
-                maximals.append(i)
-            elif links == 1:
-                maximal_but_ones.append(i)
         
+        if self.BHtype == 'Rindler':
+            for i in range(len(self.LinkMatrix)):
+                links = sum(self.LinkMatrix[i])
+                if links == 0:
+                    maximals.append(i)
+                elif links == 1:
+                    maximal_but_ones.append(i)
+        
+        elif self.BHtype == 'Dynamic': 
+            diffarray = np.array([ele.coordinates[0] for ele in self.ElementList]) - self.T
+            cutoffindex = np.min(np.where(diffarray > 0 ))
+            
+            #Crop Link matrix so that only elements before sigmaT are included 
+            self.croppedLinkMatrix = self.LinkMatrix[:cutoffindex, :cutoffindex]
+            for i in range(len(self.croppedLinkMatrix)):
+                links = sum(self.croppedLinkMatrix[i])
+                if links == 0:
+                    maximals.append(i)
+                elif links == 1:
+                    maximal_but_ones.append(i)
+            
         H_array = []
 
         if self.BHtype == 'Rindler':
@@ -215,11 +230,12 @@ class CausalSet(object):
                     while len(H_array) < count + 1:
                         H_array.append(0)
                     H_array[count] += 1
+                    
         elif self.BHtype == 'Dynamic':
             for maximal in maximals:
                 if inside_horizon(self.ElementList[maximal].coordinates):
                     count = 0
-                    for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
+                    for minimal_link in set(np.where(self.croppedLinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates): 
                             count += 1 
 
@@ -232,38 +248,38 @@ class CausalSet(object):
 if __name__ == "__main__":
       
 
-    def main():     
-        np.random.seed(0)
+    #def main():     
+    np.random.seed(0)
 
-        tic = time.time()
-    
-        c = CausalSet(sprinkling_density = 1000,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                      dimension = 4, 
-                      BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
-                      T = 5)                        # T is only needed when BHtype = 'Dynamic'
-    
-        #c.visualisation()
-        # print(c.ElementList)
-        # print('Casual Matrix: \n', c.CausalMatrix)
-        # c.find_linkmatrix()
-        #print('Link Matrix: \n', c.LinkMatrix)
-        #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-        print('Number of Points:', len(c.ElementList))
-        print(f'Spacetime Volume is {c.SpacetimeVolume}')
-        print(c.find_molecules())
-        #c.visualisation()
-        toc = time.time() 
-    
-        print(f'Time elapsed is {toc - tic}')
+    tic = time.time()
+
+    c = CausalSet(sprinkling_density = 0.01,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+                  dimension = 4, 
+                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
+                  T = 5)                        # T is only needed when BHtype = 'Dynamic'
+
+    #c.visualisation()
+    # print(c.ElementList)
+    # print('Casual Matrix: \n', c.CausalMatrix)
+    c.find_linkmatrix()
+    print('Link Matrix: \n', c.LinkMatrix)
+    #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
+    print('Number of Points:', len(c.ElementList))
+    print(f'Spacetime Volume is {c.SpacetimeVolume}')
+    print(c.find_molecules())
+    #c.visualisation()
+    toc = time.time() 
+
+    print(f'Time elapsed is {toc - tic}')
     
 
-    cProfile.run("main()", "output.dat")
+    # cProfile.run("main()", "output.dat")
     
-    with open("output_time.txt", 'w') as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("time").print_stats() 
+    # with open("output_time.txt", 'w') as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("time").print_stats() 
         
-    with open("output_calls.txt", "w") as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("calls").print_stats()
+    # with open("output_calls.txt", "w") as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("calls").print_stats()
         
