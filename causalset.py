@@ -240,7 +240,8 @@ class CausalSet(object):
 
                     while len(H_array) < count + 1:
                         H_array.append(0)
-                    H_array[count] += 1
+                    if count > 0: 
+                        H_array[count-1] += 1
                     
         elif self.BHtype == 'Dynamic':
             for maximal in maximals:
@@ -252,7 +253,8 @@ class CausalSet(object):
 
                     while len(H_array) < count + 1:
                         H_array.append(0)
-                    H_array[count] += 1
+                    if count > 0: 
+                        H_array[count-1] += 1
         
         return H_array
     
@@ -266,18 +268,18 @@ if __name__ == "__main__":
 
     c = CausalSet(sprinkling_density = 10,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
                   dimension = 2, 
-                  BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
+                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
                   T = 5)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()
     # print(c.ElementList)
     # print('Casual Matrix: \n', c.CausalMatrix)
     #c.find_linkmatrix()
-    print('Link Matrix: \n', c.LinkMatrix)
     #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
     print('Number of Points:', len(c.ElementList))
     print(f'Spacetime Volume is {c.SpacetimeVolume}')
     print(c.find_molecules())
+    #print('Link Matrix: \n', c.LinkMatrix)
     c.visualisation()
     toc = time.time() 
 
