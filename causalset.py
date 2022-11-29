@@ -114,7 +114,7 @@ class CausalSet(object):
                 plt.plot(xlinspace, xlinspace, label = 'Dynamic Horizon', c = 'red' )
                 plt.plot(-xlinspace, xlinspace, label = 'Dynamic Horizon', c = 'red' )
                 xlinspace2 = np.linspace(-10, 10, 200)
-                plt.plot(xlinspace2, [5]*len(xlinspace2), label = f'Sigma plane t = {self.T}', c = 'green')
+                plt.plot(xlinspace2, [self.T]*len(xlinspace2), label = f'Sigma plane t = {self.T}', c = 'green')
             plt.xlabel('Space', fontsize = 20 )
             plt.ylabel('Time', fontsize = 20 )
             plt.axis('square')
