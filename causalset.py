@@ -106,9 +106,20 @@ class CausalSet(object):
                 for j in range(len(self.LinkMatrix[i])):
                     if self.LinkMatrix[i][j] == 1:
                         plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'royalblue',linewidth = 0.8)
+            if self.BHtype == 'Rindler': 
+                xlinspace = np.linspace(-0.5,0.5, 100)
+                plt.plot(xlinspace, xlinspace, label = 'Rindler Horizon', c = 'red' )
+            elif self.BHtype == 'Dynamic': 
+                xlinspace = np.linspace(0,10, 100)
+                plt.plot(xlinspace, xlinspace, label = 'Dynamic Horizon', c = 'red' )
+                plt.plot(-xlinspace, xlinspace, label = 'Dynamic Horizon', c = 'red' )
+                xlinspace2 = np.linspace(-10, 10, 200)
+                plt.plot(xlinspace2, [5]*len(xlinspace2), label = f'Sigma plane t = {self.T}', c = 'green')
             plt.xlabel('Space', fontsize = 20 )
             plt.ylabel('Time', fontsize = 20 )
             plt.axis('square')
+            plt.legend()
+                
         
         if self.dimension == 3:
             ax = plt.axes(projection='3d')
@@ -253,21 +264,21 @@ if __name__ == "__main__":
 
     tic = time.time()
 
-    c = CausalSet(sprinkling_density = 0.01,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                  dimension = 4, 
-                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
+    c = CausalSet(sprinkling_density = 10,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+                  dimension = 2, 
+                  BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
                   T = 5)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()
     # print(c.ElementList)
     # print('Casual Matrix: \n', c.CausalMatrix)
-    c.find_linkmatrix()
+    #c.find_linkmatrix()
     print('Link Matrix: \n', c.LinkMatrix)
     #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
     print('Number of Points:', len(c.ElementList))
     print(f'Spacetime Volume is {c.SpacetimeVolume}')
     print(c.find_molecules())
-    #c.visualisation()
+    c.visualisation()
     toc = time.time() 
 
     print(f'Time elapsed is {toc - tic}')
