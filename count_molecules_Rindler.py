@@ -9,7 +9,7 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    rho_array = [200] 
+    rho_array = [100, 300, 1000, 3000] 
     d = np.load('H_i_Rindler.npy', allow_pickle=True).item()
     n_dict = np.load('H_i_n_Rindler.npy', allow_pickle=True).item()
 
