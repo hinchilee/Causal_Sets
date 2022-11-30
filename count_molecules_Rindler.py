@@ -9,13 +9,13 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    rho_array = [100, 300, 1000, 3000] 
+    rho_array = [200] 
     d = np.load('H_i_Rindler.npy', allow_pickle=True).item()
     n_dict = np.load('H_i_n_Rindler.npy', allow_pickle=True).item()
 
     for rho in rho_array:
         # Number of realisations
-        n = 10
+        n = 20
         if rho not in d.keys():
             d[rho] = []
             n_dict[rho] = 0
@@ -41,6 +41,10 @@ def main():
     print(n_dict)
     np.save('H_i_Rindler.npy', d)
     np.save('H_i_n_Rindler.npy', n_dict)
+
+def reset(): 
+    np.save('H_i_Rindler.npy', {})
+    np.save('H_i_n_Rindler.npy', {})
 
 if __name__ == "__main__":
     main()

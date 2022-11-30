@@ -81,6 +81,7 @@ class CausalSet(object):
         A = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
         for j in range(len(self.ElementList)): 
             for i in reversed(range(j)): 
+            #for i in range(len(self.ElementList)): 
                 if A[i,j] == 0:
                     if spacetime_interval(self.ElementList[i].coordinates, self.ElementList[j].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
                         A[i,j] = 1 
@@ -262,25 +263,26 @@ if __name__ == "__main__":
       
 
     #def main():     
-    np.random.seed(0)
+    np.random.seed(1)
 
     tic = time.time()
 
-    c = CausalSet(sprinkling_density = 10,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                  dimension = 2, 
-                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
+    c = CausalSet(sprinkling_density = 300,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
+                  dimension = 4, 
+                  BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
                   T = 5)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()
     # print(c.ElementList)
-    # print('Casual Matrix: \n', c.CausalMatrix)
+    print('Casual Matrix: \n', c.CausalMatrix)
+    C2 = c.CausalMatrix
     #c.find_linkmatrix()
     #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
     print('Number of Points:', len(c.ElementList))
     print(f'Spacetime Volume is {c.SpacetimeVolume}')
     print(c.find_molecules())
     #print('Link Matrix: \n', c.LinkMatrix)
-    c.visualisation()
+    #c.visualisation()
     toc = time.time() 
 
     print(f'Time elapsed is {toc - tic}')
