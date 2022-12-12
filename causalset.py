@@ -49,8 +49,8 @@ class CausalSet(object):
                 raise ValueError('Please enter a value for T when sprinkling into a Dynamic BH!')
             if self.sprinkling == 'Uniform':
                 spaceBounds = np.array([-self.T-2, self.T+2])
-                timeBounds = np.array([self.T-1, self.T+1])
-                self.SpacetimeVolume = ((2*(self.T+2))**(self.dimension - 1))*2
+                timeBounds = np.array([self.T-3, self.T])
+                self.SpacetimeVolume = ((3*(self.T+2))**(self.dimension - 1))*2
                 AveragePoints = self.SpacetimeVolume*(kwargs.get('sprinkling_density'))
                 boundsArray = np.concatenate((timeBounds, np.tile(spaceBounds, self.dimension - 1)),axis = 0).reshape(self.dimension, 2)
                 sprinkledcoords = Sprinkling_Uniform(dimension = self.dimension, 
@@ -61,7 +61,7 @@ class CausalSet(object):
             elif self.sprinkling == 'Tube': 
                 ndimension = self.dimension - 1
                 T_max = self.T  
-                T_min = self.T - 1
+                T_min = self.T - 3
                 R_max = self.T + 1 
                 R_min = self.T *0.7
                 self.SpacetimeVolume = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
@@ -237,31 +237,44 @@ class CausalSet(object):
         
         elif self.BHtype == 'Dynamic': 
             diffarray = np.array([ele.coordinates[0] for ele in self.ElementList]) - self.T
-            cutoffindex = np.min(np.where(diffarray > 0 ))
+            try: 
+                cutoffindex = np.min(np.where(diffarray > 0 ))
+                #Crop Link matrix so that only elements before sigmaT are included 
+                self.croppedLinkMatrix = self.LinkMatrix[:cutoffindex, :cutoffindex]
+                
+            except ValueError: 
+                self.croppedLinkMatrix = self.LinkMatrix
             
-            #Crop Link matrix so that only elements before sigmaT are included 
-            self.croppedLinkMatrix = self.LinkMatrix[:cutoffindex, :cutoffindex]
             for i in range(len(self.croppedLinkMatrix)):
                 links = sum(self.croppedLinkMatrix[i])
                 if links == 0:
                     maximals.append(i)
                 elif links == 1:
                     maximal_but_ones.append(i)
+                        
+
+                
+                
             
         H_array = []
-
+        min_time = 10000
         if self.BHtype == 'Rindler':
+            
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
                     for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]: 
                             count += 1 
+                            if min_time > (self.ElementList[minimal_link].coordinates[0] - self.T): 
+                                min_time = (self.ElementList[minimal_link].coordinates[0] - self.T)
 
                     while len(H_array) < count:
                         H_array.append(0)
                     if count > 0: 
                         H_array[count - 1] += 1
+            
+            
                     
         elif self.BHtype == 'Dynamic':
             for maximal in maximals:
@@ -270,11 +283,15 @@ class CausalSet(object):
                     for minimal_link in set(np.where(self.croppedLinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates): 
                             count += 1 
+                            if min_time > (self.ElementList[minimal_link].coordinates[0] - self.T): 
+                                min_time = (self.ElementList[minimal_link].coordinates[0] - self.T)
 
                     while len(H_array) < count:
                         H_array.append(0)
                     if count > 0: 
                         H_array[count - 1] += 1
+        
+        print(f'The minimum time of a molecule is {min_time}')
         
         return H_array
     
@@ -282,15 +299,16 @@ if __name__ == "__main__":
       
 
     #def main():     
-    np.random.seed(13)
+    np.random.seed(12)
 
     tic = time.time()
 
-    c = CausalSet(sprinkling_density = 50,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
-                  dimension = 2, 
+
+    c = CausalSet(sprinkling_density = 0.2,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
+                  dimension = 4, 
                   BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
-                  sprinkling = 'Tube',          # 'Uniform' or 'Tube' for 'Dynamic'BH
-                  T = 5)                        # T is only needed when BHtype = 'Dynamic'
+                  sprinkling = 'Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
+                  T = 3)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()
     # print(c.ElementList)
@@ -300,9 +318,9 @@ if __name__ == "__main__":
     #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
     print('Number of Points:', len(c.ElementList))
     print(f'Spacetime Volume is {c.SpacetimeVolume}')
-    #print(c.find_molecules())
+    print(c.find_molecules())
     #print('Link Matrix: \n', c.LinkMatrix)
-    c.visualisation()
+    #c.visualisation()
     
     toc = time.time() 
 
