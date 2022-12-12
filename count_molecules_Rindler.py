@@ -2,6 +2,7 @@ import numpy as np
 from causalset import CausalSet
 import time
 import multiprocessing as mp
+import json
 
 def count_chains(N):
     return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Rindler').find_molecules()
@@ -10,28 +11,32 @@ def main():
     tic = time.time()
 
     rho_array = [100, 300, 1000, 3000] 
-    d = np.load('H_i_Rindler.npy', allow_pickle=True).item()
-    n_dict = np.load('H_i_n_Rindler.npy', allow_pickle=True).item()
+    d = {}
+    with open('H_i_Rindler.json') as f:
+        d = json.load(f)
+    n_dict = {}
+    with open('H_i_n_Rindler.json') as f:
+        n_dict = json.load(f)
 
     for rho in rho_array:
         # Number of realisations
-        n = 20
-        if rho not in d.keys():
-            d[rho] = []
-            n_dict[rho] = 0
-        n_dict[rho] += n
+        n = 10
+        if str(rho) not in d.keys():
+            d[str(rho)] = []
+            n_dict[str(rho)] = 0
+        n_dict[str(rho)] += n
 
         pool = mp.Pool(mp.cpu_count() - 8)
         H_counts = pool.map(count_chains, [rho] * n)
         pool.close()
 
-        max_H_i = max([len(H) for H in H_counts] + [len(d[rho])])
-        while len(d[rho]) < max_H_i:
-            d[rho].append(0)
+        max_H_i = max([len(H) for H in H_counts] + [len(d[str(rho)])])
+        while len(d[str(rho)]) < max_H_i:
+            d[str(rho)].append(0)
         for i in range(max_H_i):
             for H in H_counts:
                 if len(H) > i:
-                    d[rho][i] += H[i]
+                    d[str(rho)][i] += H[i]
 
         print(rho)
         toc = time.time()
@@ -39,12 +44,17 @@ def main():
     
     print(d)
     print(n_dict)
-    np.save('H_i_Rindler.npy', d)
-    np.save('H_i_n_Rindler.npy', n_dict)
+    with open('H_i_Rindler.json', 'w', encoding='utf-8') as f:
+        json.dump(d, f, ensure_ascii=False, indent=4)
+    with open('H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
+        json.dump(n_dict, f, ensure_ascii=False, indent=4)
+
 
 def reset(): 
-    np.save('H_i_Rindler.npy', {})
-    np.save('H_i_n_Rindler.npy', {})
+    with open('H_i_Rindler.json', 'w', encoding='utf-8') as f:
+        json.dump({}, f, ensure_ascii=False, indent=4)
+    with open('H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
+        json.dump({}, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     main()
