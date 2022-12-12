@@ -76,9 +76,18 @@ def frustum_curved_surfaceaarea(h1, h2):
 def two_torus_surfacearea(R, r):
     return 4*np.pi**2*r*R
 
+def n_ball_volume(n, r):
+    if n == 0: 
+        return 1 
+    elif n == 1: 
+        return 2*r
+    else: 
+        return (2*r*r*np.pi/n)*n_ball_volume(n-2, r)
+    
 if __name__ == "__main__":
     # H_arr = np.array([2,1])
     # print(find_entropy(H_arr))
     # print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))
-    print(theoretical_a4_flat(1))  # Does indeed yield Barton et al 2019 (3.16), should be correct
-    print(frustum_curved_surfaceaarea(3, 5))
+    #print(theoretical_a4_flat(1))  # Does indeed yield Barton et al 2019 (3.16), should be correct
+    #print(frustum_curved_surfaceaarea(3, 5))
+    print(n_ball_volume(3, 1))

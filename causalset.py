@@ -13,9 +13,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import poisson 
 from scipy.optimize import fsolve
 from scipy.special import gamma 
-from causalsetfunctions import spacetime_interval, inside_horizon
+from causalsetfunctions import spacetime_interval, inside_horizon, n_ball_volume
 from causalEvent import CausalEvent
-from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone
+from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone, Sprinkling_Tube
 
 class CausalSet(object): 
     
@@ -23,13 +23,14 @@ class CausalSet(object):
         
         self.dimension = kwargs.get('dimension', 2)
         self.BHtype = kwargs.get('BHtype')
+        self.sprinkling = kwargs.get('sprinkling')
         self.ElementList: list (CausalEvent) = list() 
         
         #Sprinkling and sorting by time coordinate 
         
         # FOR RINDLER HORIZON  
         if self.BHtype == 'Rindler':
-            # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
+            #sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
             # Normalised Sprinkling Volume to 1!!! Important to find out <N> then Poisson, not get N from Poisson then scale to area 
             
             self.SpacetimeVolume = 1
@@ -46,20 +47,37 @@ class CausalSet(object):
                 self.T = kwargs.get('T')
             except: 
                 raise ValueError('Please enter a value for T when sprinkling into a Dynamic BH!')
-            spaceBounds = np.array([-self.T-2, self.T+2])
-            timeBounds = np.array([self.T-1, self.T+1])
-            self.SpacetimeVolume = ((2*(self.T+2))**(self.dimension - 1))*2
-            AveragePoints = self.SpacetimeVolume*(kwargs.get('sprinkling_density'))
-            boundsArray = np.concatenate((timeBounds, np.tile(spaceBounds, self.dimension - 1)),axis = 0).reshape(self.dimension, 2)
-            sprinkledcoords = Sprinkling_Uniform(dimension = self.dimension, 
-                                                number_of_points = poisson.rvs(AveragePoints),
-                                                bounds = boundsArray) 
-            self.wrapAroundLength = 2*(self.T+2)
+            if self.sprinkling == 'Uniform':
+                spaceBounds = np.array([-self.T-2, self.T+2])
+                timeBounds = np.array([self.T-1, self.T+1])
+                self.SpacetimeVolume = ((2*(self.T+2))**(self.dimension - 1))*2
+                AveragePoints = self.SpacetimeVolume*(kwargs.get('sprinkling_density'))
+                boundsArray = np.concatenate((timeBounds, np.tile(spaceBounds, self.dimension - 1)),axis = 0).reshape(self.dimension, 2)
+                sprinkledcoords = Sprinkling_Uniform(dimension = self.dimension, 
+                                                    number_of_points = poisson.rvs(AveragePoints),
+                                                    bounds = boundsArray) 
+                self.wrapAroundLength = 2*(self.T+2)
+                
+            elif self.sprinkling == 'Tube': 
+                ndimension = self.dimension - 1
+                T_max = self.T  
+                T_min = self.T - 1
+                R_max = self.T + 1 
+                R_min = self.T *0.7
+                self.SpacetimeVolume = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
+                AveragePoints = self.SpacetimeVolume*(kwargs.get('sprinkling_density'))
+                sprinkledcoords = Sprinkling_Tube(dimension = self.dimension, 
+                                                    number_of_points = poisson.rvs(AveragePoints),
+                                                     R_min = R_min, R_max = R_max, T_min = T_min, T_max = T_max)
+                self.wrapAroundLength = 2*R_max
+           
         
         elif self.BHtype == 'Empty':
             
             self.SpacetimeVolume = 1
-            sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2),number_of_points = poisson.rvs(kwargs.get('sprinkling_density')), bounds = kwargs.get('bounds', np.array([[-0.5,0.5] for i in range(kwargs.get('dimension', 2))])))
+            #sprinkledcoords = Sprinkling_Uniform(dimension = kwargs.get('dimension', 2),number_of_points = poisson.rvs(kwargs.get('sprinkling_density')), bounds = kwargs.get('bounds', np.array([[-0.5,0.5] for i in range(kwargs.get('dimension', 2))])))
+            #sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = poisson.rvs(kwargs.get('sprinkling_density')))
+            sprinkledcoords = Sprinkling_Tube(dimension = self.dimension, number_of_points = poisson.rvs(kwargs.get('sprinkling_density')), R_min = 0.5, R_max = 1, T_min = 0, T_max = 1)
             self.wrapAroundLength = 1
             
         else: 
@@ -124,6 +142,7 @@ class CausalSet(object):
         
         if self.dimension == 3:
             ax = plt.axes(projection='3d')
+            # ?, t, ?
             ax.scatter3D(coordinates[:, 1], coordinates[:, 0], coordinates[:, 2])
             print(self.LinkMatrix)
             ax.set_xlabel('x')
@@ -263,26 +282,28 @@ if __name__ == "__main__":
       
 
     #def main():     
-    np.random.seed(1)
+    np.random.seed(13)
 
     tic = time.time()
 
-    c = CausalSet(sprinkling_density = 300,    # 0.1-1 for Dynamic, 1k - 10k for Rindler, Empty 
-                  dimension = 4, 
-                  BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
+    c = CausalSet(sprinkling_density = 50,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
+                  dimension = 2, 
+                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
+                  sprinkling = 'Tube',          # 'Uniform' or 'Tube' for 'Dynamic'BH
                   T = 5)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()
     # print(c.ElementList)
-    print('Casual Matrix: \n', c.CausalMatrix)
-    C2 = c.CausalMatrix
+    #print('Casual Matrix: \n', c.CausalMatrix)
+    #C2 = c.CausalMatrix
     #c.find_linkmatrix()
     #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
     print('Number of Points:', len(c.ElementList))
     print(f'Spacetime Volume is {c.SpacetimeVolume}')
-    print(c.find_molecules())
+    #print(c.find_molecules())
     #print('Link Matrix: \n', c.LinkMatrix)
-    #c.visualisation()
+    c.visualisation()
+    
     toc = time.time() 
 
     print(f'Time elapsed is {toc - tic}')

@@ -62,10 +62,43 @@ def Sprinkling_Bicone(dimension = 2, number_of_points = 10):
     
     return Coords
 
+def Sprinkling_Tube(dimension = 2, number_of_points = 10, R_min = 0.3, R_max = 1, T_min = 0, T_max = 1): 
+    
+    Time = list() 
+    Space = list() 
+    x_min = (R_min/ R_max)**dimension 
+    for i in range(number_of_points): 
+        x = np.random.uniform(0,1)
+        xprime = (1-x_min)*x + x_min
+        t2 = np.random.uniform(0,1)
+        t = (T_max-T_min)*t2 + T_min
+        R_t = R_max* xprime ** (1/dimension)
+        v_unnormalised = np.random.normal(0, 1, size = dimension - 1)
+        
+        def normalise(v): 
+            norm = np.linalg.norm(v)
+            if norm == 0: 
+                return v 
+            return v/norm
+        
+        v = normalise(v_unnormalised)
+        k = np.random.uniform(0,1)
+        v_f = v*R_t#*k**(1/(dimension - 1))
+        #print(k**(1/(dimension - 1)))
+        Space.append(v_f)
+        Time.append(t)
+        
+    Time = np.array(Time)
+    Space = np.array(Space)
+    Coords = np.concatenate((Time.reshape(number_of_points, 1), Space), axis = 1)    
+    #print(Coords)
+    return Coords
+    
+
 
 if __name__ == "__main__":
     np.random.seed(11)
-    a= Sprinkling_Uniform(dimension = 3, 
+    a= Sprinkling_Tube(dimension = 3, 
                           bounds = np.array([[-10,10],
                                              [-10,10], 
                                              [-10,10]]))
