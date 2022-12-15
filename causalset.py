@@ -116,15 +116,15 @@ class CausalSet(object):
     def visualisation(self):
         coordinates = np.array([x.coordinates for x in self.ElementList])
 
-        if self.dimension == 2:
+        if self.dimension == 3:
             if self.LinkMatrix is None:
                 self.find_linkmatrix()
             plt.figure(figsize= (12,8))
             plt.scatter(coordinates[:, 1], coordinates[:, 0], s = 70, c = 'black')
-            for i in range(len(self.LinkMatrix)):
-                for j in range(len(self.LinkMatrix[i])):
-                    if self.LinkMatrix[i][j] == 1:
-                        plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'royalblue',linewidth = 0.8)
+            # for i in range(len(self.LinkMatrix)):
+            #     for j in range(len(self.LinkMatrix[i])):
+            #         if self.LinkMatrix[i][j] == 1:
+            #             plt.plot([coordinates[i][1], coordinates[j][1]], [coordinates[i][0], coordinates[j][0]], color = 'royalblue',linewidth = 0.8)
             if self.BHtype == 'Rindler': 
                 xlinspace = np.linspace(-0.5,0.5, 100)
                 plt.plot(xlinspace, xlinspace, label = 'Rindler Horizon', c = 'red' )
@@ -140,7 +140,7 @@ class CausalSet(object):
             plt.legend()
                 
         
-        if self.dimension == 3:
+        if self.dimension == 4:
             ax = plt.axes(projection='3d')
             # ?, t, ?
             ax.scatter3D(coordinates[:, 1], coordinates[:, 0], coordinates[:, 2])
@@ -266,8 +266,8 @@ class CausalSet(object):
                     for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]: 
                             count += 1 
-                            if min_time > (self.ElementList[minimal_link].coordinates[0] - self.T): 
-                                min_time = (self.ElementList[minimal_link].coordinates[0] - self.T)
+                            min_time = min(min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
+                            
 
                     while len(H_array) < count:
                         H_array.append(0)
@@ -283,8 +283,7 @@ class CausalSet(object):
                     for minimal_link in set(np.where(self.croppedLinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates): 
                             count += 1 
-                            if min_time > (self.ElementList[minimal_link].coordinates[0] - self.T): 
-                                min_time = (self.ElementList[minimal_link].coordinates[0] - self.T)
+                            min_time = min(min_time, (self.ElementList[minimal_link].coordinates[0] - self.T))
 
                     while len(H_array) < count:
                         H_array.append(0)
@@ -299,15 +298,15 @@ if __name__ == "__main__":
       
 
     #def main():     
-    np.random.seed(12)
+    np.random.seed(12)  
 
     tic = time.time()
 
 
-    c = CausalSet(sprinkling_density = 0.2,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
-                  dimension = 4, 
+    c = CausalSet(sprinkling_density = 100,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
+                  dimension = 3, 
                   BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
-                  sprinkling = 'Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
+                  sprinkling = 'Tube',          # 'Uniform' or 'Tube' for 'Dynamic'BH
                   T = 3)                        # T is only needed when BHtype = 'Dynamic'
 
     #c.visualisation()

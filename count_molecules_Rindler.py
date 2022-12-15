@@ -3,8 +3,15 @@ from causalset import CausalSet
 import time
 import multiprocessing as mp
 import json
+import sys
+
+path = ''
+if len(sys.argv) > 1:
+    path = sys.argv[1] + '/'
 
 def count_chains(N):
+    #np.random.seed(i)
+    #i += 1
     return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Rindler').find_molecules()
 
 def main():
@@ -12,21 +19,22 @@ def main():
 
     rho_array = [100, 300, 1000, 3000] 
     d = {}
-    with open('H_i_Rindler.json') as f:
+    with open(path + 'H_i_Rindler.json') as f:
         d = json.load(f)
     n_dict = {}
-    with open('H_i_n_Rindler.json') as f:
+    with open(path + 'H_i_n_Rindler.json') as f:
         n_dict = json.load(f)
 
+    print(mp.cpu_count())
     for rho in rho_array:
         # Number of realisations
-        n = 10
+        n = 20
         if str(rho) not in d.keys():
             d[str(rho)] = []
             n_dict[str(rho)] = 0
         n_dict[str(rho)] += n
 
-        pool = mp.Pool(mp.cpu_count() - 8)
+        pool = mp.Pool(mp.cpu_count() - 2)
         H_counts = pool.map(count_chains, [rho] * n)
         pool.close()
 
@@ -57,4 +65,6 @@ def reset():
         json.dump({}, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
+    
+    i = 0
     main()

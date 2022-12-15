@@ -4,13 +4,28 @@ from causalsetfunctions import find_entropy, find_entropy_1molecule, convert_Har
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+import json
+import sys
+
+path = ''
+if len(sys.argv) > 1:
+    path = sys.argv[1] + '/'
 
 def linear(x, m, c): 
     return m*x + c 
 
-rho_array = [100, 500, 1000, 5000]
+d = {}
+with open(path + 'H_i_Rindler.json') as f:
+    d = json.load(f)
+n_dict = {}
+with open(path + 'H_i_n_Rindler.json') as f:
+    n_dict = json.load(f)
 
-df = pd.read_csv('H_iRindler.csv', index_col=0)
+rho_array = [int(ele) for ele in d.keys()] #[100, 500, 1000, 5000] 
+
+d_normalised = dict() 
+for rho in rho_array: 
+    d_normalised[rho] = [ele/n_dict[str(rho)] for ele in d[str(rho)]]
 
 # This script creates a plot and fits parameters for Rindler Horizon
 # that checks that the scaling power is 1/2
@@ -19,7 +34,7 @@ df = pd.read_csv('H_iRindler.csv', index_col=0)
 # Obtaining entropy assuming counting the full range of moleules  
 
 plt.figure(figsize = (12,8))
-S = [find_entropy(df[str(rho)].to_list()) for rho in rho_array]
+S = [find_entropy(d_normalised[rho]) for rho in rho_array]
 plt.plot(rho_array, S, '.')
 
 params, cov = curve_fit(linear, np.log10(rho_array), np.log10(S))
@@ -44,7 +59,7 @@ plt.clf()
 # Obtaining entropy assuming counting 1-molecules only 
 
 plt.figure(figsize = (12,8))
-S = [find_entropy_1molecule(convert_Harray_1molecule(df[str(rho)])) for rho in rho_array]
+S = [find_entropy_1molecule(convert_Harray_1molecule(d_normalised[rho])) for rho in rho_array]
 plt.plot(rho_array, S, '.')
 
 params, cov = curve_fit(linear, np.log10(rho_array), np.log10(S))
