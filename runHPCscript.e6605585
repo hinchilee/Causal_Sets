@@ -1,0 +1,24 @@
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/rds/general/user/hcl19/home/anaconda3/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/rds/general/user/hcl19/home/anaconda3/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/rds/general/user/hcl19/home/Causal_Sets/count_molecules_Rindler.py", line 14, in count_chains
+    np.random.seed(i)
+UnboundLocalError: local variable 'i' referenced before assignment
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/rds/general/user/hcl19/home/Causal_Sets/count_molecules_Rindler.py", line 69, in <module>
+    main()
+  File "/rds/general/user/hcl19/home/Causal_Sets/count_molecules_Rindler.py", line 39, in main
+    H_counts = pool.map(count_chains, [rho] * n)
+  File "/rds/general/user/hcl19/home/anaconda3/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/rds/general/user/hcl19/home/anaconda3/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+UnboundLocalError: local variable 'i' referenced before assignment

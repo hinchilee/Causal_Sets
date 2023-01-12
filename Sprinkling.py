@@ -72,7 +72,7 @@ def Sprinkling_Tube(dimension = 2, number_of_points = 10, R_min = 0.3, R_max = 1
         xprime = (1-x_min)*x + x_min
         t2 = np.random.uniform(0,1)
         t = (T_max-T_min)*t2 + T_min
-        R_t = R_max* xprime ** (1/dimension-1)
+        R_t = R_max* xprime ** (1/(dimension-1))
         v_unnormalised = np.random.normal(0, 1, size = dimension - 1)
         
         def normalise(v): 

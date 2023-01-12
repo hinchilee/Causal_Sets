@@ -4,14 +4,14 @@ import time
 import multiprocessing as mp
 import json
 import sys
+import os
 
 path = ''
 if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
 def count_chains(N):
-    #np.random.seed(i)
-    #i += 1
+    np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
     return CausalSet(sprinkling_density=N, dimension=4, BHtype = 'Rindler').find_molecules()
 
 def main():
@@ -25,16 +25,17 @@ def main():
     with open(path + 'H_i_n_Rindler.json') as f:
         n_dict = json.load(f)
 
-    print(mp.cpu_count())
+    print('CPU count:', mp.cpu_count())
     for rho in rho_array:
         # Number of realisations
-        n = 20
+        n = mp.cpu_count()
         if str(rho) not in d.keys():
             d[str(rho)] = []
             n_dict[str(rho)] = 0
         n_dict[str(rho)] += n
 
-        pool = mp.Pool(mp.cpu_count() - 2)
+        pool = mp.Pool(mp.cpu_count() - 8)
+        i = 0
         H_counts = pool.map(count_chains, [rho] * n)
         pool.close()
 
@@ -52,19 +53,17 @@ def main():
     
     print(d)
     print(n_dict)
-    with open('H_i_Rindler.json', 'w', encoding='utf-8') as f:
+    with open(path + 'H_i_Rindler.json', 'w', encoding='utf-8') as f:
         json.dump(d, f, ensure_ascii=False, indent=4)
-    with open('H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
+    with open(path + 'H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
         json.dump(n_dict, f, ensure_ascii=False, indent=4)
 
 
 def reset(): 
-    with open('H_i_Rindler.json', 'w', encoding='utf-8') as f:
+    with open(path + 'H_i_Rindler.json', 'w', encoding='utf-8') as f:
         json.dump({}, f, ensure_ascii=False, indent=4)
-    with open('H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
+    with open(path + 'H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
         json.dump({}, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
-    
-    i = 0
     main()
