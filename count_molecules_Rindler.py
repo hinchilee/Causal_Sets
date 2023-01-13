@@ -33,19 +33,8 @@ def main():
             n_dict[str(rho)] = 0
         n_dict[str(rho)] += n
         
-        
-        ### THIS NEEDS TO BE REMOVED SINCE PARALLELISATION IS INSIDE THE FINDMOLECULES FUNCTION itself
-        # pool = mp.Pool(mp.cpu_count() - 8)
-        # i = 0
-        # H_counts = pool.map(count_chains, [rho] * n)
-        # pool.close()
-        
-        ### DO A FOR LOOP INSTEAD 
-        
-        # for i in range(n): #number of realisations 
-        #     H_counts = count_chains(rho)
-        # ... etc
-        
+        H_counts = [count_chains(rho) for _i in range(n)]
+
         max_H_i = max([len(H) for H in H_counts] + [len(d[str(rho)])])
         while len(d[str(rho)]) < max_H_i:
             d[str(rho)].append(0)
