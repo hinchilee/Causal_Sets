@@ -17,7 +17,7 @@ def count_chains(N):
 def main():
     tic = time.time()
 
-    rho_array = [100, 300, 1000, 3000] 
+    rho_array = [1000] 
     d = {}
     with open(path + 'H_i_Rindler.json') as f:
         d = json.load(f)
@@ -25,20 +25,27 @@ def main():
     with open(path + 'H_i_n_Rindler.json') as f:
         n_dict = json.load(f)
 
-    print('CPU count:', mp.cpu_count())
     for rho in rho_array:
         # Number of realisations
-        n = mp.cpu_count()
+        n = 3
         if str(rho) not in d.keys():
             d[str(rho)] = []
             n_dict[str(rho)] = 0
         n_dict[str(rho)] += n
-
-        pool = mp.Pool(mp.cpu_count() - 8)
-        i = 0
-        H_counts = pool.map(count_chains, [rho] * n)
-        pool.close()
-
+        
+        
+        ### THIS NEEDS TO BE REMOVED SINCE PARALLELISATION IS INSIDE THE FINDMOLECULES FUNCTION itself
+        # pool = mp.Pool(mp.cpu_count() - 8)
+        # i = 0
+        # H_counts = pool.map(count_chains, [rho] * n)
+        # pool.close()
+        
+        ### DO A FOR LOOP INSTEAD 
+        
+        # for i in range(n): #number of realisations 
+        #     H_counts = count_chains(rho)
+        # ... etc
+        
         max_H_i = max([len(H) for H in H_counts] + [len(d[str(rho)])])
         while len(d[str(rho)]) < max_H_i:
             d[str(rho)].append(0)
@@ -57,7 +64,6 @@ def main():
         json.dump(d, f, ensure_ascii=False, indent=4)
     with open(path + 'H_i_n_Rindler.json', 'w', encoding='utf-8') as f:
         json.dump(n_dict, f, ensure_ascii=False, indent=4)
-
 
 def reset(): 
     with open(path + 'H_i_Rindler.json', 'w', encoding='utf-8') as f:

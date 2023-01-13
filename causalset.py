@@ -16,6 +16,7 @@ from scipy.special import gamma
 from causalsetfunctions import spacetime_interval, inside_horizon, n_ball_volume
 from causalEvent import CausalEvent
 from Sprinkling import Sprinkling_Uniform, Sprinkling_Bicone, Sprinkling_Tube
+import multiprocessing as mp
 
 class CausalSet(object): 
     
@@ -91,26 +92,41 @@ class CausalSet(object):
     
         self.LinkMatrix = None
         
-        self.CausalMatrix = self.generate_CausalMatrix()
+        self.generate_CausalMatrix()
         
     def generate_CausalMatrix(self): 
         # Induce causal relations by transitivity
         
-        A = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
-        for j in range(len(self.ElementList)): 
-            for i in reversed(range(j)): 
-            #for i in range(len(self.ElementList)): 
-                if A[i,j] == 0:
-                    if spacetime_interval(self.ElementList[i].coordinates, self.ElementList[j].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
-                        A[i,j] = 1 
-                        #Then inherit i's past 
-                        A[:,j] = np.bitwise_or(A[:,j], A[:,i])
-                    else: 
-                        pass 
-                else: 
-                    pass
-        return A 
+        # A = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
+        # for j in range(len(self.ElementList)): 
+        #     for i in reversed(range(j)): 
+        #         if A[i,j] == 0:
+        #             if spacetime_interval(self.ElementList[i].coordinates, self.ElementList[j].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
+        #                 A[i,j] = 1 
+        #                 #Then inherit i's past 
+        #                 A[:,j] = np.bitwise_or(A[:,j], A[:,i])
+        #             else: 
+        #                 pass 
+        #         else: 
+        #             pass
+        # self.CausalMatrix = A
     
+        self.cores = mp.cpu_count()-4
+        print(f'Cores: {self.cores}')
+        self.CausalMatrix = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
+        with mp.Pool(self.cores) as pool:
+            for resultrow, result in enumerate(pool.map(self.causalmatrixpooltask, range(len(self.ElementList)))):
+                self.CausalMatrix[resultrow,(resultrow+1):] = result
+                
+    def causalmatrixpooltask(self, i): 
+        res = list() 
+        for j in range(i+1, len(self.ElementList)):
+            if spacetime_interval(self.ElementList[i].coordinates, self.ElementList[j].coordinates, self.BHtype, self.wrapAroundLength) < 0: 
+                res.append(1)
+            else: 
+                res.append(0)
+        return res 
+        
     #VISUALIATION 
     
     def visualisation(self):
@@ -157,43 +173,26 @@ class CausalSet(object):
         #L_ij = 1 if e_i <* e_j; 0 otherwise, where <* is a link
         #L = C - f(C2)
         if self.LinkMatrix is None: 
-            LinkMatrix: np.array = self.CausalMatrix - np.matmul(self.CausalMatrix, self.CausalMatrix).clip(0, 1)
+            #LinkMatrix: np.array = self.CausalMatrix - np.matmul(self.CausalMatrix, self.CausalMatrix).clip(0, 1)
             
-            # LinkMatrix = np.zeros(self.CausalMatrix.shape, dtype = int)
-            # n = len(self.ElementList)
-            
-            # for i in range(n): 
-            #     for j in range(i+1, n): 
-            #         # 1. Check Cij = 1 
-            #         if self.CausalMatrix[i][j] == 1: 
-            #             # 2. Check C^2_ij = 0 
-            #             if np.sum(self.CausalMatrix[i,:]*self.CausalMatrix[:, j]) == 0: 
-            #                 LinkMatrix[i][j] = 1
-                    
-            #             else:
-            #                 LinkMatrix[i][j] = 0
-            #         else: 
-            #             LinkMatrix[i][j] = 0       
-            
-            # LinkMatrix = np.zeros(self.CausalMatrix.shape, dtype = int)
-            # n = len(self.ElementList)
-            
-            # for i in range(n): 
-            #     for j in range(i+1, n): 
-            #         # 1. Check Cij = 1 
-            #         if self.CausalMatrix[i][j] == 1: 
-            #             # 2. Check C^2_ij = 0 
-            #             for k in range(n):
-            #                   if self.CausalMatrix[i][k]*self.CausalMatrix[k][j] == 0: 
-            #                       pass 
-            #                   else:
-            #                       break
-            #                   LinkMatrix[i][j] = 1
-            #         else: 
-            #             LinkMatrix[i][j] = 0        
-            
-            self.LinkMatrix = LinkMatrix
-        
+            self.LinkMatrix = np.zeros(self.CausalMatrix.shape, dtype = int)
+            with mp.Pool(self.cores) as pool:
+                for resultrow, result in enumerate(pool.map(self.linkmatrixpooltask, range(len(self.ElementList)))):
+                    self.LinkMatrix[resultrow,(resultrow+1):] = result
+    
+    def linkmatrixpooltask(self, i):
+        res = list()
+        for j in range(i+1, len(self.ElementList)): 
+            # 1. Check Cij = 1 
+            if self.CausalMatrix[i][j] == 1: 
+                # 2. Check C^2_ij = 0 
+                if np.sum(self.CausalMatrix[i,:]*self.CausalMatrix[:, j]) == 0: 
+                    res.append(1)
+                else:
+                    res.append(0)
+            else: 
+                res.append(0)
+        return res 
     
     # CALCULATING MYRHEIM_MEYER DIMENSION 
     
@@ -251,11 +250,7 @@ class CausalSet(object):
                     maximals.append(i)
                 elif links == 1:
                     maximal_but_ones.append(i)
-                        
 
-                
-                
-            
         H_array = []
         min_time = 10000
         if self.BHtype == 'Rindler':
@@ -295,42 +290,44 @@ class CausalSet(object):
     
 if __name__ == "__main__":
     
-    #def main():     
-    np.random.seed(12)
-
-    tic = time.time()
-
-
-    c = CausalSet(sprinkling_density = 0.2,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
-                  dimension = 4, 
-                  BHtype = 'Dynamic',           # 'Rindler', 'Dynamic', 'Empty' 
-                  sprinkling = 'Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
-                  T = 3)                        # T is only needed when BHtype = 'Dynamic'
-
-    #c.visualisation()
-    # print(c.ElementList)
-    #print('Casual Matrix: \n', c.CausalMatrix)
-    #C2 = c.CausalMatrix
-    #c.find_linkmatrix()
-    #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-    print('Number of Points:', len(c.ElementList))
-    print(f'Spacetime Volume is {c.SpacetimeVolume}')
-    print(c.find_molecules())
-    #print('Link Matrix: \n', c.LinkMatrix)
-    #c.visualisation()
+    def main():     
+        np.random.seed(12)
     
-    toc = time.time() 
-
-    print(f'Time elapsed is {toc - tic}')
+        tic = time.time()
     
-
-    # cProfile.run("main()", "output.dat")
     
-    # with open("output_time.txt", 'w') as f: 
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("time").print_stats() 
+        c = CausalSet(sprinkling_density = 2000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty 
+                      dimension = 4, 
+                      BHtype = 'Rindler',           # 'Rindler', 'Dynamic', 'Empty' 
+                      sprinkling = 'Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
+                      T = 3)                        # T is only needed when BHtype = 'Dynamic'
+    
+        #c.visualisation()
+        #print(c.ElementList)
+        #print('Casual Matrix: \n', c.CausalMatrix)
+        #C2 = c.CausalMatrix
+        #c.find_linkmatrix()
+        #print('MM dimension is', c.find_Myhreim_Meyer_dimension())
         
-    # with open("output_calls.txt", "w") as f: 
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("calls").print_stats()
+        print('Number of Points:', len(c.ElementList))
+        print(f'Spacetime Volume is {c.SpacetimeVolume}')
+        print(c.find_molecules())
+        
+        #print('Link Matrix: \n', c.LinkMatrix)
+        #c.visualisation()
+        
+        toc = time.time() 
+    
+        print(f'Time elapsed is {toc - tic}')
+    
+
+    cProfile.run("main()", "output.dat")
+    
+    with open("output_time.txt", 'w') as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("time").print_stats() 
+        
+    with open("output_calls.txt", "w") as f: 
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("calls").print_stats()
         
