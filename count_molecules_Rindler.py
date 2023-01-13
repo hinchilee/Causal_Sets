@@ -18,10 +18,8 @@ def main():
     tic = time.time()
 
     rho_array = [1000] 
-    d = {}
     with open(path + 'H_i_Rindler.json') as f:
         d = json.load(f)
-    n_dict = {}
     with open(path + 'H_i_n_Rindler.json') as f:
         n_dict = json.load(f)
 

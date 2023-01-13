@@ -111,8 +111,8 @@ class CausalSet(object):
         #             pass
         # self.CausalMatrix = A
     
-        self.cores = mp.cpu_count()-4
-        print(f'Cores: {self.cores}')
+        self.cores = mp.cpu_count() - 4
+        # print(f'Cores: {self.cores}')
         self.CausalMatrix = np.zeros((len(self.ElementList), len(self.ElementList)), dtype = int)
         with mp.Pool(self.cores) as pool:
             for resultrow, result in enumerate(pool.map(self.causalmatrixpooltask, range(len(self.ElementList)))):
@@ -285,6 +285,7 @@ class CausalSet(object):
                         H_array[count - 1] += 1
         
         print(f'The minimum time of a molecule is {min_time}')
+        self.min_time = min_time
         
         return H_array
     
@@ -321,13 +322,13 @@ if __name__ == "__main__":
         print(f'Time elapsed is {toc - tic}')
     
 
-    cProfile.run("main()", "output.dat")
+    # cProfile.run("main()", "output.dat")
     
-    with open("output_time.txt", 'w') as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("time").print_stats() 
+    # with open("output_time.txt", 'w') as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("time").print_stats() 
         
-    with open("output_calls.txt", "w") as f: 
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("calls").print_stats()
+    # with open("output_calls.txt", "w") as f: 
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("calls").print_stats()
         
