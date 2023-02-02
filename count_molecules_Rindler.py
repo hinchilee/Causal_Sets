@@ -24,7 +24,7 @@ def main():
     with open(path + 'min_time.json') as f:
         min_times= json.load(f)
         
-    rho_array = [1000, 3000]
+    rho_array = [1000,3000]
     d_array = [2,3,4]
     for rho in rho_array:
         for dimension in d_array:
@@ -32,6 +32,8 @@ def main():
             n = 20
             try:
                 min_time = min(min_times[f"{str(rho)}_{dimension}d"])
+                if min_time == 10000: 
+                    min_time = -1
             except: 
                 raise ValueError('No test run information!')
             
