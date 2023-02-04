@@ -13,8 +13,9 @@ if len(sys.argv) > 1:
 
 def count_chains(N,mintime, d = 4):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
-    boundsArray = np.array([[-0.5, 0.5] for i in range(d)])
-    boundsArray[0][0] = boundsArray[0][1] + mintime #no normalisation
+    boundsArray = np.array([[-0.5, 1.0] for i in range(d)])
+    boundsArray[0][0] = 0.5 + mintime #no normalisation
+    boundsArray[0][1] = 0.5
     
     return CausalSet(sprinkling_density=N, dimension=d, BHtype='Rindler', bounds = boundsArray).find_molecules()
   
@@ -24,18 +25,19 @@ def main():
     with open(path + 'min_time.json') as f:
         min_times= json.load(f)
         
-    rho_array = [1000,3000]
-    d_array = [2,3,4]
+    rho_array = [30000]
+    d_array = [2]
     for rho in rho_array:
         for dimension in d_array:
         # Number of realisations
-            n = 20
+            n = 100
             try:
                 min_time = min(min_times[f"{str(rho)}_{dimension}d"])
                 if min_time == 10000: 
                     min_time = -1
             except: 
-                raise ValueError('No test run information!')
+                min_time = -0.2
+                #raise ValueError('No test run information!')
             
     
             for _i in range(n):

@@ -38,9 +38,13 @@ class CausalSet(object):
             # Normalised Sprinkling Volume to 1!!! Important to find out <N> then Poisson, not get N from Poisson then scale to area
 
             bounds = kwargs.get('bounds', np.array([[-0.5, 0.5] for i in range(kwargs.get('dimension', 2))]))
-            self.SpacetimeVolume = sum(bounds[:,1] - bounds[:,0])
+            #print('Boundaries', bounds)
+            self.SpacetimeVolume = np.prod(bounds[:,1] - bounds[:,0])
+            print('Spacetime volume', self.SpacetimeVolume)
             AveragePoints = self.SpacetimeVolume * (kwargs.get('sprinkling_density'))
-            sprinkledcoords = Sprinkling_Uniform(dimension=kwargs.get('dimension', 2), number_of_points=poisson.rvs(AveragePoints), bounds=bounds)
+            noPoints = poisson.rvs(AveragePoints)
+            print('Number of points:', noPoints)
+            sprinkledcoords = Sprinkling_Uniform(dimension=kwargs.get('dimension', 2), number_of_points=noPoints, bounds=bounds)
             self.wrapAroundLength = 1
 
         # FOR DYNAMIC BLACKHOLE HORIZON
@@ -242,14 +246,14 @@ class CausalSet(object):
     # CALCULATING MOLECULES
 
     def find_molecules(self):
-        if self.LinkMatrix is None:
-            self.find_linkmatrix()
+        # if self.LinkMatrix is None:
+        #     self.find_linkmatrix()
         maximals = []
         maximal_but_ones = []
 
         if self.BHtype == 'Rindler':
-            for i in range(len(self.LinkMatrix)):
-                links = sum(self.LinkMatrix[i])
+            for i in range(len(self.CausalMatrix)):
+                links = sum(self.CausalMatrix[i])
                 if links == 0:
                     maximals.append(i)
                 elif links == 1:
@@ -280,7 +284,7 @@ class CausalSet(object):
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
-                    for minimal_link in set(np.where(self.LinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
+                    for minimal_link in set(np.where(self.CausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]:
                             count += 1
                             min_time = min(
@@ -319,8 +323,8 @@ if __name__ == "__main__":
 
         tic = time.time()
 
-        c = CausalSet(sprinkling_density=2000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                      dimension=4,
+        c = CausalSet(sprinkling_density=3000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
+                      dimension=3,
                       BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
                       sprinkling='Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
                       T=3)                        # T is only needed when BHtype = 'Dynamic'
