@@ -318,36 +318,39 @@ class CausalSet(object):
 
 if __name__ == "__main__":
 
-    def main():
-        np.random.seed(12)
 
-        tic = time.time()
+    #np.random.seed(12)
 
-        c = CausalSet(sprinkling_density=3000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                      dimension=3,
-                      BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
-                      sprinkling='Uniform',          # 'Uniform' or 'Tube' for 'Dynamic'BH
-                      T=3)                        # T is only needed when BHtype = 'Dynamic'
+    tic = time.time()
+    boundsArray = np.array([[-0.5, 1.5] for i in range(2)])
+    boundsArray[0][0] = -0.5 #no normalisation
+    boundsArray[0][1] = 0.5
 
-        # c.visualisation()
-        # print(c.ElementList)
-        # print('Casual Matrix: \n', c.CausalMatrix)
-        # C2 = c.CausalMatrix
-        # c.find_linkmatrix()
-        # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
+    c = CausalSet(sprinkling_density=100,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
+                  dimension=2,
+                  BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
+                  sprinkling='Uniform',        # 'Uniform' or 'Tube' for 'Dynamic'BH
+                  bounds = boundsArray)                        # T is only needed when BHtype = 'Dynamic'
 
-        print('Number of Points:', len(c.ElementList))
-        print(f'Spacetime Volume is {c.SpacetimeVolume}')
-        print(c.find_molecules())
+    # c.visualisation()
+    # print(c.ElementList)
+    print('Casual Matrix: \n', c.CausalMatrix)
+    # C2 = c.CausalMatrix
+    # c.find_linkmatrix()
+    # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
 
-        # print('Link Matrix: \n', c.LinkMatrix)
-        # c.visualisation()
+    #print('Number of Points:', len(c.ElementList))
+    #print(f'Spacetime Volume is {c.SpacetimeVolume}')
+    #print(c.find_molecules())
 
-        toc = time.time()
+    # print('Link Matrix: \n', c.LinkMatrix)
+    c.visualisation()
 
-        print(f'Time elapsed is {toc - tic}')
+    toc = time.time()
 
-    main()
+    print(f'Time elapsed is {toc - tic}')
+
+    #main()
     # cProfile.run("main()", "output.dat")
 
     # with open("output_time.txt", 'w') as f:

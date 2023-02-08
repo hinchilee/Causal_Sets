@@ -6,6 +6,7 @@ for d in d_array:
     df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
     #print(df)
     rho_array = df['rho'].unique()
+    rho_array.sort()
     for rho in rho_array:
         
         print('\n sprinkling density',rho, f'in {d} dimensions')
