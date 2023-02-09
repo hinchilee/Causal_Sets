@@ -279,16 +279,19 @@ class CausalSet(object):
 
         H_array = []
         min_time = 10000
+    
         if self.BHtype == 'Rindler':
-
+            min_distance = 10000 
+            max_distance = -10000
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
                     for minimal_link in set(np.where(self.CausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]:
                             count += 1
-                            min_time = min(
-                                min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
+                            min_time = min(min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
+                            min_distance = min([min_distance, self.ElementList[maximal].coordinates[1] + 0.5, self.ElementList[minimal_link].coordinates[1] + 0.5])
+                            max_distance = max([max_distance, self.ElementList[maximal].coordinates[1] + 0.5, self.ElementList[minimal_link].coordinates[1] + 0.5])
 
                     while len(H_array) < count:
                         H_array.append(0)
@@ -310,8 +313,12 @@ class CausalSet(object):
                     if count > 0:
                         H_array[count - 1] += 1
 
-        print(f'The minimum time of a molecule is {min_time}')
         self.min_time = min_time
+        self.max_distance = max_distance 
+        self.min_distance = min_distance 
+        print(f'The minimum time of a molecule is {min_time}')
+        print(f'The maximum distance of a molecule is {max_distance}')
+        print(f'The minimum distance of a molecule is {min_distance}')
 
         return H_array
 
@@ -319,44 +326,45 @@ class CausalSet(object):
 if __name__ == "__main__":
 
 
-    #np.random.seed(12)
+    def main():
+        np.random.seed(12)
+    
+        tic = time.time()
+        boundsArray = np.array([[-0.5, 0.5] for i in range(3)])
+        boundsArray[0][1] = 0.5 #no normalisation
+        boundsArray[1][1] = 1.5
+    
+        c = CausalSet(sprinkling_density=1000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
+                      dimension=3,
+                      BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
+                      sprinkling='Uniform',        # 'Uniform' or 'Tube' for 'Dynamic'BH
+                      bounds = boundsArray)                        # T is only needed when BHtype = 'Dynamic'
+    
+        # c.visualisation()
+        # print(c.ElementList)
+        #print('Casual Matrix: \n', c.CausalMatrix)
+        # C2 = c.CausalMatrix
+        # c.find_linkmatrix()
+        # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
+    
+        #print('Number of Points:', len(c.ElementList))
+        #print(f'Spacetime Volume is {c.SpacetimeVolume}')
+        print(c.find_molecules())
+    
+        # print('Link Matrix: \n', c.LinkMatrix)
+        #c.visualisation()
+    
+        toc = time.time()
+    
+        print(f'Time elapsed is {toc - tic}')
+    
+    
+    cProfile.run("main()", "output.dat")
 
-    tic = time.time()
-    boundsArray = np.array([[-0.5, 1.5] for i in range(2)])
-    boundsArray[0][0] = -0.5 #no normalisation
-    boundsArray[0][1] = 0.5
+    with open("output_time.txt", 'w') as f:
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("time").print_stats()
 
-    c = CausalSet(sprinkling_density=100,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                  dimension=2,
-                  BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
-                  sprinkling='Uniform',        # 'Uniform' or 'Tube' for 'Dynamic'BH
-                  bounds = boundsArray)                        # T is only needed when BHtype = 'Dynamic'
-
-    # c.visualisation()
-    # print(c.ElementList)
-    print('Casual Matrix: \n', c.CausalMatrix)
-    # C2 = c.CausalMatrix
-    # c.find_linkmatrix()
-    # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-
-    #print('Number of Points:', len(c.ElementList))
-    #print(f'Spacetime Volume is {c.SpacetimeVolume}')
-    #print(c.find_molecules())
-
-    # print('Link Matrix: \n', c.LinkMatrix)
-    c.visualisation()
-
-    toc = time.time()
-
-    print(f'Time elapsed is {toc - tic}')
-
-    #main()
-    # cProfile.run("main()", "output.dat")
-
-    # with open("output_time.txt", 'w') as f:
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("time").print_stats()
-
-    # with open("output_calls.txt", "w") as f:
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("calls").print_stats()
+    with open("output_calls.txt", "w") as f:
+        p = pstats.Stats("output.dat", stream = f)
+        p.sort_stats("calls").print_stats()

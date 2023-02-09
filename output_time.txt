@@ -1,261 +1,264 @@
-Fri Jan 13 11:42:01 2023    output.dat
+Wed Feb  8 22:27:07 2023    output.dat
 
-         15325 function calls in 17.568 seconds
+         11920 function calls in 8.236 seconds
 
    Ordered by: internal time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-       55   16.583    0.302   16.583    0.302 {method 'acquire' of '_thread.lock' objects}
-     1948    0.558    0.000    0.558    0.000 {built-in method builtins.sum}
-        1    0.131    0.131    9.115    9.115 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:172(find_linkmatrix)
-        1    0.120    0.120    7.873    7.873 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:97(generate_CausalMatrix)
-       16    0.072    0.005    0.072    0.005 {built-in method _winapi.CreateProcess}
-       91    0.053    0.001    0.053    0.001 {built-in method _winapi.WaitForSingleObject}
-        1    0.012    0.012    9.687    9.687 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:241(find_molecules)
-       16    0.003    0.000    0.003    0.000 {built-in method _winapi.TerminateProcess}
-       16    0.003    0.000    0.003    0.000 {built-in method _winapi.CreatePipe}
-       16    0.003    0.000    0.003    0.000 {built-in method nt.stat}
-        1    0.003    0.003   17.568   17.568 <string>:1(<module>)
-        1    0.003    0.003    7.878    7.878 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:23(__init__)
-       38    0.002    0.000    0.005    0.000 {method 'dump' of '_pickle.Pickler' objects}
-        2    0.002    0.001    0.002    0.001 {method 'acquire' of '_multiprocessing.SemLock' objects}
-       16    0.002    0.000    0.088    0.006 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:44(__init__)
-      124    0.001    0.000    0.001    0.000 {built-in method _winapi.CloseHandle}
+       39    7.366    0.189    7.366    0.189 {method 'acquire' of '_thread.lock' objects}
+     1948    0.627    0.000    0.627    0.000 {built-in method builtins.sum}
+        1    0.142    0.142    7.590    7.590 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:114(generate_CausalMatrix)
+        9    0.039    0.004    0.039    0.004 {built-in method _winapi.CreateProcess}
+       57    0.028    0.000    0.028    0.000 {built-in method _winapi.WaitForSingleObject}
+        1    0.011    0.011    0.639    0.639 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:248(find_molecules)
+        1    0.003    0.003    7.596    7.596 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:26(__init__)
+        9    0.002    0.000    0.002    0.000 {built-in method _winapi.TerminateProcess}
+        1    0.002    0.002    8.236    8.236 <string>:1(<module>)
+        9    0.001    0.000    0.001    0.000 {built-in method _winapi.CreatePipe}
+        9    0.001    0.000    0.001    0.000 {built-in method nt.stat}
+       21    0.001    0.000    0.003    0.000 {method 'dump' of '_pickle.Pickler' objects}
+        1    0.001    0.001    0.001    0.001 {method 'acquire' of '_multiprocessing.SemLock' objects}
      1948    0.001    0.000    0.001    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalEvent.py:6(__init__)
-        6    0.001    0.000    0.001    0.000 {built-in method _winapi.CreateNamedPipe}
-      245    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
-        6    0.001    0.000    0.001    0.000 {built-in method nt.lstat}
-       64    0.001    0.000    0.001    0.000 {built-in method _winapi.OpenProcess}
-        6    0.001    0.000    0.001    0.000 {built-in method _thread.start_new_thread}
-        2    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
-      242    0.000    0.000    0.000    0.000 {method 'intersection' of 'set' objects}
-       16    0.000    0.000    0.000    0.000 {built-in method io.open}
-       64    0.000    0.000    0.002    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:956(reduce_pipe_connection)
-        6    0.000    0.000    0.000    0.000 {built-in method _winapi.CreateFile}
-       38    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:38(__init__)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\subprocess.py:273(_args_from_interpreter_flags)
-       17    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:150(get_preparation_data)
-     2303    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:344(__reduce__)
-       91    0.000    0.000    0.054    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:101(wait)
-       64    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:106(__init__)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:80(__init__)
-      199    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
-      242    0.000    0.000    0.001    0.000 <__array_function__ internals>:2(where)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:450(normpath)
-        2    0.000    0.000    0.090    0.045 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:311(_repopulate_pool_static)
-       32    0.000    0.000    0.006    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:58(dump)
-     1972    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
-       96    0.000    0.000    0.000    0.000 {built-in method _winapi.DuplicateHandle}
-       16    0.000    0.000    0.089    0.006 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:324(_Popen)
-      351    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
-       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:186(__init__)
-       16    0.000    0.000    0.089    0.006 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:110(start)
-       44    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:124(splitdrive)
-       16    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:78(get_command_line)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:100(__getstate__)
-       76    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\zmq\sugar\socket.py:432(send)
-        2    0.000    0.000    0.059    0.030 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:677(_terminate_pool)
-        2    0.000    0.000    0.101    0.051 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:183(__init__)
+       69    0.001    0.000    0.001    0.000 {built-in method _winapi.CloseHandle}
+        9    0.001    0.000    0.047    0.005 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:44(__init__)
+       85    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+        3    0.000    0.000    0.000    0.000 {built-in method nt.lstat}
+       36    0.000    0.000    0.000    0.000 {built-in method _winapi.OpenProcess}
+       20    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\zmq\sugar\socket.py:432(send)
+        3    0.000    0.000    0.000    0.000 {built-in method _thread.start_new_thread}
+     2181    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method _winapi.CreateNamedPipe}
+       57    0.000    0.000    0.028    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:101(wait)
+       36    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:956(reduce_pipe_connection)
+     1965    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        9    0.000    0.000    0.000    0.000 {built-in method io.open}
+       21    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:38(__init__)
+       10    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:150(get_preparation_data)
+       36    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:106(__init__)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:344(__reduce__)
+        3    0.000    0.000    0.000    0.000 {built-in method _winapi.CreateFile}
         1    0.000    0.000    0.000    0.000 {method 'argsort' of 'numpy.ndarray' objects}
-       62    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:389(parent)
-       88    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:117(poll)
-      611    0.000    0.000    0.000    0.000 {built-in method builtins.len}
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:61(isabs)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:61(_cleanup)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:761(__init__)
-      160    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:351(get_spawning_popen)
-       55    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
-       16    0.000    0.000    0.004    0.000 C:\Users\leehi\anaconda3\lib\site-packages\spyder_kernels\customize\spydercustomize.py:287(_patched_preparation_data)
-        6    0.000    0.000    0.000    0.000 {built-in method _winapi.WriteFile}
-       96    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\random.py:250(_randbelow_with_getrandbits)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:222(__init__)
-        6    0.000    0.000    0.003    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:535(Pipe)
+       54    0.000    0.000    0.000    0.000 {built-in method _winapi.DuplicateHandle}
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:80(__init__)
         1    0.000    0.000    0.000    0.000 {method 'rand' of 'numpy.random.mtrand.RandomState' objects}
-        8    0.000    0.000   16.584    2.073 C:\Users\leehi\anaconda3\lib\threading.py:540(wait)
-       54    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
-        8    0.000    0.000   16.583    2.073 C:\Users\leehi\anaconda3\lib\threading.py:270(wait)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:450(normpath)
+       18    0.000    0.000    0.003    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:58(dump)
+       81    0.000    0.000    0.000    0.000 {method 'intersection' of 'set' objects}
+        9    0.000    0.000    0.047    0.005 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:324(_Popen)
+      198    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\subprocess.py:273(_args_from_interpreter_flags)
+        1    0.000    0.000    0.031    0.031 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:677(_terminate_pool)
+        9    0.000    0.000    0.048    0.005 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:110(start)
+       81    0.000    0.000    0.001    0.000 <__array_function__ internals>:2(where)
+       24    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:124(splitdrive)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:100(__getstate__)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:186(__init__)
+        1    0.000    0.000    0.048    0.048 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:311(_repopulate_pool_static)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:78(get_command_line)
+       42    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:61(isabs)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\Sprinkling.py:5(Sprinkling_Uniform)
-       96    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\random.py:285(choice)
-       18    0.000    0.000    0.060    0.003 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:205(__call__)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:346(__getstate__)
-       22    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\_weakrefset.py:81(add)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:50(__init__)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:97(duplicate_for_child)
-       88    0.000    0.000    0.000    0.000 {built-in method builtins.max}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:181(send_bytes)
-       48    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:87(<genexpr>)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:261(_is_owned)
-       16    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:197(schedule)
-       64    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:168(fileno)
-       16    0.000    0.000    0.003    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:120(terminate)
-        6    0.000    0.000    0.007    0.001 C:\Users\leehi\anaconda3\lib\threading.py:834(start)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:354(set_spawning_popen)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:179(Process)
-       80    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:57(<genexpr>)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:71(duplicate)
-       21    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1071(is_alive)
-        1    0.000    0.000   17.568   17.568 {built-in method builtins.exec}
-       64    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:357(assert_spawning)
-       14    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
-       62    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:153(is_alive)
-       86    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:65(Lock)
-       16    0.000    0.000    0.003    0.000 C:\Users\leehi\anaconda3\lib\genericpath.py:16(exists)
-       16    0.000    0.000    0.000    0.000 {built-in method msvcrt.open_osfhandle}
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:144(__next__)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:224(exitcode)
-       54    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+        1    0.000    0.000    0.052    0.052 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:183(__init__)
+       36    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:357(assert_spawning)
+       54    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:117(poll)
+       34    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:389(parent)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:61(_cleanup)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:346(__getstate__)
+       56    0.000    0.000    0.000    0.000 {built-in method builtins.max}
+       90    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:351(get_spawning_popen)
+       20    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:197(schedule)
+       10    0.000    0.000    0.032    0.003 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:205(__call__)
+      122    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:761(__init__)
+       18    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:386(write)
+       31    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method _winapi.WriteFile}
+        9    0.000    0.000    0.002    0.000 C:\Users\leehi\anaconda3\lib\site-packages\spyder_kernels\customize\spydercustomize.py:287(_patched_preparation_data)
+        3    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:535(Pipe)
+      282    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+       30    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:222(__init__)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:97(duplicate_for_child)
+        4    0.000    0.000    7.367    1.842 C:\Users\leehi\anaconda3\lib\threading.py:540(wait)
+       48    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\random.py:250(_randbelow_with_getrandbits)
+        4    0.000    0.000    7.367    1.842 C:\Users\leehi\anaconda3\lib\threading.py:270(wait)
+        1    0.000    0.000    8.235    8.235 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:329(main)
+       22    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1071(is_alive)
+       48    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\random.py:285(choice)
+       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\_weakrefset.py:81(add)
+        9    0.000    0.000    0.002    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:128(terminate)
+        9    0.000    0.000    0.002    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:120(terminate)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:935(rvs)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:147(<listcomp>)
-        6    0.000    0.000    0.000    0.000 {built-in method _winapi.ConnectNamedPipe}
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:468(_map_async)
-        1    0.000    0.000   17.566   17.566 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:311(main)
-        6    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:374(mktemp)
-      128    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:158(readable)
-       96    0.000    0.000    0.000    0.000 {built-in method _winapi.GetCurrentProcess}
-      242    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:312(where)
-       17    0.000    0.000    0.000    0.000 {built-in method nt.getcwd}
-      126    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:48(dumps)
-       48    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
-        6    0.000    0.000    0.003    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:334(__init__)
-        6    0.000    0.000    0.003    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:110(SimpleQueue)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:94(<genexpr>)
-        1    0.000    0.000    0.000    0.000 {method 'poisson' of 'numpy.random.mtrand.RandomState' objects}
-       27    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:77(join)
-       70    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:134(_check_closed)
-        2    0.000    0.000    0.101    0.051 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:115(Pool)
-        6    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:69(arbitrary_address)
-       38    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
-      128    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:163(writable)
-       16    0.000    0.000    0.003    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:128(terminate)
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:132(_check_not_importing_main)
-        6    0.000    0.000    0.000    0.000 {built-in method _winapi.SetNamedPipeHandleState}
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\subprocess.py:263(_optim_args_from_interpreter_flags)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:505(__init__)
-       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1306(current_thread)
-       16    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:28(_close_handles)
-       22    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\_weakrefset.py:38(_remove)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:791(__init__)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:360(put)
-       70    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:99(_check_closed)
-       43    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:48(debug)
-        6    0.000    0.000    0.000    0.000 {built-in method builtins.print}
-       16    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
-        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
-       16    0.000    0.000    0.000    0.000 {built-in method _winapi.GetExitCodeProcess}
-       82    0.000    0.000    0.000    0.000 {built-in method nt.fspath}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:979(join)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:279(_send_bytes)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:193(name)
-      145    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:734(_newname)
-        3    0.000    0.000    0.053    0.018 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:142(join)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:114(_make_name)
+       27    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:87(<genexpr>)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:354(set_spawning_popen)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:50(__init__)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:71(duplicate)
+       36    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:168(fileno)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:153(is_alive)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:179(Process)
+        7    0.000    0.000    0.001    0.000 {built-in method builtins.print}
+        1    0.000    0.000    8.236    8.236 {built-in method builtins.exec}
+        3    0.000    0.000    0.002    0.001 C:\Users\leehi\anaconda3\lib\threading.py:834(start)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:224(exitcode)
+        8    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
+        3    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:468(_map_async)
+       45    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:57(<genexpr>)
+       54    0.000    0.000    0.000    0.000 {built-in method _winapi.GetCurrentProcess}
         1    0.000    0.000    0.000    0.000 {method 'seed' of 'numpy.random.mtrand.RandomState' objects}
-        6    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:75(_exists)
-       12    0.000    0.000    0.000    0.000 {method 'GetOverlappedResult' of '_winapi.Overlapped' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:597(_argcheck)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:944(_stop)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:744(__init__)
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:249(get_start_method)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1177(_make_invoke_excepthook)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:34(_get_bothseps)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:133(rng)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:117(__init__)
-        2    0.000    0.000    0.002    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:668(_help_stuff_finish)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:249(__exit__)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:205(daemon)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:73(_wrapreduction)
+        9    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\genericpath.py:16(exists)
+        1    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
+       72    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:158(readable)
+        9    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\popen_spawn_win32.py:28(_close_handles)
+       34    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+        9    0.000    0.000    0.000    0.000 {built-in method msvcrt.open_osfhandle}
+        3    0.000    0.000    0.028    0.009 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:142(join)
+       25    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1017(_wait_for_tstate_lock)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:65(Lock)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:181(send_bytes)
+       81    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       10    0.000    0.000    0.000    0.000 {built-in method nt.getcwd}
+        1    0.000    0.000    0.000    0.000 {method 'poisson' of 'numpy.random.mtrand.RandomState' objects}
+        3    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:334(__init__)
+       48    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:144(__next__)
+       29    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+        3    0.000    0.000    0.000    0.000 {built-in method _winapi.ConnectNamedPipe}
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:147(<listcomp>)
+       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\_weakrefset.py:38(_remove)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:94(<genexpr>)
+       27    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\reduction.py:48(dumps)
+       81    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\multiarray.py:312(where)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:132(_check_not_importing_main)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:73(_wrapreduction)
+        3    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:110(SimpleQueue)
+       72    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:163(writable)
+        5    0.000    0.000    0.000    0.000 {built-in method numpy.array}
+        3    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:374(mktemp)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1306(current_thread)
+       42    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:99(_check_closed)
+       39    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:134(_check_closed)
+       21    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:505(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:791(__init__)
+       24    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:48(debug)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:77(join)
+        9    0.000    0.000    0.000    0.000 {built-in method _winapi.GetExitCodeProcess}
+        1    0.000    0.000    0.052    0.052 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:115(Pool)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:279(_send_bytes)
+        3    0.000    0.000    0.000    0.000 {built-in method _winapi.SetNamedPipeHandleState}
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:193(name)
+        9    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        3    0.000    0.000    0.001    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:69(arbitrary_address)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\subprocess.py:263(_optim_args_from_interpreter_flags)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\queues.py:360(put)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:185(_broadcast_shape)
-        2    0.000    0.000   16.577    8.289 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:359(map)
-       17    0.000    0.000    0.000    0.000 {method 'copy' of 'list' objects}
-        4    0.000    0.000    0.000    0.000 {built-in method numpy.array}
-        2    0.000    0.000    0.059    0.030 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:651(terminate)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:246(__enter__)
-        2    0.000    0.000    0.000    0.000 {method 'put' of '_queue.SimpleQueue' objects}
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:258(_acquire_restore)
-       34    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:130(__del__)
-       41    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:513(is_set)
-       96    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
-       14    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:310(_is_master_process)
+        1    0.000    0.000    0.001    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:668(_help_stuff_finish)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:249(get_start_method)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:979(join)
+       45    0.000    0.000    0.000    0.000 {built-in method nt.fspath}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:597(_argcheck)
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:249(__exit__)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\ntpath.py:34(_get_bothseps)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:734(_newname)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:944(_stop)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:114(_make_name)
+       20    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:246(__enter__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:744(__init__)
+        6    0.000    0.000    0.000    0.000 {method 'GetOverlappedResult' of '_winapi.Overlapped' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1177(_make_invoke_excepthook)
+       76    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:206(broadcast_arrays)
-       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:189(name)
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:93(_event_pipe)
-       38    0.000    0.000    0.000    0.000 {method 'discard' of 'set' objects}
-       40    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:37(current_process)
-        2    0.000    0.000    0.003    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:342(_setup_queues)
-       17    0.000    0.000    0.000    0.000 {method 'index' of 'list' objects}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1110(daemon)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:790(_argcheck_rvs)
-       16    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1095(daemon)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:161(__init__)
-        8    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:255(_release_save)
-       17    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:213(authkey)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
-       16    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:45(get_executable)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:2943(rvs)
-       12    0.000    0.000    0.000    0.000 {method 'find' of 'str' objects}
-       14    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
-        8    0.000    0.000    0.000    0.000 {method '__enter__' of '_thread.lock' objects}
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:90(_make_methods)
-       25    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
-        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
-        2    0.000    0.000   16.577    8.288 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:764(get)
+       32    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:513(is_set)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:75(_exists)
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:117(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'put' of '_queue.SimpleQueue' objects}
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:133(rng)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\ipykernel\iostream.py:323(_schedule_flush)
+       21    0.000    0.000    0.000    0.000 {method 'discard' of 'set' objects}
+       21    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    7.365    7.365 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:359(map)
+        1    0.000    0.000    0.031    0.031 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:651(terminate)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:205(daemon)
+       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:189(name)
         2    0.000    0.000    0.000    0.000 {method 'all' of 'numpy.generic' objects}
-        6    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
-        2    0.000    0.000    0.059    0.030 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:735(__exit__)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:276(_close)
-       18    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:44(sub_debug)
-        2    0.000    0.000    0.090    0.045 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:302(_repopulate_pool)
-        1    0.000    0.000    0.000    0.000 {built-in method nt.cpu_count}
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2324(all)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:41(cpu_count)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:157(__init__)
-       18    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:258(_acquire_restore)
+       24    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
+       23    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:37(current_process)
+       48    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1110(daemon)
+       10    0.000    0.000    0.000    0.000 {method 'copy' of 'list' objects}
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:130(__del__)
+       10    0.000    0.000    0.000    0.000 {method 'index' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:2943(rvs)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:213(authkey)
+        1    0.000    0.000    0.001    0.001 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:342(_setup_queues)
+        1    0.000    0.000    7.365    7.365 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:764(get)
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:255(_release_save)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\numeric.py:1786(isscalar)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:161(__init__)
         3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\process.py:234(ident)
-        2    0.000    0.000   16.577    8.288 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:761(wait)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:276(_get_sentinels)
-       14    0.000    0.000    0.000    0.000 {method 'release' of '_thread.lock' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:731(__enter__)
-        6    0.000    0.000    0.000    0.000 {method 'getbuffer' of '_io.BytesIO' objects}
-        8    0.000    0.000    0.000    0.000 {built-in method builtins.min}
-        2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(all)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:224(_get_candidate_names)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:47(_all)
-       12    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:187(get_context)
-        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:266(<genexpr>)
+        9    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\spawn.py:45(get_executable)
+       10    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\util.py:44(sub_debug)
+        1    0.000    0.000    0.000    0.000 {built-in method nt.cpu_count}
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:1095(daemon)
+        9    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\threading.py:261(_is_owned)
+        4    0.000    0.000    0.000    0.000 {method '__enter__' of '_thread.lock' objects}
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(prod)
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:276(_close)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_discrete_distns.py:600(_rvs)
+        6    0.000    0.000    0.000    0.000 {method 'find' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:41(cpu_count)
+        2    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(all)
+        1    0.000    0.000    7.365    7.365 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:761(wait)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2843(prod)
+        9    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2324(all)
+        1    0.000    0.000    0.048    0.048 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:302(_repopulate_pool)
+        1    0.000    0.000    0.031    0.031 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:735(__exit__)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\synchronize.py:90(_make_methods)
         1    0.000    0.000    0.000    0.000 <string>:5(_parse_args_rvs)
-        1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
-        8    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.lock' objects}
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:753(ready)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:197(get_start_method)
+        3    0.000    0.000    0.000    0.000 {method 'getbuffer' of '_io.BytesIO' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:157(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:276(_get_sentinels)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\abc.py:96(__instancecheck__)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:74(<dictcomp>)
+        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:266(<genexpr>)
+        7    0.000    0.000    0.000    0.000 {method 'release' of '_thread.lock' objects}
+        1    0.000    0.000    0.000    0.000 <__array_function__ internals>:2(broadcast_arrays)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:262(<listcomp>)
+        1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
         2    0.000    0.000    0.000    0.000 {built-in method builtins.all}
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:263(__del__)
-        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:142(_check_writable)
-        4    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:348(_check_running)
+        6    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:187(get_context)
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.lock' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\_methods.py:47(_all)
         3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:804(squeeze_left)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:233(get_context)
         1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:820(<listcomp>)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:74(<dictcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:731(__enter__)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:753(ready)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\connection.py:142(_check_writable)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\tempfile.py:224(_get_candidate_names)
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:348(_check_running)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:333(<listcomp>)
         2    0.000    0.000    0.000    0.000 {built-in method time.time}
-        6    0.000    0.000    0.000    0.000 {method 'locked' of '_thread.lock' objects}
-        2    0.000    0.000    0.000    0.000 {built-in method builtins.divmod}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:38(<listcomp>)
-        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2320(_all_dispatcher)
+        3    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:197(get_start_method)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\context.py:233(get_context)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\multiprocessing\pool.py:263(__del__)
         3    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
-        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:849(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Code\Causal_Sets\causalset.py:40(<listcomp>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.divmod}
+        2    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2320(_all_dispatcher)
+        3    0.000    0.000    0.000    0.000 {method 'locked' of '_thread.lock' objects}
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\core\fromnumeric.py:2838(_prod_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\numpy\lib\stride_tricks.py:202(_broadcast_arrays_dispatcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\leehi\anaconda3\lib\site-packages\scipy\stats\_distn_infrastructure.py:849(<listcomp>)
 
 

@@ -16,6 +16,8 @@ def count_chains(N,mintime, d = 4):
     boundsArray = np.array([[-0.5, 0.5] for i in range(d)])
     boundsArray[0][0] = 0.5 + mintime #no normalisation
     boundsArray[1][1] = 1.5
+    #boundsArray[1][0] = mindistance + mintime 
+    #boundsArray[1][1] = maxdistance - mintime 
     
     return CausalSet(sprinkling_density=N, dimension=d, BHtype='Rindler', bounds = boundsArray).find_molecules()
   
@@ -25,34 +27,21 @@ def main():
     with open(path + 'min_time.json') as f:
         min_times= json.load(f)
         
-    rho_array = [300, 30000]
-    d_array = [3]
+    rho_array = [300]
+    d_array = [4]
     for rho in rho_array:
         for dimension in d_array:
         # Number of realisations
-            n = 100
+            n = 1
             try:
-                min_time = min(min_times[f"{str(rho)}_{dimension}d"])
+                min_time = min_times[f"{str(int(rho))}_{dimension}d"]
                 if min_time == 10000: 
                     min_time = -1
             except:
-                min_time = -0.4
-                if dimension == 4:
-                    if rho == 1000: 
-                        min_time = -0.35
-                    if rho == 3000: 
-                        min_time = -0.3 
-                    if rho == 10000: 
-                        min_time = -0.25
-                    if rho == 30000: 
-                        min_time = -0.2
-                if dimension == 3: 
-                    if rho == 10000: 
-                        min_time = -0.1
+                min_time = -1
                         
-                #raise ValueError('No test run information!')
-            
-    
+                print('No test run information!')
+        
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
                 H = count_chains(rho, min_time, dimension)
