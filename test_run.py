@@ -8,7 +8,7 @@ if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
 def main():
-    with open(path + 'min_time.json') as f:
+    with open(path + 'min_timeRindler.json') as f:
         d = json.load(f)
 
     for rho in [3000, 10000]:
@@ -25,7 +25,7 @@ def main():
                 c.find_molecules()
                 d[f"{str(rho)}_{dimension}d"].append(c.min_time)
             
-            with open(path + 'min_time.json', 'w', encoding='utf-8') as f:
+            with open(path + 'min_timeRindler.json', 'w', encoding='utf-8') as f:
                 json.dump(d, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":

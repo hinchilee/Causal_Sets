@@ -21,13 +21,9 @@ def spacetime_interval(stcoord1, stcoord2, BHtype , wrapAroundLength = 2):
                 spacetime_interval += diff[spacedimension]
     
     elif BHtype == 'Dynamic':
-        #Hardcoded to wrap around y 
+        #Hardcoded to no wrap around
         for spacedimension in range(1, len(diff)): 
-            if spacedimension == 2:
-                a =  (wrapAroundLength - stcoord2[spacedimension] + stcoord1[spacedimension])
-                spacetime_interval += min(diff[spacedimension], a*a)
-            else:
-                spacetime_interval += diff[spacedimension]
+            spacetime_interval += diff[spacedimension]
     
     elif BHtype == 'Empty': 
         for spacedimension in range(1, len(diff)): 

@@ -16,15 +16,15 @@ def count_chains(N,mintime, d = 4):
     boundsArray = np.array([[-0.5, 0.5] for i in range(d)])
     boundsArray[0][0] = 0.5 + mintime #no normalisation
     boundsArray[1][1] = 1.5
-    #boundsArray[1][0] = mindistance + mintime 
-    #boundsArray[1][1] = maxdistance - mintime 
+    #boundsArray[1][0] = mindistance 
+    #boundsArray[1][1] = maxdistance
     
     return CausalSet(sprinkling_density=N, dimension=d, BHtype='Rindler', bounds = boundsArray).find_molecules()
   
 
 def main():
     tic = time.time()
-    with open(path + 'min_time.json') as f:
+    with open(path + 'min_timeRindler.json') as f:
         min_times= json.load(f)
         
     rho_array = [300]

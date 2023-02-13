@@ -62,8 +62,9 @@ def Sprinkling_Bicone(dimension = 2, number_of_points = 10):
     
     return Coords
 
-def Sprinkling_Tube(dimension = 2, number_of_points = 10, R_min = 0.3, R_max = 1, T_min = 0, T_max = 1): 
+def Sprinkling_Tube(dimension = 2, number_of_points = 10, bounds = [ 0.3, 1, 0, 1] ): 
     
+    R_min, R_max, T_min, T_max = bounds
     Time = list() 
     Space = list() 
     x_min = (R_min/ R_max)**(dimension-1) 
