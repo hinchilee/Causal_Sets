@@ -61,15 +61,17 @@ class CausalSet(object):
             if self.sprinkling == 'Uniform':
                 spaceBounds = np.array([-self.T-2, self.T+2])
                 timeBounds = np.array([self.T-3, self.T])
-                self.SpacetimeVolume = ((3*(self.T+2))**(self.dimension - 1))*2
-                AveragePoints = self.SpacetimeVolume * \
-                    (kwargs.get('sprinkling_density'))
-                boundsArray = np.concatenate((timeBounds, np.tile(
+                bounds = np.concatenate((timeBounds, np.tile(
                     spaceBounds, self.dimension - 1)), axis=0).reshape(self.dimension, 2)
+                self.SpacetimeVolume = np.prod(bounds[:,1] - bounds[:,0])
+                print('Spacetime volume', self.SpacetimeVolume)
+                AveragePoints = self.SpacetimeVolume * (kwargs.get('sprinkling_density'))
+                noPoints = poisson.rvs(AveragePoints)
+                print('Number of points:', noPoints)
                 sprinkledcoords = Sprinkling_Uniform(dimension=self.dimension,
                                                      number_of_points=poisson.rvs(
-                                                         AveragePoints),
-                                                     bounds=boundsArray)
+                                                         noPoints),
+                                                     bounds=bounds)
                 self.wrapAroundLength = 2*(self.T+2)
 
             elif self.sprinkling == 'Tube':
@@ -264,14 +266,14 @@ class CausalSet(object):
                                  for ele in self.ElementList]) - self.T
             try:
                 cutoffindex = np.min(np.where(diffarray > 0))
-                # Crop Link matrix so that only elements before sigmaT are included
-                self.croppedLinkMatrix = self.LinkMatrix[:cutoffindex, :cutoffindex]
+                # Crop Causal matrix so that only elements before sigmaT are included
+                self.croppedCausalMatrix = self.CausalMatrix[:cutoffindex, :cutoffindex]
 
             except ValueError:
-                self.croppedLinkMatrix = self.LinkMatrix
+                self.croppedCausalMatrix = self.CausalMatrix
 
-            for i in range(len(self.croppedLinkMatrix)):
-                links = sum(self.croppedLinkMatrix[i])
+            for i in range(len(self.croppedCausalMatrix)):
+                links = sum(self.croppedCausalMatrix[i])
                 if links == 0:
                     maximals.append(i)
                 elif links == 1:
@@ -279,10 +281,10 @@ class CausalSet(object):
 
         H_array = []
         min_time = 10000
-    
+        min_distance = 10000 
+        max_distance = -10000
         if self.BHtype == 'Rindler':
-            min_distance = 10000 
-            max_distance = -10000
+    
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
@@ -302,23 +304,29 @@ class CausalSet(object):
             for maximal in maximals:
                 if inside_horizon(self.ElementList[maximal].coordinates):
                     count = 0
-                    for minimal_link in set(np.where(self.croppedLinkMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
+                    for minimal_link in set(np.where(self.croppedCausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates):
                             count += 1
                             min_time = min(
                                 min_time, (self.ElementList[minimal_link].coordinates[0] - self.T))
+                            maximalnorm = np.linalg.norm(self.ElementList[maximal].coordinates[1:])
+                            minimallinknorm = np.linalg.norm(self.ElementList[minimal_link].coordinates[1:])
+                            min_distance = min([min_distance, maximalnorm , minimallinknorm])
+                            max_distance = max([max_distance, maximalnorm, minimallinknorm])
 
                     while len(H_array) < count:
                         H_array.append(0)
                     if count > 0:
                         H_array[count - 1] += 1
-
-        self.min_time = min_time
-        self.max_distance = max_distance 
-        self.min_distance = min_distance 
-        print(f'The minimum time of a molecule is {min_time}')
-        print(f'The maximum distance of a molecule is {max_distance}')
-        print(f'The minimum distance of a molecule is {min_distance}')
+        try:
+            self.min_time = min_time
+            self.max_distance = max_distance 
+            self.min_distance = min_distance    #for dynamic, min distance is min spatial distance from the t-axis
+            print(f'The minimum time of a molecule is {min_time}')
+            print(f'The maximum distance of a molecule is {max_distance}')
+            print(f'The minimum distance of a molecule is {min_distance}')
+        except: 
+            pass
 
         return H_array
 
@@ -334,11 +342,11 @@ if __name__ == "__main__":
         boundsArray[0][1] = 0.5 #no normalisation
         boundsArray[1][1] = 1.5
     
-        c = CausalSet(sprinkling_density=1000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                      dimension=3,
-                      BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
-                      sprinkling='Uniform',        # 'Uniform' or 'Tube' for 'Dynamic'BH
-                      bounds = boundsArray)                        # T is only needed when BHtype = 'Dynamic'
+        c = CausalSet(sprinkling_density=0.3,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
+                      dimension=4,
+                      BHtype='Dynamic',           # 'Rindler', 'Dynamic', 'Empty'
+                      sprinkling='Uniform', T = 3)       # 'Uniform' or 'Tube' for 'Dynamic'BH
+                      #bounds = boundsArray)                        # T is only needed when BHtype = 'Dynamic'
     
         # c.visualisation()
         # print(c.ElementList)
