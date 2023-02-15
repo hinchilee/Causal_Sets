@@ -1,20 +1,19 @@
 import numpy as np
 from causalset import CausalSet
 import time
-import multiprocessing as mp
-import json
 import sys
 import os
 import csv
+import pandas as pd
 
 path = ''
 if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
-def count_chains(N,mintime, d = 4):
+def count_chains(N, mintime, d = 4):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
     boundsArray = np.array([[-0.5, 0.5] for i in range(d)])
-    boundsArray[0][0] = 0.5 + mintime #no normalisation
+    boundsArray[0][0] = mintime # no normalisation
     boundsArray[1][1] = 1.5
     #boundsArray[1][0] = mindistance 
     #boundsArray[1][1] = maxdistance
@@ -24,22 +23,20 @@ def count_chains(N,mintime, d = 4):
 
 def main():
     tic = time.time()
-    with open(path + 'min_timeRindler.json') as f:
-        min_times= json.load(f)
-        
-    rho_array = [300]
-    d_array = [4]
+    rho_array = [10, 100]
+    d_array = [2, 3]
     for rho in rho_array:
         for dimension in d_array:
         # Number of realisations
             n = 1
             try:
-                min_time = min_times[f"{str(int(rho))}_{dimension}d"]
-                if min_time == 10000: 
-                    min_time = -1
+                df = pd.read_csv(path + f'test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
+                min_time = max(df[df['type'] == 'min_time']['value'].min(), -1)
+                min_distance = max(df[df['type'] == 'min_distance']['value'].min(), -0.5)
+                max_distance = min(df[df['type'] == 'max_distance']['value'].max(), 1.5)
+
             except:
-                min_time = -1
-                        
+                min_time = -0.5
                 print('No test run information!')
         
             for _i in range(n):

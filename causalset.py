@@ -27,7 +27,7 @@ class CausalSet(object):
 
         self.dimension = kwargs.get('dimension', 2)
         self.BHtype = kwargs.get('BHtype')
-        self.sprinkling = kwargs.get('sprinkling')
+        self.sprinkling = kwargs.get('sprinkling', 'Uniform')
         self.ElementList: list(CausalEvent) = list()
 
         # Sprinkling and sorting by time coordinate
@@ -53,12 +53,8 @@ class CausalSet(object):
             # into bounds of t: [T-1, T+1];
             # x, y, z = [-T-2, T+2]; wrap around y
             self.wrapAroundLength = 1  #Placeholder - isn't used
-
-            try:
-                self.T = kwargs.get('T')
-            except:
-                raise ValueError(
-                    'Please enter a value for T when sprinkling into a Dynamic BH!')
+            self.T = kwargs.get('T', 3)
+            
             if self.sprinkling == 'Uniform':
                 spaceBounds = np.array([-self.T-2, self.T+2])
                 timeBounds = np.array([self.T-3, self.T])

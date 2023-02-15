@@ -1,11 +1,10 @@
 import numpy as np
 from causalset import CausalSet
 import time
-import multiprocessing as mp
-import json
 import sys
 import os
 import csv
+import pandas as pd
 
 path = ''
 if len(sys.argv) > 1:
@@ -17,9 +16,6 @@ def count_chains(N, T, Bounds):
 
 def main():
     tic = time.time()
-    with open(path + 'min_time.json') as f:
-        min_times= json.load(f)
-        
     rho_array = [300]
     d_array = [4]
     T = 3
@@ -28,12 +24,13 @@ def main():
         # Number of realisations
             n = 1
             try:
-                min_time = min_times[f"{str(int(rho))}_{dimension}d"]
-                if min_time == 10000: 
-                    min_time = -1
+                df = pd.read_csv(path + f'test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
+                min_time = max(df[df['type'] == 'min_time']['value'].min(), -1)
+                min_distance = max(df[df['type'] == 'min_distance']['value'].min(), -0.5)
+                max_distance = min(df[df['type'] == 'max_distance']['value'].max(), 1.5)
+
             except:
                 min_time = -1
-                        
                 print('No test run information!')
         
             boundsArray = [3 - min_distance, 3 + max_distance, T - min_time, T]
