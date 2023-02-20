@@ -67,32 +67,29 @@ def Sprinkling_Tube(dimension = 2, number_of_points = 10, bounds = [ 0.3, 1, 0, 
     R_min, R_max, T_min, T_max = bounds
     Time = list() 
     Space = list() 
-    x_min = (R_min/ R_max)**(dimension-1) 
+    n = dimension - 1
+    x_min = (R_min/ R_max)**(n) 
     for i in range(number_of_points): 
         x = np.random.uniform(0,1)
-        xprime = (1-x_min)*x + x_min
-        t2 = np.random.uniform(0,1)
-        t = (T_max-T_min)*t2 + T_min
-        R_t = R_max* xprime ** (1/(dimension-1))
+        xprime = (1-x_min)*x + x_min   #uniform distribution between k_min^n to 1 
+        R_t = R_max* xprime ** (1/(n))
         v_unnormalised = np.random.normal(0, 1, size = dimension - 1)
-        
         def normalise(v): 
             norm = np.linalg.norm(v)
             if norm == 0: 
                 return v 
             return v/norm
-        
         v = normalise(v_unnormalised)
-        k = np.random.uniform(0,1)
-        v_f = v*R_t#*k**(1/(dimension - 1))
-        #print(k**(1/(dimension - 1)))
+        v_f = v*R_t
         Space.append(v_f)
+        
+        t2 = np.random.uniform(0,1)
+        t = (T_max-T_min)*t2 + T_min  #uniform distribution between T_min and T_max
         Time.append(t)
         
     Time = np.array(Time)
     Space = np.array(Space)
     Coords = np.concatenate((Time.reshape(number_of_points, 1), Space), axis = 1)    
-    #print(Coords)
     return Coords
     
 

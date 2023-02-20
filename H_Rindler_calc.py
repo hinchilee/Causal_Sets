@@ -1,5 +1,6 @@
 import pandas as pd
 import itertools
+from causalsetfunctions import find_entropy
 
 d_array = [2,3,4]
 for d in d_array: 
@@ -24,3 +25,6 @@ for d in d_array:
         empiricalavalue = rho**((2-d)/d)*(totalLinks/iterationsNo) 
         
         print(f'Empirical a value {empiricalavalue}')
+        
+        entropy = find_entropy(totalHarray)
+        print(f'Entropy: {entropy}')
