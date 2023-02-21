@@ -31,11 +31,11 @@ def spacetime_interval(stcoord1, stcoord2, BHtype , wrapAroundLength = 2):
     
     return spacetime_interval
 
-def find_entropy(H_array):
+def find_entropy(H_array, realisations):
     N = np.sum(H_array)
     p_array = H_array / N
     
-    return N * np.sum([p_i * np.log(1 / p_i) for p_i in p_array if p_i != 0])
+    return (N/realisations) * np.sum([p_i * np.log(1 / p_i) for p_i in p_array if p_i != 0])
 
 def inside_horizon(x):
     s = -(x[0] ** 2)
@@ -88,6 +88,9 @@ def n_sphere_surfacearea(n, r):
         
     return ans
     
+def linear(x, m, c): 
+    return m*x+c
+
 if __name__ == "__main__":
     # H_arr = np.array([2,1])
     # print(find_entropy(H_arr))
