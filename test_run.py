@@ -12,14 +12,14 @@ if len(sys.argv) > 1:
 
 def main():
     tic = time.time()
-    for BHtype in ['Rindler']:
+    for BHtype in ['Dynamic']:
         if BHtype == 'Rindler':
             rho_array = [100, 300, 1000, 3000, 10000]
         elif BHtype == 'Dynamic':
-            rho_array = [0.1, 0.3, 1, 3] 
+            rho_array = [0.03] 
             T = 3 
         for rho in rho_array:
-            for dimension in [2]:
+            for dimension in [4]:
                 #iterations
                 for _i in range(40):
                     print('sprinkling density', rho)
