@@ -1,33 +1,19 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-def H_array(s):
+def H(s):
     return [int(x) for x in s.replace('[', '').replace(']', '').split(', ') if x != '']
 
 def total_links(H):
     return sum([(i + 1) * H[i] for i in range(len(H))])
 
-def a(, rho, d):
-    return rho**((2-d)/d)*(total_links(H))
-
-d_array = [2,3,4]
+d_array = [2, 3, 4]
 for d in d_array: 
     df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
-    a = []
-    for index, row in df.iterrows():
-        H = H_array(row['H'])
-        print(total_links(H))
-        # a.append(a(H_array(row['H']), row['rho'], d))
-    print(df)
-    # rho_array = df['rho'].unique()
-    # rho_array.sort()
-    # for rho in rho_array:
-    #     a_array = []
-    #     H_array = [[int(x) for x in a.replace('[', '').replace(']', '').split(', ') if x != ''] for a in df[df['rho'] == rho]['H'].values]
-    #     for H in H_array:
-    #         a_array.append(rho**((2-d)/d)*(total_links(H)))
-
-    #     plt.hist(a_array, density=True, label=rho, histtype='step', range=(0, 0.5))
-    # plt.legend(title=r'$\rho$')
+    df['a'] = df.apply(lambda row: row['rho']**((2-d)/d)*(total_links(H(row['H']))), axis=1)
+    sns.catplot(x='rho', y='a', data=df, height=5, aspect=2, kind='violin')
+    plt.xlabel(r'$\rho$')
+    plt.ylabel('a')
     plt.title(f'({d-1} + 1) dimensions')
     plt.show()
