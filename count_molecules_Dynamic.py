@@ -16,8 +16,8 @@ def count_chains(N, d, Time, Bounds):
 
 def main():
     tic = time.time()
-    rho_array = [1, 3]
-    d_array = [2,3,4]
+    rho_array = [0.03]
+    d_array = [4]
     T = 3
     for rho in rho_array:
         for dimension in d_array:
@@ -26,6 +26,9 @@ def main():
             try:
                 df = pd.read_csv(path + f'TestRun/test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
                 min_time = max(df[df['type'] == 'min_time']['value'].min()*1.1, -T)
+                #min_time = -1.2
+                #min_distance = 0
+                #max_distance = 5.9
                 min_distance = max(df[df['type'] == 'min_distance']['value'].min()*0.95, 0)
                 max_distance = min(df[df['type'] == 'max_distance']['value'].max()*1.05, 2*T)
 
