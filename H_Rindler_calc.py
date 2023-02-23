@@ -34,19 +34,24 @@ for d in d_array:
         
         entropy = find_entropy(totalHarray, iterationsNo)
         print(f'Entropy: {entropy}')
+         
         
-        y_entropyList.append(entropy)
+        y_entropyList.append(entropy)  #S_boltzmann agaisnt A/rho*
+        #y_entropyList.append(sum(totalHarray)/iterationsNo) #<N> against A/rho*
         x.append(1/rho**((2-d)/d))
     
     plt.scatter(x, y_entropyList)
-    plt.xlabel(r'$\frac{A}{\rho^{\frac{2-d}{d}}}$', fontsize = 20 )
+    plt.xlabel(r'$\frac{A}{\mathcal{l} ^{ d-2}}$', fontsize = 20 )
     plt.ylabel(r'$s_{Boltz}$', fontsize = 20 )
     popt, pcov = curve_fit(linear, x, y_entropyList)
     xLinspace = np.linspace(min(x), max(x), 100)
-    plt.plot(xLinspace, linear(xLinspace, *popt))
-    plt.title(f's_Boltzmann in Rindler in {d}d')
-    plt.show()
+    plt.plot(xLinspace, linear(xLinspace, *popt), label = f'{d}d')
+    #plt.title(f's_Boltzmann in Rindler in {d}d')
     
     print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]}')
+
+plt.legend()    
+plt.show() 
+
         
         
