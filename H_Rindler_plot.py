@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-plt.rc('font', family='Arial', size=16)
+plt.rc('font', family='Arial', size=20)
 
 theoretical_a = {
     2: 1/3,
@@ -25,7 +25,7 @@ for d in d_array:
     plt.axhline(theoretical_a[d], color='r', linestyle='--')
     plt.xlabel(r'$\rho$')
     plt.ylabel('a')
-    plt.title(f'({d-1} + 1) dimensions')
+    plt.title(f'Rindler ({d-1} + 1) dimensions')
     plt.tight_layout()
     plt.savefig(f'H_Rindler{d}d.png')
     # plt.show()
