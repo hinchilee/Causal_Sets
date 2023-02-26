@@ -21,11 +21,11 @@ d_array = [2, 3, 4]
 for d in d_array: 
     df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
     df['a'] = df.apply(lambda row: row['rho']**((2-d)/d)*(total_links(H(row['H']))), axis=1)
-    sns.catplot(x='rho', y='a', data=df, height=5, aspect=2, kind='violin', cut=0)
+    sns.catplot(x='rho', y='a', data=df, height=5, aspect=1.5, kind='violin', cut=0)
     plt.axhline(theoretical_a[d], color='r', linestyle='--')
     plt.xlabel(r'$\rho$')
     plt.ylabel('a')
     plt.title(f'Rindler ({d-1} + 1) dimensions')
     plt.tight_layout()
-    plt.savefig(f'H_Rindler{d}d.png')
+    plt.savefig(f'Plots/H_Rindler{d}d.png', dpi=300)
     # plt.show()
