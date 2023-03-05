@@ -2,6 +2,7 @@
 import numpy as np 
 from math import gamma
 from scipy.special import hyp2f1
+import networkx as nx
 
 #Causal Set Methods
 
@@ -90,6 +91,21 @@ def n_sphere_surfacearea(n, r):
     
 def linear(x, m, c): 
     return m*x+c
+
+def generate_adjacency_matrix(VElementsLabelsList, CausalMatrix): 
+    #AdjMatrix symmetric for undirected graph, 0 on the diagonals
+    
+    AdjMatrix = CausalMatrix[VElementsLabelsList,:][:,VElementsLabelsList]
+    AdjMatrix += AdjMatrix.T
+    return AdjMatrix
+
+def count_subgraphs(AdjMatrix):
+    G = nx.from_numpy_matrix(AdjMatrix)
+    return nx.number_connected_components(G)
+
+def check_connected_graph(AdjMatrix):
+    G = nx.from_numpy_matrix(AdjMatrix)
+    return nx.is_connected(G)
 
 if __name__ == "__main__":
     # H_arr = np.array([2,1])
