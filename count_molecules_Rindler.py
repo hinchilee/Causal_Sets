@@ -1,5 +1,6 @@
 import numpy as np
 from causalset import CausalSet
+from causalsetfunctions import generate_adjacency_matrix, count_subgraphs, check_connected_graph
 import time
 import sys
 import os

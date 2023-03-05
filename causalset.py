@@ -324,49 +324,99 @@ class CausalSet(object):
             pass
 
         return H_array
+    
+    def find_Vmolecules(self):
+        
+        VElementsLabelsSet = set()
+        V_count = 0 
+        
+        # 1. Check lower element has 2 future elements 
+        for i in range(len(self.CausalMatrix)):
+            row = self.CausalMatrix[i]
+            linksBottomElement = sum(row)
+            inside = False
+            outside = False
+            
+            if linksBottomElement == 2:
+                
+                future2Elements = np.nonzero(row)
+                
+                # 2. Check both top elements has no causal future
+                for j in future2Elements[0]: 
+                    linksTopElements = sum(self.CausalMatrix[j])
+                    if linksTopElements != 0: 
+                        break 
+                    
+                    # 3. Check each element is outside H and inside H respectively 
+                    if self.BHtype == 'Rindler': 
+                        if self.ElementList[j].coordinates[0] > self.ElementList[j].coordinates[1]: 
+                            inside = True
+                        elif self.ElementList[j].coordinates[1] > self.ElementList[j].coordinates[0]:
+                            outside = True 
+                    elif self.BHtype == 'Dynamic': 
+                        if inside_horizon(self.ElementList[j].coordinates): 
+                            inside = True
+                        elif inside_horizon(self.ElementList[j].coordinates) == False:
+                            outside = True
+                          
+            # 4. Succuesfully identify V-molecule
+            if (inside, outside) == (True, True): 
+                V_count += 1 
+                VElementsLabelsSet.add(future2Elements[0][0]) 
+                VElementsLabelsSet.add(future2Elements[0][1]) 
+                VElementsLabelsSet.add(i)
+                
+            
+        self.VElementsLabelsList = list(VElementsLabelsSet)
+        
+        print(f'V-molecule count: {V_count}')
+        
+        return V_count
+    
+    
 
 
 if __name__ == "__main__":
 
 
-    def main():
-        np.random.seed(12)
-    
-        tic = time.time()
-        boundsArray = np.array([[-0.5, 0.5] for i in range(3)])
-        boundsArray[0][1] = 0.5 #no normalisation
-        boundsArray[1][1] = 1.5
-    
-        c = CausalSet(sprinkling_density=1,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                      dimension=4,
-                      BHtype='Dynamic',           # 'Rindler', 'Dynamic', 'Empty'
-                      sprinkling='Tube',     # 'Uniform' or 'Tube' for 'Dynamic'BH 
-                      T = 3,                    # T is only needed when BHtype = 'Dynamic'
-                      bounds = [5, 10, 2, 3])   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]            
-    
-        #c.visualisation()
-        # print(c.ElementList)
-        #print('Casual Matrix: \n', c.CausalMatrix)
-        # C2 = c.CausalMatrix
-        # c.find_linkmatrix()
-        # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-    
-        print(c.find_molecules())
-    
-        # print('Link Matrix: \n', c.LinkMatrix)
-        #c.visualisation()
-    
-        toc = time.time()
-    
-        print(f'Time elapsed is {toc - tic}')
-    
-    
-    cProfile.run("main()", "output.dat")
+    #def main():
+    np.random.seed(12)
 
-    with open("output_time.txt", 'w') as f:
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("time").print_stats()
+    tic = time.time()
+    boundsArray = np.array([[-0.5, 0.5] for i in range(3)])
+    boundsArray[0][1] = 0.5 #no normalisation
+    boundsArray[1][1] = 1.5
 
-    with open("output_calls.txt", "w") as f:
-        p = pstats.Stats("output.dat", stream = f)
-        p.sort_stats("calls").print_stats()
+    c = CausalSet(sprinkling_density=500,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
+                  dimension=4,
+                  BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
+                  sprinkling='Tube',     # 'Uniform' or 'Tube' for 'Dynamic'BH 
+                  T = 3)#,                    # T is only needed when BHtype = 'Dynamic'
+                  #bounds = [5, 10, 2, 3])   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]            
+
+    #c.visualisation()
+    # print(c.ElementList)
+    #print('Casual Matrix: \n', c.CausalMatrix)
+    # C2 = c.CausalMatrix
+    # c.find_linkmatrix()
+    # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
+
+    #print(c.find_molecules())
+    c.find_Vmolecules()
+    # print('Link Matrix: \n', c.LinkMatrix)
+    #c.visualisation()
+
+    toc = time.time()
+
+    print(f'Time elapsed is {toc - tic}')
+    
+    
+    # cProfile.run("main()", "output.dat")
+
+    # with open("output_time.txt", 'w') as f:
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("time").print_stats()
+
+    # with open("output_calls.txt", "w") as f:
+    #     p = pstats.Stats("output.dat", stream = f)
+    #     p.sort_stats("calls").print_stats()
