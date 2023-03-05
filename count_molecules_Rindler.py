@@ -31,14 +31,12 @@ def main():
         # Number of realisations
             n = 97
             try:
-                #df = pd.read_csv(path + f'TestRun/test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
+                df = pd.read_csv(path + f'TestRun/test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
                 with open(path + 'min_time.json') as f:
                     dfTime = json.load(f)
                 min_time = max(dfTime[f"{rho}_{dimension}d"], -1)
-                min_distance = 0 
-                max_distance = 2 
-                #min_distance = max(df[df['type'] == 'min_distance']['value'].min()*0.95, 0)
-                #max_distance = min(df[df['type'] == 'max_distance']['value'].max()*1.05, 2)
+                min_distance = max(df[df['type'] == 'min_distance']['value'].min()*0.95, 0)
+                max_distance = min(df[df['type'] == 'max_distance']['value'].max()*1.05, 2)
 
             except:
                 

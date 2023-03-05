@@ -46,14 +46,15 @@ for d in d_array:
         y_entropyList.append(entropy)
         x.append(n_sphere_surfacearea(n = d - 2, r = T)/rho**((2-d)/d))
         
-    plt.scatter(x, y_entropyList)
-    plt.xlabel(r'$\frac{A}{\rho^{\frac{2-d}{d}}}$', fontsize = 20 )
-    plt.ylabel(r'$s_{Boltz}$', fontsize = 20 )
-    popt, pcov = curve_fit(linear, x, y_entropyList)
-    xLinspace = np.linspace(min(x), max(x), 100)
-    plt.plot(xLinspace, linear(xLinspace, *popt))
-    plt.title(f's_Boltzmann in Dynamic in {d}d')
-    plt.show()
-    
-    print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]}')
+    if d ==4:
+        plt.scatter(x, y_entropyList)
+        plt.xlabel(r'$\frac{A}{\rho^{\frac{2-d}{d}}}$', fontsize = 20 )
+        plt.ylabel(r'$s_{Boltz}$', fontsize = 20 )
+        popt, pcov = curve_fit(linear, x, y_entropyList)
+        xLinspace = np.linspace(min(x), max(x), 100)
+        plt.plot(xLinspace, linear(xLinspace, *popt))
+        plt.title(f's_Boltzmann in Dynamic in {d}D')
+        plt.show()
+        
+        print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
         
