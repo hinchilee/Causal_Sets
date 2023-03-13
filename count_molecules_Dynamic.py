@@ -11,15 +11,34 @@ path = ''
 if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
-def count_chains(N, d, Time, Bounds):
+def count_chains(N, d, Time, moleculetype, Bounds):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
-    return CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', T=Time, bounds = Bounds).find_molecules()
-
+    #lambda-molecules
+    if moleculetype == 'lambda':
+        return CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', T=Time, bounds = Bounds).find_molecules() 
+    #v-moelcules
+    elif moleculetype == 'v':
+        c = CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', T=Time, bounds = Bounds)
+        V = c.find_Vmolecules()
+        try:
+            Adjmatrix = generate_adjacency_matrix(c.VElementsLabelsList, c.CausalMatrix)
+            SubGraphs = count_subgraphs(Adjmatrix)
+            Connected = check_connected_graph(Adjmatrix)
+            print(f'Subgraphs number: {SubGraphs}')
+            print(f'Connected Graph: {Connected}')
+            return V, SubGraphs, Connected
+        except: 
+            print('Subgraphs number: 0')
+            print('Connected Graph: False')
+            return V, 0, False
+    
 def main():
     tic = time.time()
-    rho_array = [0.03]
-    d_array = [4]
+    rho_array = [0.1, 0.3, 1, 3]
+    d_array = [2,3,4]
     T = 3
+    moleculeType = 'v'
+    #moleculeType = 'lambda'
     for rho in rho_array:
         for dimension in d_array:
         # Number of realisations
@@ -41,10 +60,16 @@ def main():
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
                 print('BoundsArray:', boundsArray)
-                H = count_chains(rho, dimension, T, boundsArray)
-                with open(path + f'H_Dynamic{dimension}d.csv', 'a') as f:
+                if moleculeType == 'lambda':
+                    H = count_chains(rho, dimension, T, moleculeType, boundsArray)
+                elif moleculeType == 'v':
+                    H, Subgraphs, Connected = count_chains(rho, dimension, T, moleculeType, boundsArray)
+                with open(path + f'H_Dynamic{dimension}d_{moleculeType}.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
-                    writer.writerow([rho, H])
+                    if moleculeType == 'lambda':
+                        writer.writerow([rho, H])
+                    elif moleculeType == 'v':
+                        writer.writerow([rho, H, Subgraphs, Connected])
                 
     toc = time.time()
     print(f'Time taken is {toc - tic}')

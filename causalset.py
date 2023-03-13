@@ -105,7 +105,7 @@ class CausalSet(object):
             self.ElementList.append(CausalEvent(label=i, coordinates=coords))
 
         self.LinkMatrix = None
-
+        self.VElementsLabelsList = list()
         self.generate_CausalMatrix()
 
     def generate_CausalMatrix(self):
@@ -366,7 +366,6 @@ class CausalSet(object):
                 VElementsLabelsSet.add(future2Elements[0][1]) 
                 VElementsLabelsSet.add(i)
                 
-            
         self.VElementsLabelsList = list(VElementsLabelsSet)
         
         print(f'V-molecule count: {V_count}')

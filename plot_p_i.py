@@ -1,6 +1,6 @@
 import pandas as pd
+import itertools
 import numpy as np
-from scipy import stats
 import matplotlib.pyplot as plt
 plt.rc('font', family='Arial', size=20)
 
@@ -24,18 +24,17 @@ for BHtype in ['Rindler', 'Dynamic']:
     for H_i in H_dict.values():
         H_i = np.pad(H_i, (0, N - len(H_i)), 'constant')
         mean_array.append(np.mean(H_i))
-        std_array.append(stats.sem(H_i))
+        std_array.append(np.std(H_i))
     std_array /= np.sum(mean_array)
     mean_array /= np.sum(mean_array)
     if BHtype == 'Rindler':
         padding = 0
     else:
         padding = width
-    plt.bar(bar_index + padding, mean_array, width, yerr=std_array, label=BHtype, capsize=10)
+    plt.bar(bar_index + padding, mean_array, width, label=BHtype)
 plt.ylabel(r'$p_i$')
 plt.xlabel(r'$i$-molecule')
 plt.xticks(bar_index + width / 2, ['1', '2', '3', '4', '5', '6'])
 plt.legend()
 plt.tight_layout()
-plt.savefig(f'Plots/p_i.png', dpi=300)
-# plt.show()
+plt.show()
