@@ -83,9 +83,11 @@ def n_ball_volume(n, r):
     
 def n_sphere_surfacearea(n, r): 
     try:
-        ans = 2*(np.pi**(n/2))*(r**(n-1))/(gamma(n/2))
+        ans = 2*(np.pi**((n+1)/2))/(gamma((n+1)/2))
     except: 
         ans = 1 
+    if n == 0 and r == 1: 
+        ans = 1
         
     return ans
     
@@ -107,10 +109,75 @@ def check_connected_graph(AdjMatrix):
     G = nx.from_numpy_matrix(AdjMatrix)
     return nx.is_connected(G)
 
+# def compute_b(d, N_max = 10000): 
+#     #epsilon = b*l 
+#     if d == 2: 
+#         b = (N_max/4)**0.5
+#     elif d == 3: 
+#         b = (N_max/(4*np.pi))**(1/3)
+#     elif d == 4: 
+#         b = (N_max*3/(16*np.pi))**(1/4)
+#     return b 
+
+# def compute_spacetimecuts_tube(d, rho, N_max = 10000, T_max = 1): 
+#     #outputs bounds array of R_min, R_max, T_min, T_max, #T_max = 1 by default
+#     l = rho**(-1/d)
+#     b = compute_b(d, N_max)
+#     T_min = T_max - b*l
+#     R_min = T_max - b*l
+#     R_max = T_max + b*l
+#     return [R_min, R_max, T_min, T_max]
+
+def compute_spacetimecuts_tube(d, rho2 = 10000, N_max = 10000, b = 3): 
+    #outputs bounds array of R_min, R_max, T_min, T_max, #T_max = 1 by default
+    
+    #assumed T_max = 1
+    if d == 2: 
+        l = rho2**(-1/d)
+        b = (N_max/4)**0.5
+    elif d == 3: 
+        l = 4*np.pi*b**2/N_max
+    elif d == 4: 
+        a = 4*np.pi/3
+        #care, for too small N_max, may yield complex solution for l 
+        l = (6*b**2/(N_max/a - 2*(b**4)))**0.5
+        while isinstance(l, complex):
+            b -= 0.1
+            l = (6*b**2/(N_max/a - 2*(b**4)))**0.5
+
+    T_max = 1 
+    T_min = T_max - b*l
+    if T_min < 0: 
+        T_min = 0
+    R_min = T_max - b*l
+    if R_min < 0: 
+        R_min = 0
+    R_max = T_max + b*l
+    if R_max > T_max*2: 
+        R_max = T_max*2
+    
+    ndimension = d - 1 
+    stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
+    rho = N_max/stV
+    adjustedl = rho**(-1/d)
+    adjustedb = (R_max - T_max)/ adjustedl
+    #print(f'adjustedl:{adjustedl}, adjustedb: {adjustedb}')
+    
+    return [R_min, R_max, T_min, T_max], rho
+
+
+
 if __name__ == "__main__":
     # H_arr = np.array([2,1])
     # print(find_entropy(H_arr))
     # print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))
     #print(theoretical_a4_flat(1))  # Does indeed yield Barton et al 2019 (3.16), should be correct
     #print(frustum_curved_surfaceaarea(3, 5))
-    print(n_sphere_surfacearea(3, 2))
+    print(n_sphere_surfacearea(0, 1))
+    dimension = 4
+    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 10000, N_max = 20000, b= 3)
+    R_min, R_max, T_min, T_max = boundsArray
+    ndimension = dimension -1
+    stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
+    points = stV * rho
+    print(stV, rho, points, boundsArray)

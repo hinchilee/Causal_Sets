@@ -96,8 +96,25 @@ def Sprinkling_Tube(dimension = 2, number_of_points = 10, bounds = [ 0.3, 1, 0, 
 
 if __name__ == "__main__":
     np.random.seed(11)
-    a= Sprinkling_Tube(dimension = 3, 
-                          bounds = np.array([[-10,10],
-                                             [-10,10], 
-                                             [-10,10]]))
-    print(a)
+    a = Sprinkling_Tube(dimension = 4, 
+                       number_of_points= 100000,
+                          bounds = [0,1, 0, 1])
+    r = list()
+    for row in range(a.shape[0]): 
+        r.append(np.linalg.norm(a[row][1:]))
+    
+    bins = np.linspace(0, 1, 21)
+    binMiddles = np.linspace(0.025, 0.975, 20)
+    freq, binsPositions = np.histogram(r, bins = bins)
+    import matplotlib.pyplot as plt 
+    plt.plot(binMiddles, freq, label = 'sprinkledpoints')
+    
+    def funcx3(x, a): 
+        return a*x**2
+    
+    from scipy.optimize import curve_fit
+    
+    popt, pcov = curve_fit(funcx3, binMiddles, freq)
+    plt.plot(binMiddles, funcx3(binMiddles, *popt), label = 'x^3 fit')
+    plt.legend()
+    plt.show()

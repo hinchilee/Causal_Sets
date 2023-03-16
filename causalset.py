@@ -322,7 +322,8 @@ class CausalSet(object):
             print(f'The minimum distance of a molecule is {min_distance}')
         except: 
             pass
-
+        
+        print(f'Harray:{H_array}')
         return H_array
     
     def find_Vmolecules(self):
@@ -390,7 +391,7 @@ if __name__ == "__main__":
                   dimension=4,
                   BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
                   sprinkling='Tube',     # 'Uniform' or 'Tube' for 'Dynamic'BH 
-                  T = 3)#,                    # T is only needed when BHtype = 'Dynamic'
+                  T = 1)#,                    # T is only needed when BHtype = 'Dynamic'
                   #bounds = [5, 10, 2, 3])   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]            
 
     #c.visualisation()

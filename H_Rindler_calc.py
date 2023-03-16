@@ -6,8 +6,12 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 d_array = [2,3,4]
+moleculetype = 'lambda'
 for d in d_array: 
-    df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
+    if moleculetype == 'lambda':
+        df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
+    elif moleculetype == 'v':
+        df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
     #print(df)
     rho_array = df['rho'].unique()
     rho_array.sort()
@@ -18,29 +22,47 @@ for d in d_array:
         print('\n sprinkling density',rho, f'in {d} dimensions')
         iterationsNo = df[df['rho'] == rho].shape[0]
         print(f'number of iterations: {iterationsNo}')
-        totalHarray = [sum(x) for x in itertools.zip_longest(*[[int(x) if x != '' else 0 for x in a.replace('[', '').replace(']', '').split(', ')] for a in df[df['rho'] == rho]['H'].values], fillvalue=0)]
-        dataArray = np.array([x for x in itertools.zip_longest(*[[int(x) if x != '' else 0 for x in a.replace('[', '').replace(']', '').split(', ')] for a in df[df['rho'] == rho]['H'].values], fillvalue=0)])
+        if moleculetype == 'lambda':
+            totalHarray = [sum(x) for x in itertools.zip_longest(*[[int(x) if x != '' else 0 for x in a.replace('[', '').replace(']', '').split(', ')] for a in df[df['rho'] == rho]['H'].values], fillvalue=0)]
+            dataArray = np.array([x for x in itertools.zip_longest(*[[int(x) if x != '' else 0 for x in a.replace('[', '').replace(']', '').split(', ')] for a in df[df['rho'] == rho]['H'].values], fillvalue=0)])
+        elif moleculetype == 'v':
+            totalHarray = np.sum([df[df['rho'] == rho]['H'].values])
+            dataArray = [df[df['rho'] == rho]['H'].values]
         print('total Harray \n', totalHarray)
         print('p_i:', totalHarray/ np.sum(totalHarray))
-        
-        totalLinks = 0 
-        for i, value in enumerate(totalHarray):
-            totalLinks += (i+1)*value
-            
-        print(f'Total Links: {totalLinks}')
+        if moleculetype == 'lambda':
+            totalLinks = 0 
+            for i, value in enumerate(totalHarray):
+                totalLinks += (i+1)*value
+                
+            print(f'Total Links: {totalLinks}')
+    
+        elif moleculetype == 'v': 
+            totalLinks = totalHarray
         
         empiricalavalue = rho**((2-d)/d)*(totalLinks/iterationsNo)
         
         dataArrayLinks = dataArray
-        for row in range(dataArray.shape[0]): 
-            dataArrayLinks[row,:] = dataArray[row,:]*(row+1)
+        try:
+            for row in range(len(dataArray)): 
+                dataArrayLinks[row,:] = dataArray[row,:]*(row+1)
+        except:
+            pass
         LinksArray = np.sum(dataArrayLinks, axis = 0)
         percaErr = np.std(LinksArray)/ (totalLinks/iterationsNo)
         #due to flucutations in std<H1>
         aerror = percaErr*empiricalavalue/ np.sqrt(iterationsNo)
         print(f'Empirical a value {empiricalavalue} +- {aerror} ')
         
-        entropy = find_entropy(totalHarray, iterationsNo)
+        if moleculetype == 'lambda':
+            #lambda molecules
+            #entropy = find_entropy(totalHarray, iterationsNo)
+            #links 
+            entropy = totalLinks/iterationsNo
+            
+        elif moleculetype == 'v': 
+            entropy = totalHarray/ iterationsNo
+            
         #due to fluctiations in <N>, avr no. of molecules per realisation
         MoleculeArray = np.sum(dataArray, axis = 0) 
         percEntropyError = np.std(MoleculeArray)/ ((np.sum(totalHarray)/ iterationsNo))
@@ -63,11 +85,11 @@ for d in d_array:
         #plt.title(f's_Boltzmann in Rindler in {d}d')
     
         print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
-plt.title('Boltzmannian Entropy for 3+1 Rindler', fontsize = 25, pad = 20)
+plt.title(f'Boltzmannian Entropy for 3+1 Rindler for {moleculetype} molecules', fontsize = 25, pad = 20)
 plt.xticks(fontsize = 20)
 plt.yticks(fontsize = 20)
 plt.legend(fontsize = 15)    
-plt.savefig('BoltzEntropyRindler.png', dpi = 300, bbox_inches='tight')
+plt.savefig(f'BoltzEntropyRindler_{moleculetype}.png', dpi = 300, bbox_inches='tight')
 plt.show() 
 
         
