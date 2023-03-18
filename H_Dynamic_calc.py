@@ -13,14 +13,14 @@ from scipy.optimize import curve_fit
 
 T = 1
 d_array = [2,3,4]
-moleculetype = 'lambda'
+moleculetype = 'v'
 for d in d_array: 
     if moleculetype == 'lambda':
         df = pd.read_csv(f'H_Dynamic{d}d_{moleculetype}.csv', names=['rho', 'H'], header=None)
         df['rho'] = df['rho'].round(1)  
     #print(df)
     elif moleculetype == 'v':
-        df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
+        df = pd.read_csv(f'H_Dynamic{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
         df['rho'] = df['rho'].round(1)
     rho_array = df['rho'].unique()
     rho_array.sort()
@@ -65,14 +65,15 @@ for d in d_array:
         #due to flucutations in std<H1>
         aerror = percaErr*empiricalavalue/ np.sqrt(iterationsNo)
         print(f'Empirical a value {empiricalavalue} +- {aerror} ')
-        #theoryauncorrected
-        if d == 4:
-            theoryacorrected =0.173205 + (-0.0209261)*(d-2)*(rho**(-1/d))/(T*np.sqrt(2)) 
-        elif d== 3: 
-            theoryacorrected = 0.2188 
-        elif d== 2: 
-            theoryacorrected = 2/3
-        print(f'theoretical a value for rho {d}d after finite rho correction is {theoryacorrected} ')
+        if moleculetype == 'lambda':
+            #theoryauncorrected
+            if d == 4:
+                theoryacorrected =0.173205 + (-0.0209261)*(d-2)*(rho**(-1/d))/(T*np.sqrt(2)) 
+            elif d== 3: 
+                theoryacorrected = 0.2188 
+            elif d== 2: 
+                theoryacorrected = 2/3
+            print(f'theoretical a value for rho {d}d after finite rho correction is {theoryacorrected} ')
     
         if moleculetype == 'lambda':
             #lambda molecules

@@ -35,12 +35,12 @@ def count_chains(N, d, Time, moleculetype, Bounds):
 def main():
     tic = time.time()
     rho_array = [1000]
-    d_array = [4, 2]
+    d_array = [4]
     T = 1
     #moleculeType = 'v'
-    moleculeType = 'lambda'
+    moleculeType = 'v'
     #for rho in rho_array:
-    for N_max in [20000]:
+    for N_max in [10000]:
         for dimension in d_array:
         # Number of realisations
             n = 100
@@ -59,7 +59,7 @@ def main():
             #adding some leeway
             #boundsArray = [min_distance, max_distance, T + min_time, T]
             #N_max = 10000
-            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = 14000, N_max = N_max, b = 3)
+            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = 5000, N_max = N_max, b = 3)
                 
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')

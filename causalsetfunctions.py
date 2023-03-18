@@ -109,24 +109,31 @@ def check_connected_graph(AdjMatrix):
     G = nx.from_numpy_matrix(AdjMatrix)
     return nx.is_connected(G)
 
-# def compute_b(d, N_max = 10000): 
-#     #epsilon = b*l 
-#     if d == 2: 
-#         b = (N_max/4)**0.5
-#     elif d == 3: 
-#         b = (N_max/(4*np.pi))**(1/3)
-#     elif d == 4: 
-#         b = (N_max*3/(16*np.pi))**(1/4)
-#     return b 
+def compute_spacetimecuts_uniform_Rindler(d, rho, N_max = 10000, b = 4, bhEdge = 0.5): 
+    #outputs bounds array of dimension d
+    
+    l = rho**(-1/d)
+    print('l:', l)
+    epsilon = b*l 
+    #stV = (2*epsilon)**(d-1)*epsilon   #wrap around dimensions length = 2epsilon
 
-# def compute_spacetimecuts_tube(d, rho, N_max = 10000, T_max = 1): 
-#     #outputs bounds array of R_min, R_max, T_min, T_max, #T_max = 1 by default
-#     l = rho**(-1/d)
-#     b = compute_b(d, N_max)
-#     T_min = T_max - b*l
-#     R_min = T_max - b*l
-#     R_max = T_max + b*l
-#     return [R_min, R_max, T_min, T_max]
+    boundsArray = np.array([[-bhEdge, bhEdge] for i in range(d)])
+    boundsArray[0][0] = bhEdge - epsilon 
+    if epsilon > 1: 
+        boundsArray[1][1] = bhEdge + bhEdge*2
+    else: 
+        boundsArray[1][1] = bhEdge + epsilon
+        boundsArray[1][0] = bhEdge - epsilon
+        
+    stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
+    adjusted_rho = N_max/ stV
+    adjusted_l = adjusted_rho**(-1/d)
+    
+    # Ensures that b is at least larger than initial value
+    if adjusted_rho < rho: 
+        raise ValueError(f'Adjusted_rho = {adjusted_rho} < rho = {rho}. Please choose a SMALLER rho.')
+    
+    return boundsArray, adjusted_rho, l, adjusted_l
 
 def compute_spacetimecuts_tube(d, rho2 = 10000, N_max = 10000, b = 3): 
     #outputs bounds array of R_min, R_max, T_min, T_max, #T_max = 1 by default
@@ -173,11 +180,23 @@ if __name__ == "__main__":
     # print(spacetime_interval(np.array([1,1.1]), np.array([0,0])))
     #print(theoretical_a4_flat(1))  # Does indeed yield Barton et al 2019 (3.16), should be correct
     #print(frustum_curved_surfaceaarea(3, 5))
-    print(n_sphere_surfacearea(0, 1))
+    #print(n_sphere_surfacearea(0, 1))
+    
+    #Dynamic
     dimension = 4
-    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 10000, N_max = 20000, b= 3)
+    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 5000, N_max = 10000, b= 3)
     R_min, R_max, T_min, T_max = boundsArray
     ndimension = dimension -1
     stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
     points = stV * rho
     print(stV, rho, points, boundsArray)
+    
+    # #Rindler
+    # dimensionList = [4]
+    # # Limiting case is in 4d
+    # for dimension in dimensionList:
+    #     print(f'dimension: {dimension}')
+    #     boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 10000, N_max = 10000, b = 4)
+    #     print(boundsArray, adjusted_rho)
+    #     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
+    #     print('points:', stV* adjusted_rho)

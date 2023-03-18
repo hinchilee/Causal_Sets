@@ -7,18 +7,14 @@ import os
 import csv
 import pandas as pd
 import json
+from causalsetfunctions import compute_spacetimecuts_uniform_Rindler
 
 path = ''
 if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
-def count_chains(N, mintime, mindistance, maxdistance, moleculetype, d = 4):
+def count_chains(N, mintime, mindistance, maxdistance, moleculetype, boundsArray, d = 4):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
-    boundsArray = np.array([[-0.5, 0.5] for i in range(d)])
-    boundsArray[0][0] = 0.5 + mintime 
-    boundsArray[1][1] = 1.5
-    boundsArray[1][0] = mindistance - 0.5
-    boundsArray[1][1] = maxdistance - 0.5
     
     #lambda-molecules
     if moleculetype == 'lambda':
@@ -41,38 +37,45 @@ def count_chains(N, mintime, mindistance, maxdistance, moleculetype, d = 4):
         
 def main():
     tic = time.time()
-    rho_array = [100, 300, 1000, 3000, 10000]
-    d_array = [2,3,4]
-    moleculeType = 'v'
+    #rho_array = [1000]
+    d_array = [4]
     #moleculeType = 'lambda'
-    for rho in rho_array:
+    moleculeType = 'v'
+    #for rho in rho_array:
+    rho = 10000
+    for N_max in [10000]:
         for dimension in d_array:
         # Number of realisations
             n = 100
-            try:
-                df = pd.read_csv(path + f'TestRun/test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
-                with open(path + 'min_time.json') as f:
-                    dfTime = json.load(f)
-                min_time = max(dfTime[f"{rho}_{dimension}d"], -1)
-                min_distance = max(df[df['type'] == 'min_distance']['value'].min()*0.95, 0)
-                max_distance = min(df[df['type'] == 'max_distance']['value'].max()*1.05, 2)
+            # try:
+            #     df = pd.read_csv(path + f'TestRun/test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
+            #     with open(path + 'min_time.json') as f:
+            #         dfTime = json.load(f)
+            #     min_time = max(dfTime[f"{rho}_{dimension}d"], -1)
+            #     min_distance = max(df[df['type'] == 'min_distance']['value'].min()*0.95, 0)
+            #     max_distance = min(df[df['type'] == 'max_distance']['value'].max()*1.05, 2)
 
-            except:
+            # except:
                 
-                raise ValueError ('No test run information!')
+            #     raise ValueError ('No test run information!')
+            
+            boundsArray, adjusted_rho, l, adjusted_l = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = rho, N_max = N_max, b= 4)
         
             for _i in range(n):
-                print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
+                print(f'\n realisation:{_i+1}, rho:{adjusted_rho}, dimension:{dimension}')
+                print('BoundsArray:\n', boundsArray)
+                print('N_max:', N_max)
+                print(f'l: {l}, adjustedl: {adjusted_l}')
                 if moleculeType == 'lambda':
-                    H = count_chains(rho, min_time, min_distance, max_distance, moleculeType, dimension)
+                    H = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
                 elif moleculeType == 'v':
-                    H, Subgraphs, Connected = count_chains(rho, min_time, min_distance, max_distance, moleculeType, dimension)
+                    H, Subgraphs, Connected = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
                 with open(path + f'H_Rindler{dimension}d_{moleculeType}.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
                     if moleculeType == 'lambda':
-                        writer.writerow([rho, H])
+                        writer.writerow([adjusted_rho, H])
                     elif moleculeType == 'v':
-                        writer.writerow([rho, H, Subgraphs, Connected])
+                        writer.writerow([adjusted_rho, H, Subgraphs, Connected])
                 
     toc = time.time()
     print(f'Time taken is {toc - tic}')

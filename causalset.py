@@ -318,8 +318,8 @@ class CausalSet(object):
             self.max_distance = max_distance 
             self.min_distance = min_distance    #for dynamic, min distance is min spatial distance from the t-axis
             print(f'The minimum time of a molecule is {min_time}')
-            print(f'The maximum distance of a molecule is {max_distance}')
-            print(f'The minimum distance of a molecule is {min_distance}')
+            #print(f'The maximum distance of a molecule is {max_distance}')
+            #print(f'The minimum distance of a molecule is {min_distance}')
         except: 
             pass
         
@@ -330,6 +330,7 @@ class CausalSet(object):
         
         VElementsLabelsSet = set()
         V_count = 0 
+        min_time = 10000
         
         # 1. Check lower element has 2 future elements 
         for i in range(len(self.CausalMatrix)):
@@ -363,12 +364,17 @@ class CausalSet(object):
             # 4. Succuesfully identify V-molecule
             if (inside, outside) == (True, True): 
                 V_count += 1 
+                if self.BHtype == 'Rindler':
+                    min_time = min(min_time, self.ElementList[i].coordinates[0] - 0.5)
+                elif self.BHtype == 'Dynamic': 
+                    min_time = min(min_time, self.ElementList[i].coordinates[0] - self.T)
                 VElementsLabelsSet.add(future2Elements[0][0]) 
                 VElementsLabelsSet.add(future2Elements[0][1]) 
                 VElementsLabelsSet.add(i)
                 
+        self.min_time_v = min_time
         self.VElementsLabelsList = list(VElementsLabelsSet)
-        
+        print(f'min_time for v molecule is: {self.min_time_v}')
         print(f'V-molecule count: {V_count}')
         
         return V_count

@@ -6,12 +6,14 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 d_array = [2,3,4]
-moleculetype = 'lambda'
+moleculetype = 'v'
 for d in d_array: 
     if moleculetype == 'lambda':
-        df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)
+        df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H'], header=None)
+        df['rho'] = df['rho'].round(1)  
     elif moleculetype == 'v':
         df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
+        df['rho'] = df['rho'].round(1)  
     #print(df)
     rho_array = df['rho'].unique()
     rho_array.sort()
@@ -53,6 +55,16 @@ for d in d_array:
         #due to flucutations in std<H1>
         aerror = percaErr*empiricalavalue/ np.sqrt(iterationsNo)
         print(f'Empirical a value {empiricalavalue} +- {aerror} ')
+       
+        if moleculetype == 'lambda':
+            #theoryauncorrected
+            if d == 4:
+                theoryacorrected =0.173205  
+            elif d== 3: 
+                theoryacorrected = 0.2188 
+            elif d== 2: 
+                theoryacorrected = 1/3
+            print(f'theoretical a value for rho {d}d is {theoryacorrected} ')
         
         if moleculetype == 'lambda':
             #lambda molecules

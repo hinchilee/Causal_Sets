@@ -182,7 +182,7 @@ class CausalSet(object):
             #plt.xlim((-1, 1))
             #plt.ylim((-1,1))
             plt.axis('square')
-            plt.savefig('CausalSet.png', dpi = 300,bbox_inches='tight')
+            plt.savefig('CausalSet.png', dpi = 300,bbox_inches='tight', transparent = True)
             plt.show()
 
         if self.dimension == 3:
