@@ -7,8 +7,9 @@ plt.rc('font', family='Arial', size=20)
 bar_index = np.arange(6)
 width = 0.35
 d_array = [2, 3, 4]
+moleculetype = 'lambda'
 for BHtype in ['Rindler', 'Dynamic']:
-    df = pd.concat([pd.read_csv(f'H_{BHtype}{d}d.csv', names=['rho', 'H'], header=None) for d in d_array])
+    df = pd.concat([pd.read_csv(f'H_{BHtype}{d}d_{moleculetype}.csv', names=['rho', 'H'], header=None) for d in d_array])
     H_dict = {}
     N = df.shape[0]
     for index, row in df.iterrows():
@@ -31,10 +32,11 @@ for BHtype in ['Rindler', 'Dynamic']:
         padding = 0
     else:
         padding = width
-    plt.bar(bar_index + padding, mean_array, width, label=BHtype)
+    plt.bar(bar_index + padding, mean_array[:6], width, label=BHtype)
 plt.ylabel(r'$p_i$')
 plt.xlabel(r'$i$-molecule')
 plt.xticks(bar_index + width / 2, ['1', '2', '3', '4', '5', '6'])
 plt.legend()
-plt.tight_layout()
+#plt.tight_layout()
+plt.savefig(f'Plots/p_i_against_i.png', dpi = 300, transparent = True, bbox_inches='tight')
 plt.show()
