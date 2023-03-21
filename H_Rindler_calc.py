@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 d_array = [2,3,4]
-moleculetype = 'v'
+moleculetype = 'lambda'
 for d in d_array: 
     if moleculetype == 'lambda':
         df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H'], header=None)
@@ -85,8 +85,11 @@ for d in d_array:
         y_entropyList.append(entropy)  #S_boltzmann agaisnt A/rho*
         #y_entropyList.append(sum(totalHarray)/iterationsNo) #<N> against A/rho*
         x.append(1/rho**((2-d)/d))
+        
     if d==4:
         plt.rc('font', family='Arial')
+        #x = x[1:]
+        #y_entropyList = y_entropyList[1:]
         plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
         plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
         plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
@@ -97,11 +100,11 @@ for d in d_array:
         #plt.title(f's_Boltzmann in Rindler in {d}d')
     
         print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
-plt.title(f'Boltzmannian Entropy for 3+1 Rindler for {moleculetype} molecules', fontsize = 25, pad = 20)
+plt.title(f'Boltzmannian Entropy for 3+1 Rindler', fontsize = 25, pad = 20)
 plt.xticks(fontsize = 20)
 plt.yticks(fontsize = 20)
 plt.legend(fontsize = 15)    
-plt.savefig(f'BoltzEntropyRindler_{moleculetype}.png', dpi = 300, bbox_inches='tight')
+plt.savefig(f'Plots/BoltzEntropyRindler_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)
 plt.show() 
 
         

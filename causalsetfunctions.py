@@ -184,7 +184,7 @@ if __name__ == "__main__":
     
     #Dynamic
     dimension = 4
-    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 5000, N_max = 10000, b= 3)
+    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 30000, N_max = 16000, b= 2.1)
     R_min, R_max, T_min, T_max = boundsArray
     ndimension = dimension -1
     stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     # # Limiting case is in 4d
     # for dimension in dimensionList:
     #     print(f'dimension: {dimension}')
-    #     boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 10000, N_max = 10000, b = 4)
+    #     boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 23000, N_max = 10000, b = 2.8)
     #     print(boundsArray, adjusted_rho)
     #     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
     #     print('points:', stV* adjusted_rho)

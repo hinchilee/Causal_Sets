@@ -39,14 +39,18 @@ def main():
     tic = time.time()
     #rho_array = [1000]
     d_array = [4]
-    #moleculeType = 'lambda'
-    moleculeType = 'v'
+    moleculeType = 'lambda'
+    #moleculeType = 'v'
     #for rho in rho_array:
-    rho = 10000
+    rho = 23000
+    b = 4
     for N_max in [10000]:
         for dimension in d_array:
         # Number of realisations
-            n = 100
+            n = 36
+            #rho = N_max 
+            #if rho == 1000: 
+             #   rho -= 100
             # try:
             #     df = pd.read_csv(path + f'TestRun/test_run_Rindler_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
             #     with open(path + 'min_time.json') as f:
@@ -59,7 +63,7 @@ def main():
                 
             #     raise ValueError ('No test run information!')
             
-            boundsArray, adjusted_rho, l, adjusted_l = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = rho, N_max = N_max, b= 4)
+            boundsArray, adjusted_rho, l, adjusted_l = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = rho, N_max = N_max, b= b)
         
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{adjusted_rho}, dimension:{dimension}')

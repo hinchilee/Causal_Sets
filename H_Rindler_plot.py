@@ -7,9 +7,6 @@ def H_array(s):
 def total_links(H):
     return sum([(i + 1) * H[i] for i in range(len(H))])
 
-def a(, rho, d):
-    return rho**((2-d)/d)*(total_links(H))
-
 d_array = [2,3,4]
 for d in d_array: 
     df = pd.read_csv(f'H_Rindler{d}d.csv', names=['rho', 'H'], header=None)

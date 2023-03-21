@@ -13,7 +13,7 @@ from scipy.optimize import curve_fit
 
 T = 1
 d_array = [2,3,4]
-moleculetype = 'v'
+moleculetype = 'lambda'
 for d in d_array: 
     if moleculetype == 'lambda':
         df = pd.read_csv(f'H_Dynamic{d}d_{moleculetype}.csv', names=['rho', 'H'], header=None)
@@ -26,6 +26,8 @@ for d in d_array:
     rho_array.sort()
     y_entropyList = list() 
     x = list()
+    empiricala = list()
+    empiricalaerror = list()
     for rho in rho_array:
         
         print('\n sprinkling density',rho, f'in {d} dimensions')
@@ -52,6 +54,8 @@ for d in d_array:
             
             
         empiricalavalue = rho**((2-d)/d)*(totalLinks/iterationsNo)/ n_sphere_surfacearea(n = d - 2, r = T)
+        if d== 4:
+            empiricala.append(empiricalavalue)
         
         dataArrayLinks = dataArray
         try:
@@ -64,6 +68,8 @@ for d in d_array:
         percaErr = np.std(LinksArray)/ (totalLinks/iterationsNo)
         #due to flucutations in std<H1>
         aerror = percaErr*empiricalavalue/ np.sqrt(iterationsNo)
+        if d == 4:
+            empiricalaerror.append(aerror)
         print(f'Empirical a value {empiricalavalue} +- {aerror} ')
         if moleculetype == 'lambda':
             #theoryauncorrected
@@ -85,6 +91,7 @@ for d in d_array:
         #due to fluctiations in <N>, avr no. of molecules per realisation
         MoleculeArray = np.sum(dataArray, axis = 0) 
         percEntropyError = np.std(MoleculeArray)/ ((np.sum(totalHarray)/ iterationsNo))
+            
         entropyerror = percEntropyError * entropy/ np.sqrt(iterationsNo)
         print(f'Entropy: {entropy} +- {entropyerror}')
         
@@ -95,10 +102,16 @@ for d in d_array:
         
     if d == 4:
         plt.rc('font', family='Arial')
+        #x = x[:-1]
+        #y_entropyList = y_entropyList[:-1]
         plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
         plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
         plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
         plt.ylabel(r'$s_{Boltz}$', fontsize = 25 )
+        plt.title(f'Boltzmannian Entropy for {d-1}+1 Dynamic', fontsize = 25, pad = 20)
+        if moleculetype == 'v':
+            plt.ylabel(r'$\langle H_V \rangle$', fontsize = 25 )
+            plt.title('')
         popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
         xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
         plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
@@ -106,9 +119,31 @@ for d in d_array:
         
         print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
         
-plt.title(f'Boltzmannian Entropy for 3+1 Dynamic {moleculetype} molecules', fontsize = 25, pad = 20)
+        
+        plt.xticks(fontsize = 20)
+        plt.yticks(fontsize = 20)
+        plt.legend(fontsize = 15)  
+        plt.savefig(f'Plots/BoltzEntropyDynamic_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)  
+        plt.show() 
+
+#%%
+
+plt.rc('font', family='Arial')
+plt.scatter(rho_array, empiricala, label = 'Data') 
+plt.errorbar(rho_array, empiricala, yerr = empiricalaerror, capsize = 4, linestyle = '')
+plt.xlabel(r'$\rho$', fontsize = 25)
+plt.ylabel(r'$a_{empiricial}$', fontsize = 25 )
+#popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
+#xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
+#plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
+#plt.title(f's_Boltzmann in Rindler in {d}d')
+
+#print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
+
+plt.title(r'Empirical $a^{(4)}$ for 3+1 Dynamic', fontsize = 25, pad = 20)
 plt.xticks(fontsize = 20)
 plt.yticks(fontsize = 20)
-plt.legend(fontsize = 15)  
-plt.savefig(f'BoltzEntropyDynamic_{moleculetype}.png', dpi = 300, bbox_inches='tight')  
+plt.legend(fontsize = 25, loc = 4)  
+plt.savefig(f'Plots/Fittedvalue_a4_{d}D_Dynamic.png', dpi = 300, bbox_inches='tight', transparent = True)  
 plt.show() 
+
