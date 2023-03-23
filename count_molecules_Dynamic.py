@@ -37,13 +37,13 @@ def main():
     rho_array = [1000]
     d_array = [4]
     T = 1
-    #moleculeType = 'v'
-    moleculeType = 'lambda'
+    moleculeType = 'v'
+    #moleculeType = 'lambda'
     #for rho in rho_array:
     for N_max in [16000]:
         for dimension in d_array:
         # Number of realisations
-            n = 50
+            n = 100
             # try:
             #     df = pd.read_csv(path + f'TestRun_T_{T}/test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
             #     min_time = max(df[df['type'] == 'min_time']['value'].min()*1.1, -T)
@@ -59,7 +59,7 @@ def main():
             #adding some leeway
             #boundsArray = [min_distance, max_distance, T + min_time, T]
             #N_max = 10000
-            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = 300000, N_max = N_max, b = 2.1)
+            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = 300000, N_max = N_max, b =2.1)
                 
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')

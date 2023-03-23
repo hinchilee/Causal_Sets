@@ -146,7 +146,7 @@ class CausalSet(object):
 
     def visualisation(self):
         coordinates = np.array([x.coordinates for x in self.ElementList])
-
+                
         if self.dimension == 2:
             if self.LinkMatrix is None:
                 self.find_linkmatrix()
@@ -186,6 +186,20 @@ class CausalSet(object):
             ax.set_zlabel('y')
 
         plt.show()
+        
+    def visualise_lambdas(self): 
+        coordinates = np.array([x.coordinates for x in self.ElementList])
+        if self.dimension == 4: 
+            ax = plt.axes(projection='3d')
+            ax.scatter3D(coordinates[:, 1],
+                         coordinates[:, 2], coordinates[:, 3],)
+            print(self.LinkMatrix)
+            ax.set_xlabel('x')
+            ax.set_ylabel('y')
+            ax.set_zlabel('z')
+
+        plt.show()
+            
 
     # CALCULATING LINK MATRIX
 

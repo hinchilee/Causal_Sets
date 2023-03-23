@@ -13,7 +13,7 @@ from scipy.optimize import curve_fit
 
 T = 1
 d_array = [2,3,4]
-moleculetype = 'lambda'
+moleculetype = 'v'
 for d in d_array: 
     if moleculetype == 'lambda':
         df = pd.read_csv(f'H_Dynamic{d}d_{moleculetype}.csv', names=['rho', 'H'], header=None)

@@ -43,11 +43,11 @@ def main():
     #moleculeType = 'v'
     #for rho in rho_array:
     rho = 23000
-    b = 4
-    for N_max in [10000]:
+    b = 1.9
+    for N_max in [19000]:
         for dimension in d_array:
         # Number of realisations
-            n = 36
+            n = 50
             #rho = N_max 
             #if rho == 1000: 
              #   rho -= 100
