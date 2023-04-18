@@ -54,6 +54,7 @@ for d in d_array:
             
             
         empiricalavalue = rho**((2-d)/d)*(totalLinks/iterationsNo)/ n_sphere_surfacearea(n = d - 2, r = T)
+        print('\n surface area:', n_sphere_surfacearea(n = d-2, r= T))
         if d== 4:
             empiricala.append(empiricalavalue)
         
@@ -100,7 +101,7 @@ for d in d_array:
         x.append(n_sphere_surfacearea(n = d - 2, r = T)/rho**((2-d)/d))
     
         
-    if d == 4:
+    if d== 4:
         plt.rc('font', family='Arial')
         #x = x[:-1]
         #y_entropyList = y_entropyList[:-1]
@@ -123,7 +124,7 @@ for d in d_array:
         plt.xticks(fontsize = 20)
         plt.yticks(fontsize = 20)
         plt.legend(fontsize = 15)  
-        plt.savefig(f'Plots/BoltzEntropyDynamic_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)  
+        plt.savefig(f'Plots/BoltzEntropyDynamic_{moleculetype}_d{d}.png', dpi = 300, bbox_inches='tight', transparent = True)  
         plt.show() 
 
 #%%

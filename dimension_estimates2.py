@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Oct 24 12:09:46 2022
+Created on Tue Apr 18 17:47:28 2023
 
 @author: leehi
 """
 
+from causalset import CausalSet
+import time
+import numpy as np
+import scipy.stats as stats
+import pandas as pd
+import csv 
+import os
 import cProfile
 import pstats
 import io
@@ -152,7 +159,7 @@ class CausalSet(object):
         if self.dimension == 2:
             if self.LinkMatrix is None:
                 self.find_linkmatrix()
-            plt.figure(figsize=(12, 8))
+            plt.figure(figsize=(4,4))
             plt.scatter(coordinates[:, 1], coordinates[:, 0], s=70, c='black')
             for i in range(len(self.LinkMatrix)):
                 for j in range(len(self.LinkMatrix[i])):
@@ -172,11 +179,9 @@ class CausalSet(object):
                 xlinspace2 = np.linspace(-10, 10, 200)
                 plt.plot(xlinspace2, [self.T]*len(xlinspace2),
                          label=f'Sigma plane t = {self.T}', c='green')
-            plt.xlabel('Space', fontsize=30)
-            plt.ylabel('Time', fontsize=30)
-            plt.xticks(np.arange(-1, 1, step = 0.5), fontsize = 20)
-            plt.yticks(np.arange(-1, 1, step = 0.5), fontsize = 20)
-            plt.axis('square')
+            plt.xlabel('Space', fontsize=20)
+            plt.ylabel('Time', fontsize=20)
+            #plt.axis('square')
             plt.legend()
 
         if self.dimension == 3:
@@ -188,8 +193,7 @@ class CausalSet(object):
             ax.set_xlabel('x')
             ax.set_ylabel('t')
             ax.set_zlabel('y')
-        if self.BHtype == 'Empty':
-            plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Diagrams\causalDimaond.png', dpi = 300,bbox_inches='tight', transparent = True)
+
         plt.show()
         
     def visualise_lambdas(self): 
@@ -240,7 +244,6 @@ class CausalSet(object):
 
         n = len(self.ElementList)
         r = 2*np.sum(self.CausalMatrix) / (n*(n-1))
-        print('ordering fraction', r)
         return r
 
     def Myhreim_Meyer_dimension(self, d, r):
@@ -257,7 +260,6 @@ class CausalSet(object):
         Myhreim_Meyer_dimension = fsolve(
             self.Myhreim_Meyer_dimension, x0=4, args=(self.findOrderingFraction()))
         # print(f'The Myhreim_Meyer_dimension is {Myhreim_Meyer_dimension}.')
-
         return Myhreim_Meyer_dimension
 
     # CALCULATING MOLECULES
@@ -407,48 +409,47 @@ class CausalSet(object):
     
     
 
-
 if __name__ == "__main__":
 
-
-    #def main():
-    np.random.seed(10)
-
-    tic = time.time()
-    boundsArray = np.array([[-0.5, 0.5] for i in range(3)])
-    boundsArray[0][1] = 0.5 #no normalisation
-    boundsArray[1][1] = 1.5
-
-    c = CausalSet(sprinkling_density=1000,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
-                  dimension=2,
-                  BHtype='Empty',           # 'Rindler', 'Dynamic', 'Empty'
-                  sprinkling='Uniform',     # 'Uniform' or 'Tube' for 'Dynamic'BH 
-                  T = 1)#,                    # T is only needed when BHtype = 'Dynamic'
-                  #bounds = [5, 10, 2, 3])   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]            
-
-    c.visualisation()
-    # print(c.ElementList)
-    #print('Casual Matrix: \n', c.CausalMatrix)
-    # C2 = c.CausalMatrix
-    # c.find_linkmatrix()
-    print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-
-    #print(c.find_molecules())
-    #c.find_Vmolecules()
-    # print('Link Matrix: \n', c.LinkMatrix)
-    #c.visualisation()
-
-    toc = time.time()
-
-    print(f'Time elapsed is {toc - tic}')
+    # tic = time.time()
     
+    # N_array = [30, 100, 300, 1000, 3000, 10000]
+    # df = pd.DataFrame(columns = ['dimension', 'N', 'mean', 'sem'])
+    # for d in [2,3,4]:
+    #     print('dimension', d)
+    #     for N in N_array:
+    #         print('N', N)
+    #         dimensions = list() 
+    #         for i in range(10):
+    #             print('realisation', i)
+    #             d_mm = CausalSet(sprinkling_density=N, dimension = d,  BHtype='Empty').find_Myhreim_Meyer_dimension()[0]
+    #             print(d_mm)
+    #             while d_mm < 0: 
+    #                 d_mm = CausalSet(sprinkling_density=N, dimension = d,  BHtype='Empty').find_Myhreim_Meyer_dimension()[0]
+    #                 print(d_mm)
+    #             dimensions.append(d_mm)
+    #         new_row = pd.DataFrame([{'dimension':d, 'N': N, 'mean': np.mean(dimensions), 'sem': stats.sem(dimensions)}])
+    #         df = pd.concat([df, new_row])
+    #         df.to_csv('dimension_estimates.csv', index=False)
+    # toc = time.time()
+    # print(f'Time elapsed is {toc - tic}')
     
-    # cProfile.run("main()", "output.dat")
-
-    # with open("output_time.txt", 'w') as f:
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("time").print_stats()
-
-    # with open("output_calls.txt", "w") as f:
-    #     p = pstats.Stats("output.dat", stream = f)
-    #     p.sort_stats("calls").print_stats()
+    #%% 
+    
+    df = pd.read_csv('dimension_estimates.csv')
+    import matplotlib.pyplot as plt 
+    
+    colors = ['red', 'blue', 'green']
+    plt.figure(figsize = (12,10))
+    for i,d in enumerate([2,3,4]): 
+        dfCropped = df[df['dimension'] == d]
+        plt.plot(np.log10(dfCropped['N']), dfCropped['mean'], 'o', color = colors[i])
+        plt.errorbar(np.log10(dfCropped['N']), dfCropped['mean'], yerr = dfCropped['sem'], linestyle = '', capsize = 4, color = colors[i])
+    plt.xlabel(r'Sprinkling Density, $log_{10}(\rho)$', fontsize = 25)
+    plt.title(f'Myhreim Meyer Dimension', fontsize = 25, pad = 20)
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.ylim(1, 5)
+    plt.legend(fontsize = 15)    
+    plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Diagrams\MMdimension.png', dpi = 300, bbox_inches='tight', transparent = True)
+    plt.show() 

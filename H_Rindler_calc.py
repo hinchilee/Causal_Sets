@@ -5,12 +5,16 @@ import numpy as np
 import matplotlib.pyplot as plt 
 from scipy.optimize import curve_fit
 
-d_array = [2,3,4]
+d_array = [3]
 moleculetype = 'lambda'
 for d in d_array: 
     if moleculetype == 'lambda':
-        df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H'], header=None)
-        df['rho'] = df['rho'].round(1)  
+        try:
+            df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H'], header=None)
+            df['rho'] = df['rho'].round(1)  
+        except: 
+            df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+            df['rho'] = df['rho'].round(1)  
     elif moleculetype == 'v':
         df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
         df['rho'] = df['rho'].round(1)  
@@ -86,26 +90,26 @@ for d in d_array:
         #y_entropyList.append(sum(totalHarray)/iterationsNo) #<N> against A/rho*
         x.append(1/rho**((2-d)/d))
         
-    if d==4:
-        plt.rc('font', family='Arial')
-        #x = x[1:]
-        #y_entropyList = y_entropyList[1:]
-        plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
-        plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
-        plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
-        plt.ylabel(r'$s_{Boltz}$', fontsize = 25 )
-        popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
-        xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
-        plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
-        #plt.title(f's_Boltzmann in Rindler in {d}d')
-    
-        print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
-plt.title(f'Boltzmannian Entropy for 3+1 Rindler', fontsize = 25, pad = 20)
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-plt.legend(fontsize = 15)    
-plt.savefig(f'Plots/BoltzEntropyRindler_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)
-plt.show() 
+    #if d==4:
+    plt.rc('font', family='Arial')
+    #x = x[1:]
+    #y_entropyList = y_entropyList[1:]
+    plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
+    plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
+    plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
+    plt.ylabel(r'$s_{Boltz}$', fontsize = 25 )
+    popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
+    xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
+    plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
+    #plt.title(f's_Boltzmann in Rindler in {d}d')
+
+    print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
+    plt.title(f'Boltzmannian Entropy for {d-1}+1 Rindler', fontsize = 25, pad = 20)
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.legend(fontsize = 15)    
+    plt.savefig(f'Plots/BoltzEntropyRindler_{moleculetype}_{d}d.png', dpi = 300, bbox_inches='tight', transparent = True)
+    plt.show() 
 
         
         

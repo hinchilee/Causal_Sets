@@ -38,16 +38,23 @@ def count_chains(N, mintime, mindistance, maxdistance, moleculetype, boundsArray
 def main():
     tic = time.time()
     #rho_array = [1000]
-    d_array = [4]
+    d_array = [3]
     moleculeType = 'lambda'
     #moleculeType = 'v'
     #for rho in rho_array:
-    rho = 23000
-    b = 1.9
-    for N_max in [19000]:
+    rho = 300
+    b = 3
+    N_max = 7000
+    #for N_max in [19000]:
+    
+    for rho in [300, 1000, 3000]:
         for dimension in d_array:
         # Number of realisations
-            n = 50
+            if rho == 300:
+                n = 63
+            else: 
+                n = 100
+            
             #rho = N_max 
             #if rho == 1000: 
              #   rho -= 100
@@ -71,13 +78,13 @@ def main():
                 print('N_max:', N_max)
                 print(f'l: {l}, adjustedl: {adjusted_l}')
                 if moleculeType == 'lambda':
-                    H = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
+                    H, b = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
                 elif moleculeType == 'v':
                     H, Subgraphs, Connected = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
                 with open(path + f'H_Rindler{dimension}d_{moleculeType}.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
                     if moleculeType == 'lambda':
-                        writer.writerow([adjusted_rho, H])
+                        writer.writerow([adjusted_rho, H, b])
                     elif moleculeType == 'v':
                         writer.writerow([adjusted_rho, H, Subgraphs, Connected])
                 

@@ -85,9 +85,9 @@ def n_sphere_surfacearea(n, r):
     try:
         ans = 2*(np.pi**((n+1)/2))/(gamma((n+1)/2))
     except: 
-        ans = 1 
-    if n == 0 and r == 1: 
         ans = 1
+    if n == 0 and r == 1: 
+        ans = 2
         
     return ans
     
@@ -182,21 +182,21 @@ if __name__ == "__main__":
     #print(frustum_curved_surfaceaarea(3, 5))
     #print(n_sphere_surfacearea(0, 1))
     
-    #Dynamic
-    dimension = 4
-    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 30000, N_max = 16000, b= 2.1)
-    R_min, R_max, T_min, T_max = boundsArray
-    ndimension = dimension -1
-    stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
-    points = stV * rho
-    print(stV, rho, points, boundsArray)
+    # #Dynamic
+    # dimension = 4
+    # boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 30000, N_max = 16000, b= 2.1)
+    # R_min, R_max, T_min, T_max = boundsArray
+    # ndimension = dimension -1
+    # stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
+    # points = stV * rho
+    # print(stV, rho, points, boundsArray)
     
-    # #Rindler
-    # dimensionList = [4]
-    # # Limiting case is in 4d
-    # for dimension in dimensionList:
-    #     print(f'dimension: {dimension}')
-    #     boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 23000, N_max = 10000, b = 2.8)
-    #     print(boundsArray, adjusted_rho)
-    #     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
-    #     print('points:', stV* adjusted_rho)
+    #Rindler
+    dimensionList = [2]
+    # Limiting case is in 4d
+    for dimension in dimensionList:
+        print(f'dimension: {dimension}')
+        boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 100, N_max = 1000, b = 4)
+        print(boundsArray, adjusted_rho)
+        stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
+        print('points:', stV* adjusted_rho)
