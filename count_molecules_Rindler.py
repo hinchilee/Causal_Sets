@@ -17,44 +17,43 @@ def count_chains(N, mintime, mindistance, maxdistance, moleculetype, boundsArray
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
     
     #lambda-molecules
-    if moleculetype == 'lambda':
-        return CausalSet(sprinkling_density=N, dimension=d, BHtype='Rindler', bounds = boundsArray).find_molecules()
-    #v-moelcules
-    elif moleculetype == 'v':
+    if moleculetype == 'lambda' or moleculetype == 'v':
         c = CausalSet(sprinkling_density=N, dimension=d, BHtype='Rindler', bounds = boundsArray)
-        V = c.find_Vmolecules()
+        H, b = c.find_molecules()
+    #v-moelcule
+        V, b2 = c.find_Vmolecules()
         try:
             Adjmatrix = generate_adjacency_matrix(c.VElementsLabelsList, c.CausalMatrix)
             SubGraphs = count_subgraphs(Adjmatrix)
             Connected = check_connected_graph(Adjmatrix)
             print(f'Subgraphs number: {SubGraphs}')
             print(f'Connected Graph: {Connected}')
-            return V, SubGraphs, Connected
+            return H, b, V, SubGraphs, Connected, b2
         except: 
             print('Subgraphs number: 0')
             print('Connected Graph: None')
-            return V, 0, False
+            return H, b, V, 0, False, b2
         
 def main():
     tic = time.time()
-    #rho_array = [1000]
-    d_array = [3]
-    moleculeType = 'lambda'
-    #moleculeType = 'v'
-    #for rho in rho_array:
-    rho = 300
-    b = 3
+    #d_array = [2]
+    d_array = [4]
+    moleculeType = 'v'
+    #N_max = 1000
     N_max = 7000
     #for N_max in [19000]:
-    
-    for rho in [300, 1000, 3000]:
-        for dimension in d_array:
+    for dimension in d_array:
+        if dimension == 4: 
+            rho_array = [1000, 30000]
+        for rho in rho_array:
         # Number of realisations
-            if rho == 300:
-                n = 63
-            else: 
-                n = 100
-            
+            n = 100
+            if rho == 30000: 
+                b = 2.8
+                N_max = 10000
+            elif rho == 1000:
+                b = 3
+                N_max = 8000
             #rho = N_max 
             #if rho == 1000: 
              #   rho -= 100
@@ -77,16 +76,14 @@ def main():
                 print('BoundsArray:\n', boundsArray)
                 print('N_max:', N_max)
                 print(f'l: {l}, adjustedl: {adjusted_l}')
-                if moleculeType == 'lambda':
-                    H, b = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
-                elif moleculeType == 'v':
-                    H, Subgraphs, Connected = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
-                with open(path + f'H_Rindler{dimension}d_{moleculeType}.csv', 'a') as f:
+                if moleculeType == 'lambda' or moleculeType == 'v':
+                    H , b, V, Subgraphs, Connected, b2 = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
+                with open(path + f'H_Rindler{dimension}d_lambda.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
-                    if moleculeType == 'lambda':
-                        writer.writerow([adjusted_rho, H, b])
-                    elif moleculeType == 'v':
-                        writer.writerow([adjusted_rho, H, Subgraphs, Connected])
+                    writer.writerow([adjusted_rho, H, b])
+                with open(path + f'H_Rindler{dimension}d_v.csv', 'a') as f:
+                    writer = csv.writer(f, lineterminator='\n')
+                    writer.writerow([adjusted_rho, V, Subgraphs, Connected, b2])
                 
     toc = time.time()
     print(f'Time taken is {toc - tic}')

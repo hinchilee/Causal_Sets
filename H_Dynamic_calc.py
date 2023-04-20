@@ -13,24 +13,29 @@ from scipy.optimize import curve_fit
 
 T = 1
 d_array = [2,3,4]
-moleculetype = 'v'
+moleculetype = 'lambda'
 for d in d_array: 
     if moleculetype == 'lambda':
-        df = pd.read_csv(f'H_Dynamic{d}d_{moleculetype}.csv', names=['rho', 'H'], header=None)
+        df = pd.read_csv(f'H_Dynamic{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
         df['rho'] = df['rho'].round(1)  
     #print(df)
     elif moleculetype == 'v':
-        df = pd.read_csv(f'H_Dynamic{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected'], header=None)
-        df['rho'] = df['rho'].round(1)
+        df = pd.read_csv(f'H_Dynamic{d}d_v.csv', names=['rho', 'H',  'subgraphs', 'connected', 'b'], header=None)
+        df['rho'] = df['rho'].round(1) 
     rho_array = df['rho'].unique()
     rho_array.sort()
     y_entropyList = list() 
     x = list()
     empiricala = list()
     empiricalaerror = list()
+    
+    totalLinksList = list() 
+    AoverlList = list()
+    totalLinksErrorList = list()
+    
     for rho in rho_array:
         
-        print('\n sprinkling density',rho, f'in {d} dimensions')
+        print('\nsprinkling density',rho, f'in {d} dimensions')
         iterationsNo = df[df['rho'] == rho].shape[0]
         print(f'number of iterations: {iterationsNo}')
         print(f'T = {T}')
@@ -51,10 +56,16 @@ for d in d_array:
             
         elif moleculetype == 'v': 
             totalLinks = totalHarray
-            
+        
+        l = rho**(-1/d)
+        modified_surface_area = n_sphere_surfacearea(n = d-2, r = T-1.5*l)
             
         empiricalavalue = rho**((2-d)/d)*(totalLinks/iterationsNo)/ n_sphere_surfacearea(n = d - 2, r = T)
-        print('\n surface area:', n_sphere_surfacearea(n = d-2, r= T))
+        print('surface area:', n_sphere_surfacearea(n = d-2, r= T))
+
+        totalLinksList.append(totalLinks/iterationsNo)
+        AoverlList.append((n_sphere_surfacearea(n = d-2, r= T)/ rho**((2-d)/d)))
+        
         if d== 4:
             empiricala.append(empiricalavalue)
         
@@ -72,6 +83,10 @@ for d in d_array:
         if d == 4:
             empiricalaerror.append(aerror)
         print(f'Empirical a value {empiricalavalue} +- {aerror} ')
+        
+        totalLinksErrorList.append(np.std(LinksArray)/(totalLinks/iterationsNo)) 
+       
+
         if moleculetype == 'lambda':
             #theoryauncorrected
             if d == 4:
@@ -100,32 +115,74 @@ for d in d_array:
         #y_entropyList.append(sum(totalHarray)/iterationsNo) #<N> against A/rho*
         x.append(n_sphere_surfacearea(n = d - 2, r = T)/rho**((2-d)/d))
     
-        
-    if d== 4:
-        plt.rc('font', family='Arial')
-        #x = x[:-1]
-        #y_entropyList = y_entropyList[:-1]
-        plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
-        plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
-        plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
-        plt.ylabel(r'$s_{Boltz}$', fontsize = 25 )
-        plt.title(f'Boltzmannian Entropy for {d-1}+1 Dynamic', fontsize = 25, pad = 20)
-        if moleculetype == 'v':
-            plt.ylabel(r'$\langle H_V \rangle$', fontsize = 25 )
-            plt.title('')
-        popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
-        xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
-        plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
-        #plt.title(f's_Boltzmann in Rindler in {d}d')
-        
+    if moleculetype == 'lambda':
+        # Plots the link molecules of <H_links> against A/rho**(2-d/d)    
+        plt.scatter(AoverlList, totalLinksList, label = 'Data')
+        plt.errorbar(AoverlList, totalLinksList, yerr = totalLinksErrorList, capsize = 4, linestyle = '')
+        popt, pcov = curve_fit(linear, AoverlList, totalLinksList)
+        xLinspace = np.linspace(min(AoverlList), max(AoverlList), 100)
+        plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red') 
+        plt.xlabel(r'$A/{\l^{d-2}}$', fontsize = 25)
+        plt.ylabel(r'$\langle H_{links} \rangle$', fontsize = 25 )
         print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
-        
-        
+    
+        #plt.title(f'Link Counting for {d-1}+1 Dynamic', fontsize = 25, pad = 20)
         plt.xticks(fontsize = 20)
         plt.yticks(fontsize = 20)
-        plt.legend(fontsize = 15)  
-        plt.savefig(f'Plots/BoltzEntropyDynamic_{moleculetype}_d{d}.png', dpi = 300, bbox_inches='tight', transparent = True)  
+        plt.legend(fontsize = 15)    
+        plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\LinksEntropyDynamic_{moleculetype}_{d}d.png', dpi = 300, bbox_inches='tight', transparent = True)
         plt.show() 
+        
+        
+        # plot v-molecules or lambda molecules
+    plt.rc('font', family='Arial')
+    #x = x[:-1]
+    #y_entropyList = y_entropyList[:-1]
+    plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
+    plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
+    plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
+    plt.ylabel(r'$s_{Boltz}$', fontsize = 25 )
+    #plt.title(f'Boltzmannian Entropy for {d-1}+1 Dynamic', fontsize = 25, pad = 20)
+    if moleculetype == 'v':
+        plt.ylabel(r'$\langle H_V \rangle$', fontsize = 25 )
+    elif moleculetype == 'lambda': 
+        plt.ylabel(r'$S_{Boltz}$', fontsize = 25 )
+    popt, pcov = curve_fit(linear, np.array(x), np.array(y_entropyList))
+    xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
+    plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
+    #plt.title(f's_Boltzmann in Rindler in {d}d')
+    
+    print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
+    
+    
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.legend(fontsize = 15)  
+    plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\BoltzEntropyDynamic_{moleculetype}_d{d}.png', dpi = 300, bbox_inches='tight', transparent = True)  
+    plt.show() 
+        
+        
+ #%%       
+for d in d_array: 
+    if moleculetype == 'lambda':
+        df = pd.read_csv(f'H_Dynamic{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+        df['rho'] = df['rho'].round(1)  
+    #print(df)
+    elif moleculetype == 'v':
+        df = pd.read_csv(f'H_Dynamic{d}d_v.csv', names=['rho', 'H',  'subgraphs', 'connected', 'b'], header=None)
+        df['rho'] = df['rho'].round(1) 
+    #   Analyse b 
+    dfb = df[df['b'] != 0] #dropped 0 (optional)
+    bList= list(dfb['b'].dropna()) #dropped Nans
+    colors = ['red', 'blue', 'green']
+    plt.hist(bList, bins = 10, density = True, histtype = 'stepfilled', stacked = True, color = colors[int(d-2)], label = f'{d-1}+1 Data', alpha = 0.5)
+
+plt.ylabel('Normalised Frequency')
+plt.xlabel(r'$b$')
+plt.legend()
+plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\bepislonDistribution_Dynamic_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)
+plt.show()
+        
 
 #%%
 
@@ -145,6 +202,6 @@ plt.title(r'Empirical $a^{(4)}$ for 3+1 Dynamic', fontsize = 25, pad = 20)
 plt.xticks(fontsize = 20)
 plt.yticks(fontsize = 20)
 plt.legend(fontsize = 25, loc = 4)  
-plt.savefig(f'Plots/Fittedvalue_a4_{d}D_Dynamic.png', dpi = 300, bbox_inches='tight', transparent = True)  
+plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\Fittedvalue_a4_{d}D_Dynamic.png', dpi = 300, bbox_inches='tight', transparent = True)  
 plt.show() 
 

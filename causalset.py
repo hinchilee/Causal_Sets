@@ -403,7 +403,14 @@ class CausalSet(object):
         print(f'min_time for v molecule is: {self.min_time_v}')
         print(f'V-molecule count: {V_count}')
         
-        return V_count
+        self.l = self.density**(-1/self.dimension)
+        if self.min_time_v < 1:
+            b = np.abs(self.min_time_v/ self.l)
+        else: 
+            b = 0
+        print(f'b in epsilon {b}')
+    
+        return V_count, b
     
     
 

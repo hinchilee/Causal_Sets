@@ -14,36 +14,42 @@ if len(sys.argv) > 1:
 def count_chains(N, d, Time, moleculetype, Bounds):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
     #lambda-molecules
-    if moleculetype == 'lambda':
-        return CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', sprinkling='Tube', T=Time, bounds = Bounds).find_molecules() 
-    #v-moelcules
-    elif moleculetype == 'v':
+    if moleculetype == 'lambda' or moleculetype == 'v':
         c = CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', sprinkling='Tube', T=Time, bounds = Bounds)
-        V = c.find_Vmolecules()
+        H, b =  c.find_molecules() 
+        V, b2 = c.find_Vmolecules()
+    #v-moelcules
+    # elif moleculetype == 'v':
+    #     c = CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', sprinkling='Tube', T=Time, bounds = Bounds)
+    #     V, b2 = c.find_Vmolecules()
         try:
             Adjmatrix = generate_adjacency_matrix(c.VElementsLabelsList, c.CausalMatrix)
             SubGraphs = count_subgraphs(Adjmatrix)
             Connected = check_connected_graph(Adjmatrix)
             print(f'Subgraphs number: {SubGraphs}')
             print(f'Connected Graph: {Connected}')
-            return V, SubGraphs, Connected
+            return H, b, V, SubGraphs, Connected, b2
         except: 
             print('Subgraphs number: 0')
             print('Connected Graph: False')
-            return V, 0, False
+            return H, b, V, 0, False, b2
     
 def main():
     tic = time.time()
-    rho_array = [1000]
+    rho_array = [5000, 100000]
     d_array = [4]
     T = 1
-    moleculeType = 'v'
+    moleculeType = 'lambda'
+    N_max = 23000
+    #b = 4
+    rho2 = 10
     #moleculeType = 'lambda'
-    #for rho in rho_array:
-    for N_max in [16000]:
-        for dimension in d_array:
+    for dimension in d_array:
+    #for N_max in [16000]:
+        for b in [1.7, 1.5, 1.4, 1.7, 1.5, 1.4]:
         # Number of realisations
-            n = 100
+            n = 50
+            
             # try:
             #     df = pd.read_csv(path + f'TestRun_T_{T}/test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
             #     min_time = max(df[df['type'] == 'min_time']['value'].min()*1.1, -T)
@@ -59,22 +65,21 @@ def main():
             #adding some leeway
             #boundsArray = [min_distance, max_distance, T + min_time, T]
             #N_max = 10000
-            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = 300000, N_max = N_max, b =2.1)
+            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = rho2, N_max = N_max, b = b)
                 
             for _i in range(n):
                 print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
                 print('BoundsArray:', boundsArray)
                 print('N_max:', N_max)
-                if moleculeType == 'lambda':
-                    H = count_chains(rho, dimension, T, moleculeType, boundsArray)
-                elif moleculeType == 'v':
-                    H, Subgraphs, Connected = count_chains(rho, dimension, T, moleculeType, boundsArray)
-                with open(path + f'H_Dynamic{dimension}d_{moleculeType}.csv', 'a') as f:
+                if moleculeType == 'lambda' or moleculeType == 'v':
+                    H , b, V, Subgraphs, Connected, b2 = count_chains(rho, dimension, T, moleculeType, boundsArray)
+                with open(path + f'H_Dynamic{dimension}d_lambda.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
-                    if moleculeType == 'lambda':
-                        writer.writerow([rho, H])
-                    elif moleculeType == 'v':
-                        writer.writerow([rho, H, Subgraphs, Connected])
+                    writer.writerow([rho, H, b])
+                with open(path + f'H_Dynamic{dimension}d_v.csv', 'a') as f:
+                    writer = csv.writer(f, lineterminator='\n')
+                    writer.writerow([rho, V, Subgraphs, Connected, b2])
+                
                 
     toc = time.time()
     print(f'Time taken is {toc - tic}')

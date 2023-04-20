@@ -95,56 +95,62 @@ def Sprinkling_Tube(dimension = 2, number_of_points = 10, bounds = [ 0.3, 1, 0, 
 
 
 if __name__ == "__main__":
-    coords = Sprinkling_Bicone(dimension = 4, number_of_points = 10)
-    # np.random.seed(20)
-    # from scipy.optimize import curve_fit
-    # import matplotlib.pyplot as plt
+    #coords = Sprinkling_Bicone(dimension = 4, number_of_points = 10)
+    np.random.seed(20)
+    from scipy.optimize import curve_fit
+    import matplotlib.pyplot as plt
     
-    # plt.figure(figsize = (6,5))
-    # a = Sprinkling_Tube(dimension = 4, 
-    #                    number_of_points= 300000,
-    #                       bounds = [0.2,1, 0, 1])
+    xLinspace = np.linspace(0,1, 100)
+    plt.figure(figsize = (6,5))
+    a = Sprinkling_Tube(dimension = 4, 
+                        number_of_points= 30000,
+                          bounds = [0.2,1, 0, 1])
     
-    # r = list()
-    # for row in range(a.shape[0]): 
-    #     r.append(np.linalg.norm(a[row][1:]))
+    r = list()
+    for row in range(a.shape[0]): 
+        r.append(np.linalg.norm(a[row][1:]))
     
-    # bins = np.linspace(0, 1, 21)
-    # binMiddles = np.linspace(0.025, 0.975, 20)
-    # freq, binsPositions = np.histogram(r, bins = bins)
-    # plt.plot(binMiddles, freq, 'x', label = 'Sprinkled Points 3+1')
+    #bins = np.linspace(0, 1, 21)
     
-    # def funcx3(x, a): 
-    #     return a*x**2
+    freq, binsPositions = np.histogram(r, bins = 21)
+    binMiddles = list()
+    for i in range(len(binsPositions)-1):
+        binMiddles.append((binsPositions[i] + binsPositions[i+1])/2)
+    plt.hist(r, bins = binsPositions, label = 'Sprinkled Points 3+1', alpha = 0.7, color = 'green')
+    binMiddles = np.array(binMiddles)
+    def funcx3(x, a): 
+        return a*x**2
     
-    # popt, pcov = curve_fit(funcx3, binMiddles, freq)
-    # plt.plot(binMiddles, funcx3(binMiddles, *popt), label = r'$r^3$ fit')
+    popt, pcov = curve_fit(funcx3, binMiddles, freq)
+    plt.plot(xLinspace, funcx3(xLinspace, *popt), label = r'$r^2$ fit', color = 'orange')
     
-    # b = Sprinkling_Tube(dimension = 3, 
-    #                    number_of_points= 300000,
-    #                       bounds = [0.2,1, 0, 1])
+    b = Sprinkling_Tube(dimension = 3, 
+                        number_of_points= 30000,
+                          bounds = [0.2,1, 0, 1])
     
-    # r = list()
-    # for row in range(b.shape[0]): 
-    #     r.append(np.linalg.norm(b[row][1:]))
+    r = list()
+    for row in range(b.shape[0]): 
+        r.append(np.linalg.norm(b[row][1:]))
     
-    # bins = np.linspace(0, 1, 21)
-    # binMiddles = np.linspace(0.025, 0.975, 20)
-    # freq, binsPositions = np.histogram(r, bins = bins)
-    # plt.plot(binMiddles, freq, 'x', label = 'Sprinkled Points 2+1')
+    freq, binsPositions = np.histogram(r, bins = 21)
+    binMiddles = list()
+    for i in range(len(binsPositions)-1):
+        binMiddles.append((binsPositions[i] + binsPositions[i+1])/2)
+    plt.hist(r, bins = binsPositions, label = 'Sprinkled Points 2+1', alpha = 0.4, color = 'blue')
+    binMiddles = np.array(binMiddles)
+    def funcx2(x, a): 
+        return a*x**1
+
+    popt, pcov = curve_fit(funcx2, binMiddles, freq)
+    plt.plot(xLinspace, funcx2(xLinspace, *popt), label = r'$r$ fit', color = 'red', alpha = 0.8)
     
-    # def funcx2(x, a): 
-    #     return a*x**1
-    
-    # popt, pcov = curve_fit(funcx2, binMiddles, freq)
-    # plt.plot(binMiddles, funcx2(binMiddles, *popt), label = r'$r^2$ fit')
-    
-    # plt.xticks(fontsize = 15)
-    # plt.yticks(fontsize = 15)
-    # plt.xlabel(r'Radius from central axis, $r$', fontsize = 20)
-    # plt.ylabel('Frequency', fontsize = 20)
-    # plt.legend(fontsize = 13)
-    # plt.title('Radial Distribution of Tube Sprinkling', fontsize = 19)
-    # plt.tight_layout()
-    # plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Diagrams\Tubedistancer2+13+1distribution.png', dpi = 300)
-    # plt.show()
+    plt.xlim(0,1)
+    plt.xticks(fontsize = 15)
+    plt.yticks(fontsize = 15)
+    plt.xlabel(r'Radius from central axis, $r$', fontsize = 20)
+    plt.ylabel('Frequency', fontsize = 20)
+    plt.legend(fontsize = 13)
+    plt.title('Radial Distribution of Tube Sprinkling', fontsize = 19)
+    plt.tight_layout()
+    plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Diagrams\Tubedistancer2+13+1distribution.png', dpi = 300)
+    plt.show()
