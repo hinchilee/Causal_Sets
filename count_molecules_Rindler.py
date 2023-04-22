@@ -36,8 +36,7 @@ def count_chains(N, mintime, mindistance, maxdistance, moleculetype, boundsArray
         
 def main():
     tic = time.time()
-    #d_array = [2]
-    d_array = [3,4]
+    d_array = [2]
     moleculeType = 'lambda'
     #N_max = 1000
     N_max = 1000
@@ -45,56 +44,29 @@ def main():
     rho2 = 10
     #for N_max in [19000]:
     for dimension in d_array:
-
-        if dimension == 3:
-            N_max_array = [8000, 10000] 
-            n = 100
-            c = 4
         
-            # d= 3( to be deleted after)
-            for N_max in N_max_array:
-            # Number of realisations
-                boundsArray, adjusted_rho, l= compute_spacetimecuts_uniform_Rindler(d = dimension, rho2 = rho2, N_max = N_max, b= c)
-            
-                for _i in range(n):
-                    print(f'\n realisation:{_i+1}, rho:{adjusted_rho}, dimension:{dimension}')
-                    print('BoundsArray:\n', boundsArray)
-                    print('N_max:', N_max)
-                    print(f'l: {l}')
-                    if moleculeType == 'lambda' or moleculeType == 'v':
-                        H , b, V, Subgraphs, Connected, b2 = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
-                    with open(path + f'H_Rindler{dimension}d_lambda.csv', 'a') as f:
-                        writer = csv.writer(f, lineterminator='\n')
-                        writer.writerow([adjusted_rho, H, b])
-                    with open(path + f'H_Rindler{dimension}d_v.csv', 'a') as f:
-                        writer = csv.writer(f, lineterminator='\n')
-                        writer.writerow([adjusted_rho, V, Subgraphs, Connected, b2])
-          
-                    
-        elif dimension == 4: 
-            b_array = [3.5, 3.1, 2.7, 2.4]
-            n = 100
-            N_max = 10000
-            
-            # d= 4( to be deleted after)
-            for c in b_array:
-            # Number of realisations
-                boundsArray, adjusted_rho, l= compute_spacetimecuts_uniform_Rindler(d = dimension, rho2 = rho2, N_max = N_max, b= c)
-            
-                for _i in range(n):
-                    print(f'\n realisation:{_i+1}, rho:{adjusted_rho}, dimension:{dimension}')
-                    print('BoundsArray:\n', boundsArray)
-                    print('N_max:', N_max)
-                    print(f'l: {l}')
-                    if moleculeType == 'lambda' or moleculeType == 'v':
-                        H , b, V, Subgraphs, Connected, b2 = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
-                    with open(path + f'H_Rindler{dimension}d_lambda.csv', 'a') as f:
-                        writer = csv.writer(f, lineterminator='\n')
-                        writer.writerow([adjusted_rho, H, b])
-                    with open(path + f'H_Rindler{dimension}d_v.csv', 'a') as f:
-                        writer = csv.writer(f, lineterminator='\n')
-                        writer.writerow([adjusted_rho, V, Subgraphs, Connected, b2])
-                
+        n = 482
+        c = 4
+    
+        for rho2 in [1e20]:
+        # Number of realisations
+            boundsArray, adjusted_rho, l= compute_spacetimecuts_uniform_Rindler(d = dimension, rho2 = rho2, N_max = N_max, b= c)
+        
+            for _i in range(n):
+                print(f'\n realisation:{_i+1}, rho:{adjusted_rho}, dimension:{dimension}')
+                print('BoundsArray:\n', boundsArray)
+                print('N_max:', N_max)
+                print(f'l: {l}')
+                if moleculeType == 'lambda' or moleculeType == 'v':
+                    H , b, V, Subgraphs, Connected, b2 = count_chains(adjusted_rho, 0, 0, 0, moleculeType, boundsArray, dimension)
+                with open(path + f'H_Rindler{dimension}d_lambda.csv', 'a') as f:
+                    writer = csv.writer(f, lineterminator='\n')
+                    writer.writerow([adjusted_rho, H, b])
+                with open(path + f'H_Rindler{dimension}d_v.csv', 'a') as f:
+                    writer = csv.writer(f, lineterminator='\n')
+                    writer.writerow([adjusted_rho, V, Subgraphs, Connected, b2])
+      
+     
     toc = time.time()
     print(f'Time taken is {toc - tic}')
 
