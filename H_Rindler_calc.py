@@ -120,7 +120,7 @@ for d in d_array:
     #y_entropyList = y_entropyList[1:]
     plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
     plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
-    plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
+    plt.xlabel(r'$A/{\l^{d-2}}$', fontsize = 25)
     if moleculetype == 'v':
         plt.ylabel(r'$\langle H_V\rangle$', fontsize = 25 )
     elif moleculetype == 'lambda': 
@@ -155,7 +155,7 @@ for d in d_array:
     plt.hist(bList, bins = binsCount[int(d-2)], density = True, histtype = 'stepfilled', color = colors[int(d-2)], label = f'{d-1}+1 Data', alpha = 0.5)
 
 plt.ylabel('Normalised Frequency')
-plt.xlabel(r'$b$')
+plt.xlabel(r'$b_{max}$')
 plt.legend()
 plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\bepislonDistribution_Rindler_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)
 plt.show()
