@@ -36,19 +36,19 @@ def count_chains(N, d, Time, moleculetype, Bounds):
     
 def main():
     tic = time.time()
-    d_array = [4]
+    d_array = [2]
     T = 1
     moleculeType = 'lambda'
-    N_max = 23000
-    c = 1.5
+    N_max = 1000
+    c = 4
     rho2 = 10
     #rho2 = 1e20
     #moleculeType = 'lambda'
     for dimension in d_array:
     #for N_max in [16000]:
-        for c in [1.4, 2.0]:
+        for rho2  in [1e19, 3e19]:
         # Number of realisations
-            n = 50
+            n = 1000
 
             # try:
             #     df = pd.read_csv(path + f'TestRun_T_{T}/test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
