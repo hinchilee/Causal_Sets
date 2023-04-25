@@ -51,9 +51,9 @@ for horizon in horizon_types:
     for molecule in molecule_types:
         for d in d_array:
             if molecule == 'lambda':
-                df = pd.read_csv(f'H_{horizon}{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+                df = pd.read_csv(f'H_{horizon}{d}d_lambda_clean.csv', names=['rho', 'H', 'b'], header=None)
             elif molecule == 'v':
-                df = pd.read_csv(f'H_{horizon}{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
+                df = pd.read_csv(f'H_{horizon}{d}d_v_clean.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
 
             df['rho'] = df['rho'].round(1)
             dfb = df[df['b'] != 0]
