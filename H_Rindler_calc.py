@@ -5,14 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt 
 from scipy.optimize import curve_fit
 
-d_array = [2,3,4]
-moleculetype = 'lambda'
+d_array = [2]
+moleculetype = 'v'
 for d in d_array: 
     if moleculetype == 'lambda':
-        df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+        df = pd.read_csv(f'H_Rindler{d}d_lambda_clean.csv', names=['rho', 'H', 'b'], header=None)
         df['rho'] = df['rho'].round(1)  
     elif moleculetype == 'v':
-        df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
+        df = pd.read_csv(f'H_Rindler{d}d_v_clean.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
         df['rho'] = df['rho'].round(1) 
     #print(df)
     rho_array = df['rho'].unique()
@@ -99,10 +99,11 @@ for d in d_array:
         # Plots the link molecules of <H_links> against A/rho**(2-d/d)    
         plt.scatter(AoverlList, totalLinksList, label = 'Data')
         plt.errorbar(AoverlList, totalLinksList, yerr = totalLinksErrorList, capsize = 4, linestyle = '')
-        popt, pcov = curve_fit(linear, AoverlList, totalLinksList)
+        popt, pcov = curve_fit(linear, AoverlList, totalLinksList, sigma = totalLinksErrorList, absolute_sigma = True)
+        print(popt)
         xLinspace = np.linspace(min(AoverlList), max(AoverlList), 100)
         plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red') 
-        plt.xlabel(r'$A/{\l^{d-2}}$', fontsize = 25)
+        plt.xlabel(r'$A/{\ell^{d-2}}$', fontsize = 25)
         plt.ylabel(r'$\langle H_{links} \rangle$', fontsize = 25 )
         print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
     
@@ -120,7 +121,7 @@ for d in d_array:
     #y_entropyList = y_entropyList[1:]
     plt.scatter(np.array(x), np.array(y_entropyList), label = 'Data') 
     plt.errorbar(np.array(x), np.array(y_entropyList), yerr = entropyerror, capsize = 4, linestyle = '')
-    plt.xlabel(r'$A/\ell^{d-2}$', fontsize = 25)
+    plt.xlabel(r'$A/{\ell^{d-2}}$', fontsize = 25)
     if moleculetype == 'v':
         plt.ylabel(r'$\langle H_V\rangle$', fontsize = 25 )
     elif moleculetype == 'lambda': 
@@ -129,7 +130,7 @@ for d in d_array:
     xLinspace = np.linspace(min(np.array(x)), max(np.array(x)), 100)
     plt.plot(xLinspace, linear(xLinspace, *popt), label = 'Linear Fit', color = 'red')
     #plt.title(f's_Boltzmann in Rindler in {d}d')
-
+    
     print(f'\n \n \n a_Boltzmann value for {d}d is {popt[0]} +- {np.sqrt(pcov[0][0])}')
     #plt.title(f'Boltzmannian Entropy for {d-1}+1 Rindler', fontsize = 25, pad = 20)
     plt.xticks(fontsize = 20)
@@ -138,13 +139,15 @@ for d in d_array:
     plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\BoltzEntropyRindler_{moleculetype}_{d}d.png', dpi = 300, bbox_inches='tight', transparent = True)
     plt.show() 
   #%%
-  
+
+d_array = [2,3,4]
+moleculetype = 'lambda'
 for d in d_array: 
     if moleculetype == 'lambda':
-        df = pd.read_csv(f'H_Rindler{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+        df = pd.read_csv(f'H_Rindler{d}d_lambda_clean.csv', names=['rho', 'H', 'b'], header=None)
         df['rho'] = df['rho'].round(1)  
     elif moleculetype == 'v':
-        df = pd.read_csv(f'H_Rindler{d}d_v.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
+        df = pd.read_csv(f'H_Rindler{d}d_v_clean.csv', names=['rho', 'H', 'subgraphs', 'connected','b'], header=None)
         df['rho'] = df['rho'].round(1)  
   
     # Analyse b 
@@ -154,9 +157,11 @@ for d in d_array:
     binsCount = [13,13, 7]
     plt.hist(bList, bins = binsCount[int(d-2)], density = True, histtype = 'stepfilled', color = colors[int(d-2)], label = f'{d-1}+1 Data', alpha = 0.5)
 
-plt.ylabel('Normalised Frequency')
-plt.xlabel(r'$b$')
-plt.legend()
+plt.xticks(fontsize = 23)
+plt.yticks(fontsize = 23, ticks = [0,1,2,3,4])
+plt.ylabel('Normalised Frequency', fontsize = 23)
+plt.xlabel(r'$b_{max}$', fontsize = 23)
+plt.legend(fontsize = 20)
 plt.savefig(fr'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\bepislonDistribution_Rindler_{moleculetype}.png', dpi = 300, bbox_inches='tight', transparent = True)
 plt.show()
     

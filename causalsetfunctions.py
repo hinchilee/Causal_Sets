@@ -109,31 +109,62 @@ def check_connected_graph(AdjMatrix):
     G = nx.from_numpy_matrix(AdjMatrix)
     return nx.is_connected(G)
 
-def compute_spacetimecuts_uniform_Rindler(d, rho, N_max = 10000, b = 4, bhEdge = 0.5): 
+# def compute_spacetimecuts_uniform_Rindler(d, rho, N_max = 10000, b = 4, bhEdge = 0.5): 
+#     #outputs bounds array of dimension d
+    
+#     l = rho**(-1/d)
+#     print('l:', l)
+#     epsilon = b*l 
+#     stV = (2*epsilon)*epsilon   #wrap around dimensions length = 2epsilon
+#     print(stV)
+
+#     boundsArray = np.array([[-bhEdge, bhEdge] for i in range(d)])
+#     boundsArray[0][0] = bhEdge - epsilon 
+#     if epsilon > 1: 
+#         boundsArray[1][1] = bhEdge + bhEdge*2
+#     else: 
+#         boundsArray[1][1] = bhEdge + epsilon
+#         boundsArray[1][0] = bhEdge - epsilon
+        
+#     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
+#     print(stV)
+#     adjusted_rho = N_max/ stV
+#     adjusted_l = adjusted_rho**(-1/d)
+    
+#     # Ensures that b is at least larger than initial value
+#     if adjusted_rho < rho: 
+#         raise ValueError(f'Adjusted_rho = {adjusted_rho} < rho = {rho}. Please choose a SMALLER rho.')
+    
+#     return boundsArray, adjusted_rho, l, adjusted_l
+
+def compute_spacetimecuts_uniform_Rindler(d, rho2, N_max = 10000, b = 4, bhEdge = 0.5): 
     #outputs bounds array of dimension d
     
-    l = rho**(-1/d)
-    print('l:', l)
+    
+    if d == 2: 
+        l = rho2**(-1/d)
+        b = (N_max/2)**0.5
+    elif d == 3: 
+        l = 2*b**2/N_max
+    elif d == 4: 
+        l = (2*b**2/N_max)**0.5
+        
+    #print('l:', l)
     epsilon = b*l 
-    #stV = (2*epsilon)**(d-1)*epsilon   #wrap around dimensions length = 2epsilon
 
     boundsArray = np.array([[-bhEdge, bhEdge] for i in range(d)])
     boundsArray[0][0] = bhEdge - epsilon 
+    boundsArray[1][1] = bhEdge + epsilon
+    boundsArray[1][0] = bhEdge - epsilon
     if epsilon > 1: 
         boundsArray[1][1] = bhEdge + bhEdge*2
-    else: 
-        boundsArray[1][1] = bhEdge + epsilon
-        boundsArray[1][0] = bhEdge - epsilon
+        boundsArray[0][0] = -bhEdge 
         
     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
-    adjusted_rho = N_max/ stV
-    adjusted_l = adjusted_rho**(-1/d)
+    print(stV)
+    adjusted_rho = N_max/stV
     
-    # Ensures that b is at least larger than initial value
-    if adjusted_rho < rho: 
-        raise ValueError(f'Adjusted_rho = {adjusted_rho} < rho = {rho}. Please choose a SMALLER rho.')
-    
-    return boundsArray, adjusted_rho, l, adjusted_l
+    return boundsArray, adjusted_rho, l
 
 def compute_spacetimecuts_tube(d, rho2 = 10000, N_max = 10000, b = 3): 
     #outputs bounds array of R_min, R_max, T_min, T_max, #T_max = 1 by default
@@ -166,8 +197,8 @@ def compute_spacetimecuts_tube(d, rho2 = 10000, N_max = 10000, b = 3):
     ndimension = d - 1 
     stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
     rho = N_max/stV
-    adjustedl = rho**(-1/d)
-    adjustedb = (R_max - T_max)/ adjustedl
+    #adjustedl = rho**(-1/d)
+    #adjustedb = (R_max - T_max)/ adjustedl
     #print(f'adjustedl:{adjustedl}, adjustedb: {adjustedb}')
     
     return [R_min, R_max, T_min, T_max], rho
@@ -183,8 +214,8 @@ if __name__ == "__main__":
     #print(n_sphere_surfacearea(0, 1))
     
     #Dynamic
-    dimension = 2
-    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 10000, N_max = 20000, b= 3)
+    dimension = 3
+    boundsArray, rho= compute_spacetimecuts_tube(d = dimension, rho2 = 3e19, N_max = 9000, b= 3.7)
     R_min, R_max, T_min, T_max = boundsArray
     ndimension = dimension -1
     stV = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
@@ -192,11 +223,11 @@ if __name__ == "__main__":
     print(stV, rho, points, boundsArray)
     
     # #Rindler
-    # dimensionList = [4]
+    # dimensionList = [2]
     # # Limiting case is in 4d
     # for dimension in dimensionList:
     #     print(f'dimension: {dimension}')
-    #     boundsArray, adjusted_rho, _, _ = compute_spacetimecuts_uniform_Rindler(d = dimension, rho = 500, N_max = 8000, b = 4)
+    #     boundsArray, adjusted_rho, l = compute_spacetimecuts_uniform_Rindler(d = dimension, rho2 = 1e20, N_max = 1000, b = 4)
     #     print(boundsArray, adjusted_rho)
     #     stV = np.prod(boundsArray[:,1] - boundsArray[:,0])
     #     print('points:', stV* adjusted_rho)

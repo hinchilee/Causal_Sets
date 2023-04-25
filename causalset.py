@@ -298,7 +298,6 @@ class CausalSet(object):
         min_time = 10000
         min_distance = 10000 
         max_distance = -10000
-        self.MoleculesList = []
         if self.BHtype == 'Rindler':
     
             for maximal in maximals:
@@ -307,7 +306,6 @@ class CausalSet(object):
                     for minimal_link in set(np.where(self.CausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]:
                             count += 1
-                            self.MoleculesList += [minimal_link, maximal]
                             min_time = min(min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
                             min_distance = min([min_distance, self.ElementList[minimal_link].coordinates[1] - abs(self.ElementList[minimal_link].coordinates[0])+ 0.5])
                             max_distance = max([max_distance, self.ElementList[minimal_link].coordinates[1] + abs(self.ElementList[minimal_link].coordinates[0])+ 0.5])
@@ -324,7 +322,6 @@ class CausalSet(object):
                     for minimal_link in set(np.where(self.croppedCausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if not inside_horizon(self.ElementList[minimal_link].coordinates):
                             count += 1
-                            self.MoleculesList += [minimal_link, maximal]
                             min_time = min(
                                 min_time, (self.ElementList[minimal_link].coordinates[0] - self.T))
                             minimallinknorm = np.linalg.norm(self.ElementList[minimal_link].coordinates[1:])
@@ -357,7 +354,7 @@ class CausalSet(object):
     
     def find_Vmolecules(self):
         
-        VElementsLabelsSet = list()
+        VElementsLabelsSet = set()
         V_count = 0 
         min_time = 10000
         
@@ -397,12 +394,12 @@ class CausalSet(object):
                     min_time = min(min_time, self.ElementList[i].coordinates[0] - 0.5)
                 elif self.BHtype == 'Dynamic': 
                     min_time = min(min_time, self.ElementList[i].coordinates[0] - self.T)
-                VElementsLabelsSet.append(future2Elements[0][0]) 
-                VElementsLabelsSet.append(future2Elements[0][1]) 
-                VElementsLabelsSet.append(i)
+                VElementsLabelsSet.add(future2Elements[0][0]) 
+                VElementsLabelsSet.add(future2Elements[0][1]) 
+                VElementsLabelsSet.add(i)
                 
         self.min_time_v = min_time
-        self.VElementsLabelsList = VElementsLabelsSet
+        self.VElementsLabelsList = list(VElementsLabelsSet)
         print(f'min_time for v molecule is: {self.min_time_v}')
         print(f'V-molecule count: {V_count}')
         
