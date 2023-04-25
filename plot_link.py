@@ -1,11 +1,10 @@
-# import matplotlib
-# matplotlib.use('pgf')
-# matplotlib.rcParams.update({
-#     "pgf.texsystem": "pdflatex",
-#     'font.family': 'serif',
-#     'text.usetex': True,
-#     'pgf.rcfonts': False,
-# })
+import matplotlib
+matplotlib.use('pgf')
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
 
 import matplotlib.pyplot as plt
 
@@ -40,7 +39,7 @@ def set_size(width_pt, fraction=1, subplots=(1, 1)):
 
     return (fig_width_in, fig_height_in)
 
-# plt.figure(figsize=set_size(483.69687 * 0.45))
+plt.figure(figsize=set_size(483.69687 * 0.45))
 
 import numpy as np
 import scipy.stats as stats
@@ -63,7 +62,7 @@ d_array = [2, 3, 4]
 for horizon in horizon_types:
     print(horizon)
     for d in d_array:
-        df = pd.read_csv(f'H_{horizon}{d}d_lambda.csv', names=['rho', 'H', 'b'], header=None)
+        df = pd.read_csv(f'H_{horizon}{d}d_lambda_clean.csv', names=['rho', 'H', 'b'], header=None)
 
         rho_array = df['rho'].unique()
         rho_array.sort()
@@ -102,8 +101,13 @@ for horizon in horizon_types:
 
             plt.errorbar(A, H_links, fmt='o', yerr=H_links_err, label='Data', capsize = 5, ecolor='black')
             plt.plot(A, [slope * a + intercept for a in A], label='Fit', zorder=0)
-            plt.ylabel(r'$\langle H_\mathrm{link} \rangle$')
-            if d == 4:
+            plt.ylabel(r'$\langle \mathbf{H}_\mathrm{link} \rangle$')
+            if d == 3:
+                plt.xlabel(f'$A/l$')
+            elif d == 4:
                 plt.xlabel(f'$A/l^2$')
             plt.legend()
-            plt.show()
+            plt.tight_layout()
+            # plt.show()
+            plt.savefig(f'link_{d}d_{horizon}.pgf')
+            plt.clf()
