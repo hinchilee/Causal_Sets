@@ -5,6 +5,7 @@ matplotlib.rcParams.update({
     'font.family': 'serif',
     'text.usetex': True,
     'pgf.rcfonts': False,
+})
 
 import matplotlib.pyplot as plt
 
