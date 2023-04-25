@@ -1,11 +1,11 @@
-# import matplotlib
-# matplotlib.use('pgf')
-# matplotlib.rcParams.update({
-#     "pgf.texsystem": "pdflatex",
-#     'font.family': 'serif',
-#     'text.usetex': True,
-#     'pgf.rcfonts': False,
-# })
+import matplotlib
+matplotlib.use('pgf')
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 
 import matplotlib.pyplot as plt
 
@@ -40,7 +40,7 @@ def set_size(width_pt, fraction=1, subplots=(1, 1)):
 
     return (fig_width_in, fig_height_in)
 
-# plt.figure(figsize=set_size(483.69687 * 0.45))
+plt.figure(figsize=set_size(483.69687 * 0.45))
 
 import numpy as np
 import scipy.stats as stats
@@ -102,6 +102,6 @@ for horizon in horizon_types:
                 plt.xlabel(f'$A/l^2$')
             plt.legend()
             plt.tight_layout()
-            plt.show()
-            # plt.savefig(f'link_{d}d_{horizon}.pgf')
-            # plt.clf()
+            # plt.show()
+            plt.savefig(f'V_{d}d_{horizon}.pgf')
+            plt.clf()
