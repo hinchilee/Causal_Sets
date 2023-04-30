@@ -38,14 +38,17 @@ class CausalSet(object):
             # sprinkledcoords = Sprinkling_Bicone(dimension = self.dimension, number_of_points = kwargs.get('number_of_points', 5))
             # Normalised Sprinkling Volume to 1!!! Important to find out <N> then Poisson, not get N from Poisson then scale to area
 
-            bounds = kwargs.get('bounds', np.array([[-0.5, 0.5] for i in range(kwargs.get('dimension', 2))]))
-            #print('Boundaries', bounds)
-            self.SpacetimeVolume = np.prod(bounds[:,1] - bounds[:,0])
+            bounds = kwargs.get('bounds', np.array(
+                [[-0.5, 0.5] for i in range(kwargs.get('dimension', 2))]))
+            # print('Boundaries', bounds)
+            self.SpacetimeVolume = np.prod(bounds[:, 1] - bounds[:, 0])
             print('Spacetime volume', self.SpacetimeVolume)
-            AveragePoints = self.SpacetimeVolume * (kwargs.get('sprinkling_density'))
+            AveragePoints = self.SpacetimeVolume * \
+                (kwargs.get('sprinkling_density'))
             noPoints = poisson.rvs(AveragePoints)
             print('Number of points:', noPoints)
-            sprinkledcoords = Sprinkling_Uniform(dimension=kwargs.get('dimension', 2), number_of_points=noPoints, bounds=bounds)
+            sprinkledcoords = Sprinkling_Uniform(dimension=kwargs.get(
+                'dimension', 2), number_of_points=noPoints, bounds=bounds)
             self.wrapAroundLength = 1
 
         # FOR DYNAMIC BLACKHOLE HORIZON
@@ -53,38 +56,43 @@ class CausalSet(object):
             # Sprinkle uniformly into a slab to calculate entropy for Sigma_t = T
             # into bounds of t: [T-1, T+1];
             # x, y, z = [-T-2, T+2]; wrap around y
-            self.wrapAroundLength = 1  #Placeholder - isn't used
+            self.wrapAroundLength = 1  # Placeholder - isn't used
             self.T = kwargs.get('T', 3)
-            
+
             if self.sprinkling == 'Uniform':
                 spaceBounds = np.array([-self.T-2, self.T+2])
                 timeBounds = np.array([self.T-3, self.T])
                 bounds = np.concatenate((timeBounds, np.tile(
                     spaceBounds, self.dimension - 1)), axis=0).reshape(self.dimension, 2)
-                self.SpacetimeVolume = np.prod(bounds[:,1] - bounds[:,0])
+                self.SpacetimeVolume = np.prod(bounds[:, 1] - bounds[:, 0])
                 print('Spacetime volume', self.SpacetimeVolume)
-                AveragePoints = self.SpacetimeVolume * (kwargs.get('sprinkling_density'))
+                AveragePoints = self.SpacetimeVolume * \
+                    (kwargs.get('sprinkling_density'))
                 noPoints = poisson.rvs(AveragePoints)
                 print('Number of points:', noPoints)
                 sprinkledcoords = Sprinkling_Uniform(dimension=self.dimension,
                                                      number_of_points=poisson.rvs(
                                                          noPoints),
                                                      bounds=bounds)
-                
+
             elif self.sprinkling == 'Tube':
                 ndimension = self.dimension - 1
                 try:
-                    R_min, R_max, T_min, T_max = kwargs.get('bounds', [self.T * 0.7, self.T + 1, self.T - 3, self.T]) 
-                except: 
-                    raise ValueError('Correct bounds should be in the form of [R_min, R_max, T_min, T_max]')
-                self.SpacetimeVolume = (T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
+                    R_min, R_max, T_min, T_max = kwargs.get(
+                        'bounds', [self.T * 0.7, self.T + 1, self.T - 3, self.T])
+                except:
+                    raise ValueError(
+                        'Correct bounds should be in the form of [R_min, R_max, T_min, T_max]')
+                self.SpacetimeVolume = (
+                    T_max-T_min)*(n_ball_volume(ndimension, R_max) - n_ball_volume(ndimension, R_min))
                 print('Spacetime volume', self.SpacetimeVolume)
-                AveragePoints = self.SpacetimeVolume * (kwargs.get('sprinkling_density'))
+                AveragePoints = self.SpacetimeVolume * \
+                    (kwargs.get('sprinkling_density'))
                 noPoints = poisson.rvs(AveragePoints)
                 print('Number of points:', noPoints)
                 sprinkledcoords = Sprinkling_Tube(dimension=self.dimension,
                                                   number_of_points=noPoints,
-                                                  bounds = [R_min, R_max, T_min, T_max])
+                                                  bounds=[R_min, R_max, T_min, T_max])
 
         elif self.BHtype == 'Empty':
 
@@ -151,8 +159,8 @@ class CausalSet(object):
         if self.dimension == 2:
             if self.LinkMatrix is None:
                 self.find_linkmatrix()
-            #plt.figure(figsize=(12, 8))
-            plt.figure(figsize = (8, 8))
+            # plt.figure(figsize=(12, 8))
+            plt.figure(figsize=(8, 8))
             plt.scatter(coordinates[:, 1], coordinates[:, 0], s=120, c='black')
             for i in range(len(self.LinkMatrix)):
                 for j in range(len(self.LinkMatrix[i])):
@@ -161,7 +169,7 @@ class CausalSet(object):
                                  coordinates[i][0], coordinates[j][0]], color='royalblue', linewidth=0.8)
             if self.BHtype == 'Rindler':
                 xlinspace = np.linspace(-0.5, 0.5, 100)
-                #plt.plot(xlinspace, xlinspace,label='Rindler Horizon', c='red')
+                # plt.plot(xlinspace, xlinspace,label='Rindler Horizon', c='red')
             elif self.BHtype == 'Dynamic':
                 xlinspace = np.linspace(0, 10, 100)
                 plt.plot(xlinspace, xlinspace,
@@ -171,18 +179,16 @@ class CausalSet(object):
                 xlinspace2 = np.linspace(-10, 10, 200)
                 plt.plot(xlinspace2, [self.T]*len(xlinspace2),
                          label=f'Sigma plane t = {self.T}', c='green')
-            plt.rc('axes',edgecolor='r')
-            plt.rc('axes',edgecolor='r', linewidth = 2)
-            plt.rc('font', family='Arial', size=20)
-            #plt.figure(figsize = (8, 8))
-            plt.xticks(fontsize = 30, color = 'red')
-            plt.yticks(fontsize = 30, color = 'red')
-            plt.xlabel('Space',fontsize = 40, color = 'red')
-            plt.ylabel('Time',fontsize = 40, color = 'red')
-            #plt.xlim((-1, 1))
-            #plt.ylim((-1,1))
+            # plt.figure(figsize = (8, 8))
+            plt.xticks([-0.4, -0.2, 0, 0.2, 0.4], color='red')
+            plt.yticks([-0.4, -0.2, 0, 0.2, 0.4], color='red')
+            plt.xlabel('Space', color='red')
+            plt.ylabel('Time', color='red')
+            # plt.xlim((-1, 1))
+            # plt.ylim((-1,1))
             plt.axis('square')
-            plt.savefig('CausalSet.png', dpi = 300,bbox_inches='tight', transparent = True)
+            plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Diagrams\CausalSet.png', dpi=300,
+                        bbox_inches='tight', transparent=True)
             plt.show()
 
         if self.dimension == 3:
@@ -286,19 +292,22 @@ class CausalSet(object):
 
         H_array = []
         min_time = 10000
-        min_distance = 10000 
+        min_distance = 10000
         max_distance = -10000
         if self.BHtype == 'Rindler':
-    
+
             for maximal in maximals:
                 if self.ElementList[maximal].coordinates[0] > self.ElementList[maximal].coordinates[1]:
                     count = 0
                     for minimal_link in set(np.where(self.CausalMatrix[:, maximal] == 1)[0]).intersection(maximal_but_ones):
                         if self.ElementList[minimal_link].coordinates[0] < self.ElementList[minimal_link].coordinates[1]:
                             count += 1
-                            min_time = min(min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
-                            min_distance = min([min_distance, self.ElementList[minimal_link].coordinates[1] - abs(self.ElementList[minimal_link].coordinates[0])+ 0.5])
-                            max_distance = max([max_distance, self.ElementList[minimal_link].coordinates[1] + abs(self.ElementList[minimal_link].coordinates[0])+ 0.5])
+                            min_time = min(
+                                min_time, (self.ElementList[minimal_link].coordinates[0] - 0.5))
+                            min_distance = min([min_distance, self.ElementList[minimal_link].coordinates[1] - abs(
+                                self.ElementList[minimal_link].coordinates[0]) + 0.5])
+                            max_distance = max([max_distance, self.ElementList[minimal_link].coordinates[1] + abs(
+                                self.ElementList[minimal_link].coordinates[0]) + 0.5])
 
                     while len(H_array) < count:
                         H_array.append(0)
@@ -314,10 +323,13 @@ class CausalSet(object):
                             count += 1
                             min_time = min(
                                 min_time, (self.ElementList[minimal_link].coordinates[0] - self.T))
-                            minimallinknorm = np.linalg.norm(self.ElementList[minimal_link].coordinates[1:])
-                            #Drag out light cone from maximal but one
-                            min_distance = min([min_distance, (minimallinknorm - abs(self.ElementList[minimal_link].coordinates[0]))])
-                            max_distance = max([max_distance, (minimallinknorm + abs(self.ElementList[minimal_link].coordinates[0]))])
+                            minimallinknorm = np.linalg.norm(
+                                self.ElementList[minimal_link].coordinates[1:])
+                            # Drag out light cone from maximal but one
+                            min_distance = min(
+                                [min_distance, (minimallinknorm - abs(self.ElementList[minimal_link].coordinates[0]))])
+                            max_distance = max(
+                                [max_distance, (minimallinknorm + abs(self.ElementList[minimal_link].coordinates[0]))])
 
                     while len(H_array) < count:
                         H_array.append(0)
@@ -325,49 +337,65 @@ class CausalSet(object):
                         H_array[count - 1] += 1
         try:
             self.min_time = min_time
-            self.max_distance = max_distance 
-            self.min_distance = min_distance    #for dynamic, min distance is min spatial distance from the t-axis
+            self.max_distance = max_distance
+            # for dynamic, min distance is min spatial distance from the t-axis
+            self.min_distance = min_distance
             print(f'The minimum time of a molecule is {min_time}')
             print(f'The maximum distance of a molecule is {max_distance}')
             print(f'The minimum distance of a molecule is {min_distance}')
-        except: 
+        except:
             pass
 
         return H_array
 
 
 if __name__ == "__main__":
+    import matplotlib
+    matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
+    params = {'font.size': 30,
+              'font.family': 'Times New Roman',
+              'axes.labelsize': 40,
+              'legend.fontsize': 22,
+              'xtick.labelsize': 33,
+              'ytick.labelsize': 33,
+              'figure.figsize': [8.5, 6.5],
+              'axes.edgecolor': 'red',
+              'axes.linewidth': 1.8,
+              'axes.prop_cycle': plt.cycler(color=plt.rcParams['axes.prop_cycle'].by_key()['color']
+                                            + ['magenta'])
+              }
+    plt.rcParams.update(params)
 
     def main():
         np.random.seed(12)
-    
+
         tic = time.time()
         boundsArray = np.array([[-0.5, 0.5] for i in range(3)])
-        boundsArray[0][1] = 0.5 #no normalisation
+        boundsArray[0][1] = 0.5  # no normalisation
         boundsArray[1][1] = 1.5
-    
+
         c = CausalSet(sprinkling_density=220,    # 0.1-1 for Dynamic Uniform, 1k - 10k for Dynamic Tube, 1k - 10k for Rindler, Empty
                       dimension=2,
                       BHtype='Rindler',           # 'Rindler', 'Dynamic', 'Empty'
-                      sprinkling='Tube',     # 'Uniform' or 'Tube' for 'Dynamic'BH 
-                      T = 3
-                      )   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]            
-    
+                      sprinkling='Tube',     # 'Uniform' or 'Tube' for 'Dynamic'BH
+                      T=3
+                      )   # bounds for tube sprinkling in the form of [R_min, R_max, T_min, T_max]
+
         c.visualisation()
         # print(c.ElementList)
-        #print('Casual Matrix: \n', c.CausalMatrix)
+        # print('Casual Matrix: \n', c.CausalMatrix)
         # C2 = c.CausalMatrix
         # c.find_linkmatrix()
         # print('MM dimension is', c.find_Myhreim_Meyer_dimension())
-    
-        #print(c.find_molecules())
-    
+
+        # print(c.find_molecules())
+
         # print('Link Matrix: \n', c.LinkMatrix)
-        #c.visualisation()
-    
+        # c.visualisation()
+
         toc = time.time()
-    
+
         print(f'Time elapsed is {toc - tic}')
-        
+
     main()

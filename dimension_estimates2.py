@@ -438,20 +438,37 @@ if __name__ == "__main__":
     
     df = pd.read_csv('dimension_estimates.csv')
     import matplotlib.pyplot as plt 
+    import matplotlib
+    matplotlib.rcParams.update(matplotlib.rcParamsDefault) 
+    params = {'text.usetex': False,
+              'font.size' : 25,
+              'font.family' : 'Times New Roman',
+              'axes.labelsize': 28,
+              'legend.fontsize': 18,
+              'xtick.labelsize': 22,
+              'ytick.labelsize': 22,
+              'figure.figsize': [8.5, 6.5], 
+              'axes.prop_cycle':plt.cycler(color=
+                                plt.rcParams['axes.prop_cycle'].by_key()['color']
+                                +['magenta'])
+              }
+    plt.rcParams.update(params)  
+    
     
     colors = ['red', 'blue', 'green']
-    plt.figure(figsize = (12,10))
+    #plt.figure(figsize = (12,10))
     for i,d in enumerate([2,3,4]): 
         dfCropped = df[df['dimension'] == d]
-        plt.scatter(np.log10(dfCropped['N']), dfCropped['mean'], marker = 'o', s = 80, color = colors[i], label = f'Sprinkling in {d-1}+1')
+        plt.scatter(np.log10(dfCropped['N']), dfCropped['mean'], marker = 'o', s = 60, color = colors[i], label = f'Sprinkling in {d-1}+1')
         plt.errorbar(np.log10(dfCropped['N']), dfCropped['mean'], yerr = dfCropped['sem'], linestyle = '', capsize = 5, color = colors[i])
         plt.plot(np.log10(dfCropped['N']), [d]*len(dfCropped['N']), color = colors[i], linestyle = '--')
-    plt.xlabel(r'Sprinkling Density, $log_{10}(\rho)$', fontsize = 40)
-    plt.ylabel(r'$d_{MM}$', fontsize = 40)
-    plt.title(f'Myhreim Meyer Dimension', fontsize = 40, pad = 20)
-    plt.xticks(fontsize = 30)
-    plt.yticks(fontsize = 30)
+    plt.xlabel(r'Sprinkling Density, log${}_{10}$($\rho$)')
+    plt.ylabel(r'$d_{MM}$')
+    plt.title(f'Myhreim Meyer Dimension', pad = 20)
+    plt.xticks()
+    plt.yticks()
     plt.ylim(1.5, 4.5)
-    plt.legend(fontsize = 20)    
+    plt.legend()
+  
     plt.savefig(r'C:\Users\leehi\OneDrive\Documents\Imperial_tings\Fourth_Year\MSci Project\Thesis\Plots\MMdimension.png', dpi = 300, bbox_inches='tight', transparent = True)
     plt.show() 

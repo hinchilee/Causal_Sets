@@ -1,3 +1,6 @@
+from causalsetfunctions import compute_spacetimecuts_uniform_Rindler, n_sphere_surfacearea
+import json
+from causalsetfunctions import generate_adjacency_matrix, count_subgraphs, check_connected_graph
 import numpy as np
 from causalset import CausalSet
 from causalsetfunctions import generate_adjacency_matrix, count_subgraphs, check_connected_graph, compute_spacetimecuts_tube
@@ -11,44 +14,53 @@ path = ''
 if len(sys.argv) > 1:
     path = sys.argv[1] + '/'
 
+
 def count_chains(N, d, Time, moleculetype, Bounds):
     np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
-    #lambda-molecules
+    # lambda-molecules
     if moleculetype == 'lambda' or moleculetype == 'v':
-        c = CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', sprinkling='Tube', T=Time, bounds = Bounds)
-        H, b =  c.find_molecules() 
+        c = CausalSet(sprinkling_density=N, dimension=d,
+                      BHtype='Dynamic', sprinkling='Tube', T=Time, bounds=Bounds)
+        H, b = c.find_molecules()
         V, b2 = c.find_Vmolecules()
-    #v-moelcules
+    # v-moelcules
     # elif moleculetype == 'v':
     #     c = CausalSet(sprinkling_density=N, dimension=d, BHtype = 'Dynamic', sprinkling='Tube', T=Time, bounds = Bounds)
     #     V, b2 = c.find_Vmolecules()
         try:
-            Adjmatrix = generate_adjacency_matrix(c.VElementsLabelsList, c.CausalMatrix)
+            Adjmatrix = generate_adjacency_matrix(
+                c.VElementsLabelsList, c.CausalMatrix)
             SubGraphs = count_subgraphs(Adjmatrix)
             Connected = check_connected_graph(Adjmatrix)
             print(f'Subgraphs number: {SubGraphs}')
             print(f'Connected Graph: {Connected}')
             return H, b, V, SubGraphs, Connected, b2
-        except: 
+        except:
             print('Subgraphs number: 0')
             print('Connected Graph: False')
             return H, b, V, 0, False, b2
-    
+
+
 def main():
     tic = time.time()
     d_array = [3]
     T = 1
     moleculeType = 'lambda'
-    N_max = 9000
+    N_max = 1000
     c = 1.5
     rho2 = 10
     #rho2 = 1e20
     #moleculeType = 'lambda'
     for dimension in d_array:
 
-        for c in [3.7]:
-        # Number of realisations
-            n= 56
+        for c in [4, 3.3]:
+            # Number of realisations
+            if c == 4:
+                N_max = 7000
+                n = 48
+            elif c == 3.3:
+                N_max = 9000
+                n = 100
             # try:
             #     df = pd.read_csv(path + f'TestRun_T_{T}/test_run_Dynamic_rho{rho}_{dimension}d.csv', names=['type', 'value'], header=None)
             #     min_time = max(df[df['type'] == 'min_time']['value'].min()*1.1, -T)
@@ -60,32 +72,31 @@ def main():
 
             # except:
             #     raise ValueError ('No test run information!')
-        
-            #adding some leeway
+
+            # adding some leeway
             #boundsArray = [min_distance, max_distance, T + min_time, T]
             #N_max = 10000
-            boundsArray, rho = compute_spacetimecuts_tube(d = dimension, rho2 = rho2, N_max = N_max, b = c)
-                
+            boundsArray, rho = compute_spacetimecuts_tube(
+                d=dimension, rho2=rho2, N_max=N_max, b=c)
+
             for _i in range(n):
-                print(f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
+                print(
+                    f'\n realisation:{_i+1}, rho:{rho}, dimension:{dimension}')
                 print('BoundsArray:', boundsArray)
                 print('N_max:', N_max)
                 if moleculeType == 'lambda' or moleculeType == 'v':
-                    H , b, V, Subgraphs, Connected, b2 = count_chains(rho, dimension, T, moleculeType, boundsArray)
-                with open(path + f'H_Dynamic{dimension}d_lambda.csv', 'a') as f:
+                    H, b, V, Subgraphs, Connected, b2 = count_chains(
+                        rho, dimension, T, moleculeType, boundsArray)
+                with open(path + f'H_Dynamic{dimension}d_lambda_additional.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
                     writer.writerow([rho, H, b])
-                with open(path + f'H_Dynamic{dimension}d_v.csv', 'a') as f:
+                with open(path + f'H_Dynamic{dimension}d_v_additional.csv', 'a') as f:
                     writer = csv.writer(f, lineterminator='\n')
                     writer.writerow([rho, V, Subgraphs, Connected, b2])
-                
-                
+
     toc = time.time()
     print(f'Time taken is {toc - tic}')
 
 
 if __name__ == "__main__":
     main()
-
-
-
