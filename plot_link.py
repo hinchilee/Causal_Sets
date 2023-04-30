@@ -1,11 +1,11 @@
-# import matplotlib
-# matplotlib.use('pgf')
-# matplotlib.rcParams.update({
-#     "pgf.texsystem": "pdflatex",
-#     'font.family': 'serif',
-#     'text.usetex': True,
-#     'pgf.rcfonts': False,
-# })
+import matplotlib
+matplotlib.use('pgf')
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 
 import matplotlib.pyplot as plt
 
@@ -31,7 +31,7 @@ def set_size(width_pt, fraction=1, subplots=(1, 1)):
     inches_per_pt = 1 / 72.27
 
     # Golden ratio to set aesthetic figure height
-    golden_ratio = (5**.5 - 1) / 2
+    golden_ratio = 3 / 4
 
     # Figure width in inches
     fig_width_in = fig_width_pt * inches_per_pt
@@ -40,7 +40,7 @@ def set_size(width_pt, fraction=1, subplots=(1, 1)):
 
     return (fig_width_in, fig_height_in)
 
-# plt.figure(figsize=set_size(483.69687 * 0.45))
+plt.figure(figsize=set_size(483.69687 * 0.45))
 
 import numpy as np
 import scipy.stats as stats
@@ -59,10 +59,10 @@ def count_links(a):
 def flatten(l):
     return list(itertools.chain.from_iterable(l))
 
-horizon_types = ['Dynamic']
-d_array = [3, 4]
-# horizon_types = ['Rindler', 'Dynamic']
-# d_array = [2, 3, 4]
+# horizon_types = ['Dynamic']
+# d_array = [3, 4]
+horizon_types = ['Rindler', 'Dynamic']
+d_array = [2, 3, 4]
 for horizon in horizon_types:
     print(horizon)
     for d in d_array:
@@ -101,33 +101,54 @@ for horizon in horizon_types:
             print(f'{round(a, 3)} +- {round(a_err, 3)}')
 
         else:
-            if horizon == 'Rindler':
+            if horizon == 'Dynamic' and d == 4:
+                l = np.array(l)
+                def H(l, a, c):
+                    b_3 = -0.029261
+                    # b_3 = 0
+                    return ((a + ((b_3/np.sqrt(2)) * (d - 2) * l)) * area(l, 0)) / np.power(l, d-2) + c
+                    # return (a * area(l, k)) / np.power(l, d-2)
+                if d == 3:
+                    p0 = [0.219, 0]
+                elif d == 4:
+                    p0 = [0.173, 0]
+                popt, pcov = curve_fit(H, l, H_links, p0=p0)
+                print(popt)
+                print(np.sqrt(np.diag(pcov)))
+
+                A = area(l, 0) / np.power(l, d-2)
+                plt.errorbar(A, H_links, fmt='o', yerr=H_links_err, label='Data', capsize = 5, ecolor='black')
+                plt.plot(A, H(l, *popt), label='Fit', zorder=0)
+
+            # if horizon == 'Rindler':
+            else:
                 A = area(l, 0) / np.power(l, d-2)
                 slope, intercept, r_value, p_value, std_err = stats.linregress(A, H_links)
                 print(f'{round(slope, 3)} +- {round(std_err, 3)}')
                 plt.errorbar(A, H_links, fmt='o', yerr=H_links_err, label='Data', capsize = 5, ecolor='black')
                 plt.plot(A, [slope * a + intercept for a in A], label='Fit', zorder=0)
 
-            elif horizon == 'Dynamic':
-                l = np.array(l)
-                def H(l, a, k):
-                    if d == 4:
-                        b_3 = -0.0209261
-                    else:
-                        b_3 = 0
-                    return ((a + ((b_3/np.sqrt(2)) * (d - 2) * l)) * area(l, k)) / np.power(l, d-2)
-                    # return (a * area(l, k)) / np.power(l, d-2)
-                if d == 3:
-                    p0 = [0.219, 1]
-                elif d == 4:
-                    p0 = [0.173, 1]
-                popt, pcov = curve_fit(H, l, H_links, p0=p0)
-                print(popt)
-                print(np.sqrt(np.diag(pcov)))
 
-                A = area(l, popt[1]) / np.power(l, d-2)
-                plt.errorbar(A, H_links, fmt='o', yerr=H_links_err, label='Data', capsize = 5, ecolor='black')
-                plt.plot(A, H(l, *popt), label='Fit', zorder=0)
+            # elif horizon == 'Dynamic':
+            #     l = np.array(l)
+            #     def H(l, a, k):
+            #         if d == 4:
+            #             b_3 = -0.0209261
+            #         else:
+            #             b_3 = 0
+            #         return ((a + ((b_3/np.sqrt(2)) * (d - 2) * l)) * area(l, k)) / np.power(l, d-2)
+            #         # return (a * area(l, k)) / np.power(l, d-2)
+            #     if d == 3:
+            #         p0 = [0.219, 1]
+            #     elif d == 4:
+            #         p0 = [0.173, 1]
+            #     popt, pcov = curve_fit(H, l, H_links, p0=p0)
+            #     print(popt)
+            #     print(np.sqrt(np.diag(pcov)))
+
+            #     A = area(l, popt[1]) / np.power(l, d-2)
+            #     plt.errorbar(A, H_links, fmt='o', yerr=H_links_err, label='Data', capsize = 5, ecolor='black')
+            #     plt.plot(A, H(l, *popt), label='Fit', zorder=0)
 
             plt.ylabel(r'$\langle \mathbf{H}_\mathrm{link} \rangle$')
             if d == 3:
@@ -136,6 +157,6 @@ for horizon in horizon_types:
                 plt.xlabel(f'$A/l^2$')
             plt.legend()
             plt.tight_layout()
-            plt.show()
-            # plt.savefig(f'link_{d}d_{horizon}.pgf')
-            # plt.clf()
+            # plt.show()
+            plt.savefig(f'link_{d}d_{horizon}.pgf')
+            plt.clf()
